@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart College Attendance System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div id="app">
+        <!-- Login Screen --> 
+        <div id="loginScreen" class="screen active">
+            <div class="login-container">
+                <div class="login-card">
+                    <div class="login-header">
+                        <div class="logo">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h1>Smart Attendance</h1>
+                        <p>College Attendance &amp; Engagement System</p>
+                    </div>
+
+                    <form id="loginForm" class="login-form">
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <div class="input-group">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="email" placeholder="Enter your email" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <div class="input-group">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="password" placeholder="Enter your password" required>
+                                <button type="button" class="toggle-password">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="remember">
+                                <span class="checkmark"></span>
+                                Remember me
+                            </label>
+                            <a href="#" class="forgot-link">Forgot password?</a>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Sign In
+                        </button>
+                    </form>
+
+                    <div class="demo-accounts">
+                        <p>Demo Accounts:</p>
+                        <div class="demo-buttons">
+                            <button onclick="loginAs('admin')" class="btn btn-outline">
+                                <i class="fas fa-user-shield"></i> Admin
+                            </button>
+                            <button onclick="loginAs('faculty')" class="btn btn-outline">
+                                <i class="fas fa-chalkboard-teacher"></i> Faculty
+                            </button>
+                            <button onclick="loginAs('student')" class="btn btn-outline">
+                                <i class="fas fa-user-graduate"></i> Student
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard -->
+        <div id="dashboardScreen" class="screen">
+            <!-- Sidebar -->
+            <aside id="sidebar" class="sidebar">
+                <div class="sidebar-header">
+                    <div class="logo">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Smart Attendance</span>
+                    </div>
+                    <button class="sidebar-toggle" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active" data-page="dashboard">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="attendanceNavItem">
+                            <a href="#" class="nav-link" data-page="attendance">
+                                <i class="fas fa-user-check"></i>
+                                <span>Mark Attendance</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="updateattendanceNavItem">
+                            <a href="#" class="nav-link" data-page="updateattendance">
+                                <i class="fas fa-history"></i>
+                                <span>Update Attendance</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="calendarNavItem">
+                            <a href="#" class="nav-link" data-page="calendar">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Calendar</span>
+                            </a>
+                        </li>
+                        <!-- Future Outcomes — student only -->
+                        <li class="nav-item" id="futureNavItem">
+                            <a href="#" class="nav-link" data-page="future">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>Analytics</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item" id="usersNavItem">
+                            <a href="#" class="nav-link" data-page="users">
+                                <i class="fas fa-users"></i>
+                                <span>User Management</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="classesNavItem">
+                            <a href="#" class="nav-link" data-page="classes">
+                                <i class="fas fa-school"></i>
+                                <span>Class Management</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="eventverifyNavItem">
+                            <a href="#" class="nav-link" data-page="eventverify">
+                                <i class="fas fa-star"></i>
+                                <span>Event Verifications</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <div class="user-profile">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face"
+                            alt="User" class="user-avatar">
+                        <div class="user-info">
+                            <div class="user-name" id="sidebarUserName">Loading...</div>
+                            <div class="user-role" id="sidebarUserRole">Loading...</div>
+                        </div>
+                    </div>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Header -->
+                <header class="header">
+                    <div class="header-left">
+                        <button class="mobile-menu-toggle" onclick="toggleSidebar()">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <h1 class="page-title" id="pageTitle">Dashboard</h1>
+                    </div>
+                    <div class="header-right">
+                        <div class="header-actions">
+                            <button class="btn btn-icon" onclick="toggleNotifications()">
+                                <i class="fas fa-bell"></i>
+                                <span class="badge">3</span>
+                            </button>
+                            <button class="btn btn-icon" onclick="toggleTheme()">
+                                <i class="fas fa-moon"></i>
+                            </button>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Page Content -->
+                <div class="page-content" id="pageContent">
+                    <!-- Content will be dynamically loaded here -->
+                </div>
+            </main>
+        </div>
+
+        <!-- Notifications Panel -->
+        <div id="notificationsPanel" class="notifications-panel">
+            <div class="notifications-header">
+                <h3>Notifications</h3>
+                <button class="close-btn" onclick="toggleNotifications()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="notifications-list">
+                <div class="notification-item unread">
+                    <div class="notification-icon">
+                        <i class="fas fa-exclamation-triangle text-warning"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">Low Attendance Warning</div>
+                        <div class="notification-message">Bob Martinez has attendance below 60%</div>
+                        <div class="notification-time">2 hours ago</div>
+                    </div>
+                </div>
+                <div class="notification-item unread">
+                    <div class="notification-icon">
+                        <i class="fas fa-file-alt text-info"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">New Leave Request</div>
+                        <div class="notification-message">Alice Williams requested leave for Feb 26-27</div>
+                        <div class="notification-time">4 hours ago</div>
+                    </div>
+                </div>
+                <div class="notification-item">
+                    <div class="notification-icon">
+                        <i class="fas fa-check-circle text-success"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">Leave Request Approved</div>
+                        <div class="notification-message">Bob Martinez's leave request was approved</div>
+                        <div class="notification-time">1 day ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
