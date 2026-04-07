@@ -21,18 +21,27 @@ const mockData = {
         { id: '8', name: 'Physics', department_id: '3', department_name: 'Physics' }
     ],
     classes: [
-        { id: '1', course_id: '1', course_name: 'Data Structures', faculty_id: '2', faculty_name: 'Dr. Sarah Johnson', semester: 'Fall 2024', schedule_time: 'Mon, Wed, Fri 9:00-10:30', room_no: 'A-101', section: 'B.Tech CSE Core' },
-        { id: '2', course_id: '2', course_name: 'Algorithms', faculty_id: '2', faculty_name: 'Dr. Sarah Johnson', semester: 'Fall 2024', schedule_time: 'Tue, Thu 14:00-15:30', room_no: 'B-204', section: 'B.Tech Data Science' },
-        { id: '3', course_id: '4', course_name: 'Web Development-II', faculty_id: '2', faculty_name: 'Dr. Sarah Johnson', semester: 'Fall 2024', schedule_time: 'Mon, Wed 11:00-12:30', room_no: 'C-302', section: 'B.Tech CSE (AI/ML)' },
-        { id: '4', course_id: '5', course_name: 'Computational Mathematics-II', faculty_id: '2', faculty_name: 'Dr. Sarah Johnson', semester: 'Fall 2024', schedule_time: 'Tue, Thu 9:00-10:30', room_no: 'A-203', section: 'B.Tech Data Science' },
-        { id: '5', course_id: '6', course_name: 'Data Structures Algorithms', faculty_id: '2', faculty_name: 'Dr. Sarah Johnson', semester: 'Fall 2024', schedule_time: 'Wed, Fri 14:00-15:30', room_no: 'B-105', section: 'B.Tech CSE Core' },
-        { id: '6', course_id: '7', course_name: 'Minor Project', faculty_id: '2', faculty_name: 'Dr. Sarah Johnson', semester: 'Fall 2024', schedule_time: 'Fri 10:00-13:30', room_no: 'Lab-3', section: 'B.Tech CSE (AI/ML)' },
-        { id: '7', course_id: '8', course_name: 'Physics', faculty_id: '2', faculty_name: 'Dr. Sarah Johnson', semester: 'Fall 2024', schedule_time: 'Mon, Thu 15:00-16:30', room_no: 'D-401', section: 'B.Tech IT' }
+        { id: '1', course_id: '1', course_name: 'Data Structures', faculty_id: 'fac1', faculty_name: 'Dr Shaquinb Hassan', semester: 'Fall 2024', schedule_time: 'Mon, Wed, Fri 9:00-10:30', room_no: 'A-101', section: 'B.Tech CSE Core' },
+        { id: '2', course_id: '2', course_name: 'Algorithms', faculty_id: 'fac1', faculty_name: 'Dr Shaquinb Hassan', semester: 'Fall 2024', schedule_time: 'Tue, Thu 14:00-15:30', room_no: 'B-204', section: 'B.Tech Data Science' },
+        { id: '3', course_id: '4', course_name: 'Web Development-II', faculty_id: 'fac2', faculty_name: 'Dr Shadav Mohammad', semester: 'Fall 2024', schedule_time: 'Mon, Wed 11:00-12:30', room_no: 'C-302', section: 'B.Tech CSE (AI/ML)' },
+        { id: '4', course_id: '5', course_name: 'Computational Mathematics-II', faculty_id: 'fac3', faculty_name: 'Dr Arun Yadav', semester: 'Fall 2024', schedule_time: 'Tue, Thu 9:00-10:30', room_no: 'A-203', section: 'B.Tech Data Science' },
+        { id: '5', course_id: '6', course_name: 'Data Structures Algorithms', faculty_id: 'fac1', faculty_name: 'Dr Shaquinb Hassan', semester: 'Fall 2024', schedule_time: 'Wed, Fri 14:00-15:30', room_no: 'B-105', section: 'B.Tech CSE Core' },
+        { id: '6', course_id: '7', course_name: 'Minor Project', faculty_id: 'fac4', faculty_name: 'Dr Deepak Kaushik', semester: 'Fall 2024', schedule_time: 'Fri 10:00-13:30', room_no: 'Lab-3', section: 'B.Tech CSE (AI/ML)' },
+        { id: '7', course_id: '8', course_name: 'Physics', faculty_id: 'fac5', faculty_name: 'Dr Kirti Saini', semester: 'Fall 2024', schedule_time: 'Mon, Thu 15:00-16:30', room_no: 'D-401', section: 'B.Tech IT' }
     ],
     attendanceRecords: (() => {
+        const fMap = {
+            'Data Structures': ['fac1', 'Dr Shaquinb Hassan'],
+            'Algorithms': ['fac1', 'Dr Shaquinb Hassan'],
+            'Web Development-II': ['fac2', 'Dr Shadav Mohammad'],
+            'Computational Mathematics-II': ['fac3', 'Dr Arun Yadav'],
+            'Data Structures Algorithms': ['fac1', 'Dr Shaquinb Hassan'],
+            'Minor Project': ['fac4', 'Dr Deepak Kaushik'],
+            'Physics': ['fac5', 'Dr Kirti Saini']
+        };
         const mk = (id, cls_id, cls_name, stu_id, stu_name, date, status, remarks) => ({
             id, class_id: cls_id, class_name: cls_name, student_id: stu_id, student_name: stu_name,
-            date, status, remarks: remarks || '', marked_by: '2', marked_by_name: 'Dr. Sarah Johnson',
+            date, status, remarks: remarks || '', marked_by: fMap[cls_name][0], marked_by_name: fMap[cls_name][1],
             timestamp: date + 'T09:00:00Z'
         });
         return [
@@ -267,11 +276,11 @@ const mockData = {
         const y = now.getFullYear();
         const m = String(now.getMonth() + 1).padStart(2, '0');
         return [
-            { id: 'ev1', name: 'Tech Fest 2024', date: `${y}-${m}-05`, description: 'Annual technology festival with project exhibitions, coding contests, and workshops.', icon: '💻', color: '#6366f1' },
-            { id: 'ev2', name: 'Sports Day', date: `${y}-${m}-10`, description: 'Inter-department sports competition — cricket, football, athletics and more.', icon: '🏆', color: '#f59e0b' },
-            { id: 'ev3', name: 'Cultural Night', date: `${y}-${m}-15`, description: 'Annual cultural evening featuring performances, music, and art.', icon: '🎭', color: '#ec4899' },
-            { id: 'ev4', name: 'Hackathon', date: `${y}-${m}-20`, description: '24-hour hackathon open to all CS and IT students. Build something amazing!', icon: '⚡', color: '#10b981' },
-            { id: 'ev5', name: 'Science Exhibition', date: `${y}-${m}-25`, description: 'Showcase your research projects and scientific innovations.', icon: '🔬', color: '#3b82f6' },
+            { id: 'ev1', name: 'Tech Fest 2024', date: `${y}-${m}-05`, start_time: '09:00', end_time: '14:00', description: 'Annual technology festival with project exhibitions, coding contests, and workshops.', icon: '💻', color: '#6366f1' },
+            { id: 'ev2', name: 'Sports Day', date: `${y}-${m}-10`, start_time: '10:00', end_time: '16:00', description: 'Inter-department sports competition — cricket, football, athletics and more.', icon: '🏆', color: '#f59e0b' },
+            { id: 'ev3', name: 'Cultural Night', date: `${y}-${m}-15`, start_time: '17:00', end_time: '21:00', description: 'Annual cultural evening featuring performances, music, and art.', icon: '🎭', color: '#ec4899' },
+            { id: 'ev4', name: 'Hackathon', date: `${y}-${m}-20`, start_time: '08:00', end_time: '20:00', description: '12-hour hackathon open to all CS and IT students. Build something amazing!', icon: '⚡', color: '#10b981' },
+            { id: 'ev5', name: 'Science Exhibition', date: `${y}-${m}-25`, start_time: '11:00', end_time: '15:00', description: 'Showcase your research projects and scientific innovations.', icon: '🔬', color: '#3b82f6' },
         ];
     })(),
     // Student event participation requests (pre-seeded with pending entries)
@@ -512,8 +521,10 @@ function showLogin() { loginScreen.classList.add('active'); dashboardScreen.clas
 function showDashboard() {
     loginScreen.classList.remove('active'); if (authScreen) authScreen.classList.remove('active'); dashboardScreen.classList.add('active');
     document.body.style.background = 'var(--gray-50)';
-    sidebarUserName.textContent = currentUser.name;
-    sidebarUserRole.textContent = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
+    const headerName = document.getElementById('headerUserName');
+    if (headerName) headerName.textContent = currentUser.name;
+    const headerRole = document.getElementById('headerUserRole');
+    if (headerRole) headerRole.textContent = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
     // Load any localStorage-persisted data for this user into mockData
     loadUserAttendanceData();
     updateNavigation();
@@ -521,9 +532,12 @@ function showDashboard() {
 }
 function updateNavigation() {
     const navItems = {
+        profile: ['student', 'faculty', 'admin'],
         attendance: ['faculty'],
         calendar: ['student'],
+        events: ['student'],
         timetable: ['student'],
+        faculty: ['student'],
         future: ['student'],
         leave: [],
         analytics: ['admin'],
@@ -542,7 +556,7 @@ function navigateToPage(page) {
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
     const a = document.querySelector(`[data-page="${page}"]`);
     if (a) a.classList.add('active');
-    const titles = { dashboard: 'Dashboard', attendance: 'Mark Attendance', calendar: 'Attendance Calendar', timetable: 'My Timetable', future: 'Analytics', leave: 'Leave Request', analytics: 'Analytics', users: 'User Management', classes: 'Class Management', eventverify: 'Event Verifications', updateattendance: 'Update Attendance' };
+    const titles = { dashboard: 'Dashboard', profile: 'My Profile', attendance: 'Mark Attendance', calendar: 'Attendance Calendar', events: 'Events', faculty: 'Faculty Resources', timetable: 'My Timetable', future: 'Analytics', leave: 'Leave Request', analytics: 'Analytics', users: 'User Management', classes: 'Class Management', eventverify: 'Event Verifications', updateattendance: 'Update Attendance' };
     pageTitle.textContent = titles[page] || 'Dashboard';
     loadPageContent(page);
 }
@@ -551,8 +565,11 @@ function loadPageContent(page) {
     setTimeout(() => {
         switch (page) {
             case 'dashboard': loadDashboard(); break;
+            case 'profile': loadProfilePage(); break;
             case 'attendance': loadAttendancePage(); break;
             case 'calendar': loadCalendarPage(); break;
+            case 'events': loadEventsPage(); break;
+            case 'faculty': loadFacultyPage(); break;
             case 'timetable': loadTimetablePage(); break;
             case 'future': loadFutureOutcomesPage(); break;
             case 'leave': loadLeavePage(); break;
@@ -959,6 +976,7 @@ function loadTimetablePage() {
     const studentClasses = mockData.classes.filter(c => studentClassIds.includes(c.id));
 
     const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+    const fullDayNames = { 'Mon': 'Monday', 'Tue': 'Tuesday', 'Wed': 'Wednesday', 'Thu': 'Thursday', 'Fri': 'Friday' };
     const today = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()];
 
     const dayColors = {
@@ -995,81 +1013,41 @@ function loadTimetablePage() {
             <div class="stat-card primary"><div class="stat-header"><div class="stat-icon primary"><i class="fas fa-book"></i></div></div><div class="stat-value">${totalClasses}</div><div class="stat-label">Total Subjects</div></div>
             <div class="stat-card success"><div class="stat-header"><div class="stat-icon success"><i class="fas fa-calendar-day"></i></div></div><div class="stat-value">${todayClasses}</div><div class="stat-label">Classes Today</div></div>
             <div class="stat-card warning"><div class="stat-header"><div class="stat-icon warning"><i class="fas fa-calendar-week"></i></div></div><div class="stat-value">${days.reduce((s,d)=>s+daysMap[d].length,0)}</div><div class="stat-label">Weekly Sessions</div></div>
-            <div class="stat-card info"><div class="stat-header"><div class="stat-icon info"><i class="fas fa-user-tie"></i></div></div><div class="stat-value">${[...new Set(studentClasses.map(c=>c.faculty_name))].length}</div><div class="stat-label">Faculty Members</div></div>
         </div>`;
 
-    // ── Timetable grid
-    const headerRow = days.map(day => {
+    // ── Row-based timetable: each day = one row with its classes flowing horizontally
+    const timetableRows = days.map(day => {
         const col = dayColors[day];
         const isToday = day === today;
-        return `<div class="tt2-day-header ${isToday ? 'tt2-today-header' : ''}" style="background:${col.bg};color:${col.text};border-bottom:3px solid ${col.border};">
-            <span class="tt2-day-name">${day}</span>
-            ${isToday ? '<span class="tt2-today-pill">Today</span>' : ''}
-            <span class="tt2-day-count">${daysMap[day].length} class${daysMap[day].length !== 1 ? 'es' : ''}</span>
-        </div>`;
-    }).join('');
+        const classes = daysMap[day];
 
-    const maxSlots = Math.max(...days.map(d => daysMap[d].length), 1);
-    let bodyRows = '';
-    for (let i = 0; i < maxSlots; i++) {
-        const row = days.map(day => {
-            const col = dayColors[day];
-            const cls = daysMap[day][i];
-            const isToday = day === today;
-            if (!cls) return `<div class="tt2-cell tt2-empty ${isToday ? 'tt2-today-col' : ''}"><span class="tt2-free">—</span></div>`;
-            return `<div class="tt2-cell ${isToday ? 'tt2-today-col' : ''}" style="border-left:3px solid ${col.border};">
-                <div class="tt2-time"><i class="fas fa-clock" style="color:${col.border};font-size:10px;"></i> ${cls.timeSlot}</div>
-                <div class="tt2-course">${cls.course_name}</div>
-                <div class="tt2-section">${cls.section}</div>
-                <div class="tt2-room"><i class="fas fa-door-open" style="color:${col.border};font-size:10px;"></i> ${cls.room_no}</div>
-                <div class="tt2-faculty"><i class="fas fa-user-tie" style="font-size:10px;color:var(--gray-400);"></i> ${cls.faculty_name.replace('Dr. ', 'Dr.')}</div>
-            </div>`;
-        }).join('');
-        bodyRows += `<div class="tt2-row">${row}</div>`;
-    }
+        const classCards = classes.length > 0
+            ? classes.map(cls => `
+                <div class="ttr-class-card" style="border-top:3px solid ${col.border};">
+                    <div class="ttr-time"><i class="fas fa-clock" style="color:${col.border};font-size:10px;"></i> ${cls.timeSlot}</div>
+                    <div class="ttr-course">${cls.course_name}</div>
+                    <div class="ttr-section">${cls.section}</div>
+                    <div class="ttr-room"><i class="fas fa-door-open" style="color:${col.border};font-size:10px;"></i> ${cls.room_no}</div>
+                    <div class="ttr-faculty"><i class="fas fa-user-tie" style="font-size:10px;color:var(--gray-400);"></i> ${cls.faculty_name.replace('Dr. ', 'Dr.')}</div>
+                </div>`).join('')
+            : `<div class="ttr-no-class"><i class="fas fa-coffee" style="font-size:16px;color:var(--gray-300);"></i><span>No classes</span></div>`;
 
-    const timetableHtml = `
-        <div class="tt2-wrapper">
-            <div class="tt2-header-row">${headerRow}</div>
-            <div class="tt2-body">${bodyRows}</div>
-        </div>`;
-
-    // ── Subject list cards
-    const subjectCards = studentClasses.map(cls => {
-        const parts = cls.schedule_time.split(' ');
-        const time = parts.slice(-1)[0];
-        const scheduledDays = parts.slice(0, -1).join(' ').replace(/,/g, '').trim();
-        const att2 = att.filter(r => r.class_id === cls.id);
-        const pct = att2.length > 0 ? Math.round((att2.filter(r=>r.status==='present').length / att2.length)*100) : 0;
-        const pColor = pct >= 75 ? 'var(--success-color)' : pct >= 50 ? 'var(--warning-color)' : 'var(--danger-color)';
-        const daysList = scheduledDays.split(' ').filter(Boolean);
-        const dayPills = daysList.map(d => {
-            const col = dayColors[d] || { border: 'var(--gray-300)', text: 'var(--gray-600)', bg: 'var(--gray-100)' };
-            const isToday = d === today;
-            return `<span style="font-size:11px;font-weight:700;padding:2px 9px;border-radius:12px;background:${isToday ? col.border : col.bg};color:${isToday ? 'white' : col.text};border:1px solid ${col.border};">${d}</span>`;
-        }).join('');
         return `
-            <div class="subject-card">
-                <div class="subject-card-top">
-                    <div class="subject-card-name">${cls.course_name}</div>
-                    <div class="subject-card-pct" style="color:${pColor};">${pct}%</div>
+            <div class="ttr-day-row ${isToday ? 'ttr-today-row' : ''}">
+                <div class="ttr-day-label" style="background:${col.bg};border-left:4px solid ${col.border};color:${col.text};">
+                    <div class="ttr-day-name">${fullDayNames[day]}</div>
+                    ${isToday ? '<span class="ttr-today-badge">TODAY</span>' : ''}
+                    <div class="ttr-day-count">${classes.length} class${classes.length !== 1 ? 'es' : ''}</div>
                 </div>
-                <div class="subject-card-section">${cls.section}</div>
-                <div class="subject-card-meta">
-                    <span><i class="fas fa-clock"></i> ${time}</span>
-                    <span><i class="fas fa-door-open"></i> ${cls.room_no}</span>
-                    <span><i class="fas fa-user-tie"></i> ${cls.faculty_name}</span>
-                </div>
-                <div class="subject-card-days">${dayPills}</div>
-                <div class="subject-card-bar"><div style="background:${pColor};height:100%;width:${Math.min(pct,100)}%;border-radius:4px;transition:width .5s;"></div></div>
+                <div class="ttr-classes-row">${classCards}</div>
             </div>`;
     }).join('');
 
     pageContent.innerHTML = `
         ${statsHtml}
 
-        <!-- Weekly Timetable Grid -->
-        <div class="card" style="margin-bottom:24px;">
+        <!-- Weekly Timetable (Row Layout) -->
+        <div class="card">
             <div class="card-header">
                 <div>
                     <h3 class="card-title"><i class="fas fa-table" style="color:var(--primary-color);margin-right:8px;"></i>Weekly Class Schedule</h3>
@@ -1079,19 +1057,8 @@ function loadTimetablePage() {
                     <button class="btn btn-outline btn-sm" onclick="navigateToPage('calendar')"><i class="fas fa-calendar-alt"></i> Calendar</button>
                 </div>
             </div>
-            <div style="padding:0 20px 20px;overflow-x:auto;">
-                ${timetableHtml}
-            </div>
-        </div>
-
-        <!-- Subject Cards -->
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-book-open" style="color:var(--primary-color);margin-right:8px;"></i>Enrolled Subjects</h3>
-                <span style="font-size:13px;color:var(--gray-500);">${totalClasses} courses</span>
-            </div>
-            <div class="subjects-grid" style="padding:0 20px 20px;">
-                ${subjectCards || '<p class="text-gray text-center" style="padding:24px;">No subjects found.</p>'}
+            <div class="ttr-wrapper">
+                ${timetableRows}
             </div>
         </div>`;
 }
@@ -1110,55 +1077,26 @@ function loadCalendarPage() {
         const first = new Date(year, month, 1).getDay();
         const days = new Date(year, month + 1, 0).getDate();
 
-        const evMap = {};
-        mockData.collegeEvents.forEach(ev => { evMap[ev.date] = ev; });
-
-        const myP = {};
-        mockData.eventParticipations.filter(p => p.student_id === sId).forEach(p => { myP[p.event_id] = p; });
-
         let gridHtml = '';
         for (let i = 0; i < first; i++) gridHtml += '<div></div>';
         for (let d = 1; d <= days; d++) {
-            const ds = new Date(year, month, d).toISOString().split('T')[0];
+            const dateObj = new Date(year, month, d);
+            const ds = dateObj.toISOString().split('T')[0];
             const stat = attMap[ds];
-            const ev = evMap[ds];
+            const isSunday = dateObj.getDay() === 0; // Treat Sunday as holiday
             const cMap = { present: 'var(--success-color)', absent: 'var(--danger-color)', late: 'var(--warning-color)', event: 'var(--primary-color)' };
             const lMap = { present: 'P', absent: 'A', late: 'L', event: 'E' };
             const aBadge = stat ? `<div style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:${cMap[stat]};color:white;font-weight:700;font-size:10px;">${lMap[stat]}</div>` : '';
 
-            let evBanner = '';
-            if (ev) {
-                const participation = myP[ev.id];
-                const sLabel = participation ? (participation.status === 'approved' ? '✓ Verified' : participation.status === 'rejected' ? '✗ Rejected' : '⏳ Pending') : 'Tap to apply';
-                const sColor = participation ? (participation.status === 'approved' ? 'var(--success-color)' : participation.status === 'rejected' ? 'var(--danger-color)' : 'var(--warning-color)') : 'var(--gray-400)';
-                evBanner = `<div class="cal-event-banner" style="border-left:3px solid ${ev.color};" onclick="openEventModal('${ev.id}')">
-                    <div style="font-size:11px;font-weight:700;color:${ev.color};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${ev.icon} ${ev.name}</div>
-                    <div style="font-size:10px;color:${sColor};font-weight:600;">${sLabel}</div>
-                </div>`;
-            }
-
-            gridHtml += `<div style="border:1px solid var(--gray-100);min-height:88px;padding:5px;border-radius:8px;display:flex;flex-direction:column;gap:3px;${ev ? 'background:rgba(99,102,241,0.03);' : ''}">
+            gridHtml += `<div style="border:1px solid var(--gray-100);min-height:88px;padding:5px;border-radius:8px;display:flex;flex-direction:column;gap:3px;${isSunday ? 'background:rgba(239,68,68,0.03);' : ''}">
                 <div style="display:flex;justify-content:space-between;align-items:center;">
-                    <span style="font-size:12px;font-weight:600;color:var(--gray-700);">${d}</span>
-                    <div style="display:flex;gap:3px;align-items:center;">${ev ? `<span style="font-size:13px;">${ev.icon}</span>` : ''}${aBadge}</div>
+                    <span style="font-size:12px;font-weight:600;color:${isSunday ? 'var(--danger-color)' : 'var(--gray-700)'};">${d}</span>
+                    <div style="display:flex;gap:3px;align-items:center;">${aBadge}</div>
                 </div>
-                ${evBanner}
-                <div style="font-size:10px;color:var(--gray-400);">${stat ? stat.charAt(0).toUpperCase() + stat.slice(1) : ''}</div>
+                ${isSunday ? '<div style="font-size:11px;font-weight:700;color:var(--danger-color);margin-top:auto;">Holiday</div>' : ''}
+                ${!isSunday && stat ? `<div style="font-size:10px;color:var(--gray-400);">${stat.charAt(0).toUpperCase() + stat.slice(1)}</div>` : ''}
             </div>`;
         }
-
-        // Upcoming events list
-        const evListHtml = mockData.collegeEvents.map(ev => {
-            const participation = myP[ev.id];
-            const badge = participation
-                ? `<span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:12px;background:${participation.status === 'approved' ? 'rgba(34,197,94,0.12)' : participation.status === 'rejected' ? 'rgba(239,68,68,0.12)' : 'rgba(245,158,11,0.12)'};color:${participation.status === 'approved' ? 'var(--success-color)' : participation.status === 'rejected' ? 'var(--danger-color)' : 'var(--warning-color)'};">${participation.status === 'approved' ? '✓ Verified' : participation.status === 'rejected' ? '✗ Rejected' : '⏳ Pending'}</span>`
-                : `<button class="btn btn-primary btn-sm" onclick="openEventModal('${ev.id}')"><i class="fas fa-paper-plane"></i> Apply</button>`;
-            return `<div style="display:flex;align-items:center;gap:12px;padding:10px;border:1px solid var(--gray-100);border-radius:8px;margin-bottom:8px;">
-                <div style="width:36px;height:36px;border-radius:8px;background:${ev.color}20;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">${ev.icon}</div>
-                <div style="flex:1;min-width:0;"><div style="font-weight:600;font-size:14px;">${ev.name}</div><div style="font-size:12px;color:var(--gray-500);">${new Date(ev.date).toLocaleDateString('default', { weekday: 'short', month: 'short', day: 'numeric' })}</div></div>
-                ${badge}
-            </div>`;
-        }).join('');
 
         const classIds = Array.from(new Set(att.map(r => r.class_id)));
         const classSummary = classIds.map(cid => {
@@ -1180,13 +1118,8 @@ function loadCalendarPage() {
                     <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:5px;">${gridHtml}</div>
                     <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap;">
                         ${[['var(--success-color)', 'Present'], ['var(--danger-color)', 'Absent'], ['var(--warning-color)', 'Late'], ['var(--primary-color)', 'Event']].map(([c, l]) => `<div style="display:flex;gap:5px;align-items:center;"><div style="width:12px;height:12px;border-radius:50%;background:${c};"></div><span style="font-size:12px;color:var(--gray-500);">${l}</span></div>`).join('')}
-                        <div style="display:flex;gap:5px;align-items:center;"><span style="font-size:13px;">🎉</span><span style="font-size:12px;color:var(--gray-500);">College Event</span></div>
                     </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-header"><h3 class="card-title"><i class="fas fa-star" style="color:#6366f1;margin-right:8px;"></i>College Events This Month</h3></div>
-                <div style="padding:0 24px 16px;">${evListHtml || '<p class="text-gray">No events this month.</p>'}</div>
             </div>
             <div class="card">
                 <div class="card-header"><h3 class="card-title">Per-class Summary</h3></div>
@@ -1196,11 +1129,283 @@ function loadCalendarPage() {
                 <button onclick="navigateToPage('future')" class="btn btn-primary" style="width:100%;"><i class="fas fa-chart-line"></i> Future Outcomes</button>
             </div>`;
 
-        renderEventModal();
         return;
     }
 
     pageContent.innerHTML = `<div class="card"><div class="card-header"><h3 class="card-title">Attendance Calendar</h3></div><div id="calendar"><p class="text-center text-gray">Calendar view</p></div></div>`;
+}
+
+// ─── Student Events Page ────────────────────────────────────────────────────────
+function loadEventsPage() {
+    if (currentUser.role !== 'student') return;
+    const sId = currentUser.id;
+    const myP = {};
+    mockData.eventParticipations.filter(p => p.student_id === sId).forEach(p => { myP[p.event_id] = p; });
+
+    // Determine the classes this student is enrolled in
+    const att = mockData.attendanceRecords.filter(r => r.student_id === sId);
+    const studentClassIds = [...new Set(att.map(r => r.class_id))];
+    const studentClasses = mockData.classes.filter(c => studentClassIds.includes(c.id));
+
+    const parseTime = (timeStr) => {
+        const [h,m] = timeStr.split(':').map(Number);
+        return h + ((m||0)/60);
+    };
+
+    const evListHtml = mockData.collegeEvents.map(ev => {
+        const participation = myP[ev.id];
+        const badge = participation
+            ? `<span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:12px;background:${participation.status === 'approved' ? 'rgba(34,197,94,0.12)' : participation.status === 'rejected' ? 'rgba(239,68,68,0.12)' : 'rgba(245,158,11,0.12)'};color:${participation.status === 'approved' ? 'var(--success-color)' : participation.status === 'rejected' ? 'var(--danger-color)' : 'var(--warning-color)'};">${participation.status === 'approved' ? '✓ Verified' : participation.status === 'rejected' ? '✗ Rejected' : '⏳ Pending'}</span>`
+            : `<button class="btn btn-primary btn-sm" onclick="openEventModal('${ev.id}')"><i class="fas fa-paper-plane"></i> Apply</button>`;
+        
+        // Calculate overlapping classes
+        const evDateObj = new Date(ev.date + 'T12:00:00Z'); // force midday to avoid timezone shifts
+        const evDayOfWeek = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][evDateObj.getUTCDay()];
+        const evStart = parseTime(ev.start_time);
+        const evEnd = parseTime(ev.end_time);
+
+        const overlappingClasses = studentClasses.filter(c => {
+            const parts = c.schedule_time.split(' ');
+            const time = parts.slice(-1)[0]; 
+            const scheduledDays = parts.slice(0, -1).join(' ').replace(/,/g, '').split(' ').filter(Boolean);
+            if (!scheduledDays.includes(evDayOfWeek)) return false;
+            
+            const [cStartStr, cEndStr] = time.split('-');
+            if (!cStartStr || !cEndStr) return false;
+            const cStart = parseTime(cStartStr);
+            const cEnd = parseTime(cEndStr);
+            
+            return (evStart < cEnd && cStart < evEnd);
+        });
+
+        let overlapHtml = '';
+        if (overlappingClasses.length > 0) {
+            overlapHtml = `<div style="margin-top:10px;padding:8px 12px;font-size:12px;background:var(--primary-light);color:var(--primary-dark);border-radius:6px;border:1px solid rgba(99,102,241,0.2);">
+                <div style="font-weight:600;margin-bottom:4px;"><i class="fas fa-info-circle"></i> Attendance will be granted for missed classes:</div>
+                <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                    ${overlappingClasses.map(c => `<span style="background:white;padding:2px 8px;border-radius:12px;font-size:11px;border:1px solid rgba(99,102,241,0.2);"><i class="fas fa-book" style="color:var(--gray-400);"></i> ${c.course_name} (${c.schedule_time.split(' ').slice(-1)[0]})</span>`).join('')}
+                </div>
+            </div>`;
+        } else {
+            overlapHtml = `<div style="margin-top:10px;padding:8px 12px;font-size:12px;background:var(--gray-50);color:var(--gray-600);border-radius:6px;">
+                <i class="fas fa-check-circle" style="color:var(--success-color);"></i> No scheduled classes will be missed during this event.
+            </div>`;
+        }
+
+        const t12 = (time24) => {
+            const [h, m] = time24.split(':');
+            const hNum = parseInt(h, 10);
+            const ampm = hNum >= 12 ? 'PM' : 'AM';
+            const h12 = hNum % 12 || 12;
+            return `${h12}:${m} ${ampm}`;
+        };
+
+        return `<div style="padding:16px;border:1px solid var(--gray-100);border-radius:10px;margin-bottom:16px;background:white;transition:box-shadow 0.2s;">
+            <div style="display:flex;align-items:flex-start;gap:12px;">
+                <div style="width:48px;height:48px;border-radius:12px;background:${ev.color}20;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;margin-top:2px;">${ev.icon}</div>
+                <div style="flex:1;min-width:0;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                        <div style="font-weight:700;font-size:16px;margin-bottom:4px;color:var(--gray-800);">${ev.name}</div>
+                        <div>${badge}</div>
+                    </div>
+                    <div style="font-size:13px;color:var(--gray-600);display:flex;flex-wrap:wrap;gap:12px;margin-bottom:6px;">
+                        <span><i class="fas fa-calendar-alt"></i> ${new Date(ev.date).toLocaleDateString('default', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                        <span><i class="fas fa-clock"></i> ${t12(ev.start_time)} - ${t12(ev.end_time)}</span>
+                    </div>
+                    ${overlapHtml}
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+
+    pageContent.innerHTML = `
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h3 class="card-title"><i class="fas fa-star" style="color:var(--primary-color);margin-right:8px;"></i>Upcoming College Events</h3>
+                    <p style="font-size:13px;color:var(--gray-500);margin-top:2px;">Browse and apply for events. Missing subjects during event hours will automatically grant you attendance once approved.</p>
+                </div>
+            </div>
+            <div style="padding:10px 24px 24px;">
+                ${evListHtml || '<div style="text-align:center;padding:40px 0;color:var(--gray-400);"><i class="fas fa-calendar-times" style="font-size:32px;margin-bottom:12px;"></i><br>No upcoming events found.</div>'}
+            </div>
+        </div>
+    `;
+    renderEventModal();
+} 
+
+// ─── Student Faculty Directory Page ───────────────────────────────────────────
+function loadFacultyPage() {
+    if (currentUser.role !== 'student') return;
+    
+    // Extract unique faculty from classes
+    const facultyMap = {};
+    mockData.classes.forEach(c => {
+        if (!facultyMap[c.faculty_id]) {
+            facultyMap[c.faculty_id] = {
+                id: c.faculty_id,
+                name: c.faculty_name,
+                subjects: []
+            };
+        }
+        if (!facultyMap[c.faculty_id].subjects.includes(c.course_name)) {
+            facultyMap[c.faculty_id].subjects.push(c.course_name);
+        }
+    });
+
+    const faculties = Object.values(facultyMap);
+
+    const facultyListHtml = faculties.map(f => {
+        // Generate mock email and phone based on name
+        const cleanName = f.name.replace('Dr. ', '').toLowerCase().replace(' ', '.');
+        const email = `${cleanName}@college.edu`;
+        // Generate a consistent dummy hash for phone to look somewhat real
+        const numHash = [...cleanName].reduce((acc, char) => acc + char.charCodeAt(0), 1000);
+        const phone = `+1 (555) 01${numHash.toString().substring(0,2)}-${(numHash * 13).toString().substring(0,4)}`;
+
+        return `<div style="padding:16px;border:1px solid var(--gray-100);border-radius:10px;margin-bottom:16px;background:white;transition:box-shadow 0.2s;display:flex;align-items:center;gap:16px;">
+            <div style="width:60px;height:60px;border-radius:50%;background:var(--primary-color)20;color:var(--primary-color);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">
+                <i class="fas fa-chalkboard-teacher"></i>
+            </div>
+            <div style="flex:1;min-width:0;">
+                <div style="font-weight:700;font-size:16px;margin-bottom:4px;color:var(--gray-800);">${f.name}</div>
+                <div style="font-size:13px;color:var(--primary-color);font-weight:600;margin-bottom:6px;">${f.subjects.join(', ')}</div>
+                <div style="font-size:13px;color:var(--gray-600);display:flex;flex-wrap:wrap;gap:16px;">
+                    <span style="display:flex;align-items:center;gap:6px;"><i class="fas fa-envelope"></i> ${email}</span>
+                    <span style="display:flex;align-items:center;gap:6px;"><i class="fas fa-phone"></i> ${phone}</span>
+                </div>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="showToast('info', 'Contact Faculty', 'Contact functionality is currently disabled in demo mode.')"><i class="fas fa-paper-plane"></i> Message</button>
+        </div>`;
+    }).join('');
+
+    pageContent.innerHTML = `
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h3 class="card-title"><i class="fas fa-users" style="color:var(--primary-color);margin-right:8px;"></i>Faculty Directory</h3>
+                    <p style="font-size:13px;color:var(--gray-500);margin-top:2px;">Contact information and subjects for your professors</p>
+                </div>
+            </div>
+            <div style="padding:10px 24px 24px;">
+                ${facultyListHtml || '<div style="text-align:center;padding:40px 0;color:var(--gray-400);"><i class="fas fa-user-slash" style="font-size:32px;margin-bottom:12px;"></i><br>No faculty members found.</div>'}
+            </div>
+        </div>
+    `;
+}
+
+// ─── Profile Page ─────────────────────────────────────────────────────────────
+async function loadProfilePage() {
+    // Generate UI structure
+    pageContent.innerHTML = `
+        <div class="card" style="max-width: 800px; margin: 0 auto;">
+            <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h3 class="card-title"><i class="fas fa-user-circle" style="color:var(--primary-color);margin-right:8px;"></i>My Profile</h3>
+                    <p style="font-size:13px;color:var(--gray-500);margin-top:2px;">View and manage your account details</p>
+                </div>
+                <button class="btn btn-primary" onclick="saveProfile()" id="saveProfileBtn"><i class="fas fa-save"></i> Save Changes</button>
+            </div>
+            <div style="padding:24px;" id="profileFormContainer">
+                <div style="text-align:center;padding:40px;"><i class="fas fa-circle-notch fa-spin" style="font-size:32px;color:var(--primary-color);"></i><div style="margin-top:10px;color:var(--gray-500);">Loading profile...</div></div>
+            </div>
+        </div>
+    `;
+
+    try {
+        let profileData = {};
+        const token = localStorage.getItem('token');
+        if (token) {
+            const res = await fetch('http://localhost:5000/api/profile', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                profileData = await res.json();
+            } else {
+                profileData = currentUser;
+            }
+        } else {
+            profileData = currentUser;
+        }
+
+        const p = profileData.profile || {};
+        
+        let extraFields = '';
+        if (currentUser.role === 'student') {
+            extraFields = `
+                <div class="form-group"><label>Roll Number</label><input type="text" id="profRollNo" class="input" value="${p.rollNo || ''}" placeholder="e.g. CS2021001"></div>
+                <div class="form-group"><label>Class / Section</label><input type="text" id="profClass" class="input" value="${p.className || ''}" placeholder="e.g. B.Tech CSE Core"></div>
+                <div class="form-group"><label>Programme</label><input type="text" id="profProg" class="input" value="${p.programme || ''}" placeholder="e.g. B.Tech Computer Science"></div>
+            `;
+        } else if (currentUser.role === 'faculty') {
+            extraFields = `
+                <div class="form-group"><label>Department</label><input type="text" id="profDept" class="input" value="${p.department || ''}" placeholder="e.g. Computer Science"></div>
+                <div class="form-group"><label>Designation</label><input type="text" id="profDesig" class="input" value="${p.designation || ''}" placeholder="e.g. Assistant Professor"></div>
+            `;
+        }
+
+        document.getElementById('profileFormContainer').innerHTML = `
+            <div style="display:flex;gap:32px;align-items:flex-start;">
+                <div style="flex-shrink:0;text-align:center;">
+                    <div style="width:120px;height:120px;border-radius:50%;background:var(--primary-color)20;color:var(--primary-color);display:flex;align-items:center;justify-content:center;font-size:48px;margin-bottom:16px;">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div style="font-weight:700;font-size:18px;">${profileData.username || profileData.name || 'User'}</div>
+                    <div style="font-size:13px;color:var(--gray-500);text-transform:capitalize;">${profileData.role || currentUser.role}</div>
+                </div>
+                <div style="flex:1;">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+                        <div class="form-group"><label>Username / Full Name</label><input type="text" class="input" value="${profileData.username || profileData.name || ''}" disabled style="background:var(--gray-100);cursor:not-allowed;"></div>
+                        <div class="form-group"><label>Email Address</label><input type="text" class="input" value="${profileData.email || currentUser.email || ''}" disabled style="background:var(--gray-100);cursor:not-allowed;"></div>
+                        <div class="form-group"><label>Phone Number</label><input type="text" id="profPhone" class="input" value="${p.phone || ''}" placeholder="+1 ..."></div>
+                        ${extraFields}
+                    </div>
+                </div>
+            </div>
+        `;
+    } catch (e) {
+        document.getElementById('profileFormContainer').innerHTML = `<div style="text-align:center;color:var(--danger-color);padding:20px;">Failed to load profile details. Error: ${e.message}</div>`;
+    }
+}
+
+async function saveProfile() {
+    const btn = document.getElementById('saveProfileBtn');
+    if(btn) { btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Saving...'; btn.disabled = true; }
+    
+    // Gather values based on role
+    const payload = {};
+    const ph = document.getElementById('profPhone'); if(ph) payload.phone = ph.value;
+    const rn = document.getElementById('profRollNo'); if(rn) payload.rollNo = rn.value;
+    const cl = document.getElementById('profClass'); if(cl) payload.className = cl.value;
+    const pr = document.getElementById('profProg'); if(pr) payload.programme = pr.value;
+    const dp = document.getElementById('profDept'); if(dp) payload.department = dp.value;
+    const ds = document.getElementById('profDesig'); if(ds) payload.designation = ds.value;
+
+    try {
+        const token = localStorage.getItem('token');
+        if (token) {
+            const res = await fetch('http://localhost:5000/api/profile', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify(payload)
+            });
+            if(res.ok) {
+                showToast('success', 'Profile Updated', 'Your profile details were saved successfully.');
+            } else {
+                const err = await res.json();
+                showToast('error', 'Update Failed', err.message || 'Error updating profile');
+            }
+        } else {
+            // Mock the update into currentUser for demo without explicit warning toast
+            if(!currentUser.profile) currentUser.profile = {};
+            Object.assign(currentUser.profile, payload);
+            showToast('success', 'Profile Updated', 'Your profile details were saved successfully.');
+        }
+    } catch (e) {
+        showToast('error', 'Update Failed', e.message);
+    } finally {
+        if(btn) { btn.innerHTML = '<i class="fas fa-save"></i> Save Changes'; btn.disabled = false; }
+    }
 }
 
 // ─── Event Modal ──────────────────────────────────────────────────────────────
@@ -1229,6 +1434,7 @@ function renderEventModal() {
 }
 
 function openEventModal(eventId) {
+    // Make sure modal is in DOM
     renderEventModal();
     const ev = mockData.collegeEvents.find(e => e.id === eventId);
     if (!ev) return;
@@ -1278,7 +1484,7 @@ function submitEventParticipation() {
 
     showToast('success', 'Request Submitted', 'Your participation request is pending admin verification.');
     closeEventModal();
-    loadCalendarPage();
+    loadEventsPage();
 }
 
 // ─── Admin: Event Verification Page ──────────────────────────────────────────
@@ -1675,7 +1881,40 @@ const additionalStyles = `
     .subject-card-meta span { display:flex; align-items:center; gap:4px; }
     .subject-card-days { display:flex; flex-wrap:wrap; gap:4px; margin-bottom:10px; }
     .subject-card-bar { height:6px; background:var(--gray-100); border-radius:4px; overflow:hidden; }
+    /* ── Row-based Student Timetable ─────────────────────── */
+    .ttr-wrapper { padding:0 20px 20px; }
+    .ttr-day-row { display:flex; gap:0; margin-bottom:12px; border-radius:12px; overflow:hidden; border:1px solid var(--gray-200); background:white; transition:box-shadow 0.2s; }
+    .ttr-day-row:hover { box-shadow:0 4px 16px rgba(0,0,0,0.07); }
+    .ttr-today-row { box-shadow:0 2px 12px rgba(99,102,241,0.15); border-color:rgba(99,102,241,0.3); }
+    .ttr-day-label { min-width:140px; max-width:140px; padding:16px 14px; display:flex; flex-direction:column; justify-content:center; gap:4px; flex-shrink:0; border-right:1px solid var(--gray-100); }
+    .ttr-day-name { font-size:16px; font-weight:800; letter-spacing:0.03em; }
+    .ttr-today-badge { font-size:9px; font-weight:700; background:rgba(99,102,241,0.85); color:white; padding:2px 8px; border-radius:10px; display:inline-block; width:fit-content; text-transform:uppercase; letter-spacing:0.06em; }
+    .ttr-day-count { font-size:11px; font-weight:500; opacity:0.65; margin-top:2px; }
+    .ttr-classes-row { display:flex; flex-wrap:wrap; gap:10px; padding:12px 14px; flex:1; align-items:stretch; }
+    .ttr-class-card { background:var(--gray-50); border:1px solid var(--gray-100); border-radius:10px; padding:12px 14px; min-width:170px; max-width:240px; display:flex; flex-direction:column; gap:4px; transition:transform 0.15s, box-shadow 0.2s; flex:1; }
+    .ttr-class-card:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,0.08); background:white; }
+    .ttr-time { font-size:11px; color:var(--gray-400); display:flex; align-items:center; gap:4px; margin-bottom:2px; }
+    .ttr-course { font-size:13px; font-weight:700; color:var(--gray-800); line-height:1.3; }
+    .ttr-section { font-size:11px; color:var(--gray-500); margin-bottom:2px; }
+    .ttr-room { font-size:11px; color:var(--gray-500); display:flex; align-items:center; gap:4px; }
+    .ttr-faculty { font-size:11px; color:var(--gray-400); display:flex; align-items:center; gap:4px; margin-top:2px; }
+    .ttr-no-class { display:flex; align-items:center; gap:8px; padding:8px 12px; color:var(--gray-400); font-size:13px; font-style:italic; }
+    @media (max-width:700px) {
+        .ttr-day-row { flex-direction:column; }
+        .ttr-day-label { min-width:unset; max-width:unset; border-right:none; border-bottom:1px solid var(--gray-100); padding:10px 14px; flex-direction:row; align-items:center; gap:10px; }
+        .ttr-classes-row { flex-direction:column; }
+        .ttr-class-card { min-width:unset; max-width:unset; }
+    }
 `;
 const styleSheet = document.createElement('style');
 styleSheet.textContent = additionalStyles;
 document.head.appendChild(styleSheet);
+
+// ─── Theme Toggle ─────────────────────────────────────────────────────────────
+function toggleTheme() {
+    const isDark = document.body.classList.toggle('dark');
+    const btnIcon = document.querySelector('#themeToggleBtn i');
+    if (btnIcon) {
+        btnIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+    }
+}
