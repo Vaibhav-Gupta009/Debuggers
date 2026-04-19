@@ -315,6 +315,7 @@ const allStudents = [
 let currentUser = null;
 let currentPage = 'dashboard';
 let _activeEventId = null;
+let _selectedAdminClassId = null;
 let pendingUser = null;
 
 const loginScreen = document.getElementById('loginScreen');
@@ -360,11 +361,17 @@ function initializeApp() {
     }
     const saved = localStorage.getItem('currentUser');
     if (saved) { currentUser = JSON.parse(saved); showDashboard(); }
+    
+    // Load persisted classes if any
+    const classesDB = getClassesDB();
+    if (classesDB.length > 0) mockData.classes = classesDB;
 }
 
 // ─── LocalStorage Account DB ──────────────────────────────────────────────────
 function getAccountsDB() { return JSON.parse(localStorage.getItem('accountsDB') || '[]'); }
 function saveAccountsDB(db) { localStorage.setItem('accountsDB', JSON.stringify(db)); }
+function getClassesDB() { return JSON.parse(localStorage.getItem('classesDB') || '[]'); }
+function saveClassesDB(db) { localStorage.setItem('classesDB', JSON.stringify(db)); }
 
 // ─── Auto-generate random attendance data for new student accounts ─────────────
 function generateStudentData(user) {
@@ -543,8 +550,11 @@ function updateNavigation() {
         analytics: ['admin'],
         users: ['admin'],
         classes: ['admin'],
-        eventverify: ['admin'],
-        updateattendance: ['faculty']
+        updateattendance: ['faculty'],
+        attendanceMonitor: ['admin'],
+        timetableAdmin: ['admin'],
+        reportsAnalytics: ['admin'],
+        profileControl: ['admin']
     };
     Object.keys(navItems).forEach(id => {
         const el = document.getElementById(id + 'NavItem');
@@ -556,7 +566,7 @@ function navigateToPage(page) {
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
     const a = document.querySelector(`[data-page="${page}"]`);
     if (a) a.classList.add('active');
-    const titles = { dashboard: 'Dashboard', profile: 'My Profile', attendance: 'Mark Attendance', calendar: 'Attendance Calendar', events: 'Events', faculty: 'Faculty Resources', timetable: 'My Timetable', future: 'Analytics', leave: 'Leave Request', analytics: 'Analytics', users: 'User Management', classes: 'Class Management', eventverify: 'Event Verifications', updateattendance: 'Update Attendance' };
+    const titles = { dashboard: 'Dashboard', profile: 'My Profile', attendance: 'Mark Attendance', calendar: 'Attendance Calendar', events: 'Events', faculty: 'Faculty Resources', timetable: 'My Timetable', future: 'Analytics', leave: 'Leave Request', analytics: 'Analytics', users: 'User Management', classes: 'Class Management', updateattendance: 'Update Attendance', attendance_monitor: 'Attendance Monitoring', timetable_admin: 'Timetable Management', reports_analytics: 'Reports and Analytics', profile_control: 'Profile System Control' };
     pageTitle.textContent = titles[page] || 'Dashboard';
     loadPageContent(page);
 }
@@ -575,9 +585,22 @@ function loadPageContent(page) {
             case 'leave': loadLeavePage(); break;
             case 'analytics': loadAnalyticsPage(); break;
             case 'users': loadUsersPage(); break;
-            case 'classes': loadClassesPage(); break;
-            case 'eventverify': loadEventVerifyPage(); break;
+            case 'classes': 
+                if (currentUser.role === 'admin') loadAdminClassesPage();
+                else loadClassesPage(); 
+                break;
             case 'updateattendance': loadUpdateAttendancePage(); break;
+            case 'attendance_monitor': loadAttendanceMonitorPage(); break;
+            case 'timetable_admin': loadTimetableAdminPage(); break;
+            case 'reports_analytics': loadReportsAnalyticsPage(); break;
+            case 'profile_control': loadProfileControlPage(); break;
+            
+            // New Class-Specific Pages
+            case 'class_dashboard': loadClassDashboard(_selectedAdminClassId); break;
+            case 'class_users': loadUsersPage(_selectedAdminClassId); break;
+            case 'class_timetable': loadTimetableAdminPage(_selectedAdminClassId); break;
+            case 'class_analytics': loadReportsAnalyticsPage(_selectedAdminClassId); break;
+            case 'class_overview': loadAttendanceMonitorPage(_selectedAdminClassId); break;
             default: loadDashboard();
         }
         hideLoading();
@@ -1700,11 +1723,161 @@ function loadAnalyticsPage() {
 function loadLeavePage() {
     pageContent.innerHTML = `<div class="card"><div class="card-header"><h3 class="card-title">Leave Request</h3></div><form id="leaveForm" onsubmit="submitLeaveRequest(event)"><div class="form-group"><label>Class</label><select id="leaveClass" class="input" required><option value="">Select a class</option>${mockData.classes.map(cls => `<option value="${cls.id}">${cls.course_name}</option>`).join('')}</select></div><div class="form-group"><label>Start Date</label><input type="date" id="startDate" class="input" required></div><div class="form-group"><label>End Date</label><input type="date" id="endDate" class="input" required></div><div class="form-group"><label>Reason</label><textarea id="reason" class="input" rows="4" placeholder="Enter reason" required></textarea></div><button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Submit Request</button></form></div><div class="card"><div class="card-header"><h3 class="card-title">My Leave Requests</h3></div><div class="table-container"><table class="table"><thead><tr><th>Start</th><th>End</th><th>Reason</th><th>Status</th></tr></thead><tbody>${mockData.leaveRequests.filter(r => r.student_id === currentUser.id).map(req => `<tr><td>${new Date(req.start_date).toLocaleDateString()}</td><td>${new Date(req.end_date).toLocaleDateString()}</td><td>${req.reason}</td><td><span class="status-badge ${req.status}">${req.status}</span></td></tr>`).join('')}</tbody></table></div></div>`;
 }
-function loadUsersPage() {
-    pageContent.innerHTML = `<div class="card"><div class="card-header"><h3 class="card-title">User Management</h3><button class="btn btn-primary"><i class="fas fa-plus"></i> Add User</button></div><div class="table-container"><table class="table"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Actions</th></tr></thead><tbody>${mockData.users.map(u => `<tr><td><div class="user-info"><img src="${u.avatar}" alt="${u.name}" class="user-avatar"><span>${u.name}</span></div></td><td>${u.email}</td><td><span class="status-badge ${u.role}">${u.role}</span></td><td><button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button> <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></td></tr>`).join('')}</tbody></table></div></div>`;
+function loadAdminClassesPage() {
+    const classes = mockData.classes;
+    pageContent.innerHTML = `
+        <div style="margin-bottom:24px;">
+            <p style="color:var(--gray-500); font-size:14px;">Select a course to manage its specific users, timetable, and attendance reports.</p>
+        </div>
+        <div class="class-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:20px;">
+            ${classes.map(cls => `
+                <div class="card class-manage-card" onclick="navigateToPage('class_dashboard', '${cls.id}')" style="cursor:pointer; transition:all 0.2s ease;">
+                    <div class="card-header" style="border:none; padding-bottom:10px;">
+                        <div style="background:var(--primary-color); color:white; width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; margin-bottom:12px;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3 class="card-title" style="font-size:18px;">${cls.course_name}</h3>
+                        <p style="color:var(--gray-500); font-size:13px; margin-top:4px;">${cls.section}</p>
+                    </div>
+                    <div style="padding:0 20px 20px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; font-size:13px; color:var(--gray-600);">
+                            <span><i class="fas fa-user-tie" style="margin-right:6px; color:var(--primary-light);"></i>${cls.faculty_name}</span>
+                            <span style="background:var(--gray-100); padding:4px 10px; border-radius:20px; font-weight:600; color:var(--primary-dark);">${cls.room_no}</span>
+                        </div>
+                        <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--gray-100); display:flex; justify-content:space-between; align-items:center;">
+                            <span style="font-size:12px; color:var(--gray-400);"><i class="far fa-clock"></i> ${cls.schedule_time.split(' ').pop()}</span>
+                            <span style="color:var(--primary-color); font-weight:600; font-size:14px;">Manage <i class="fas fa-chevron-right" style="font-size:10px; margin-left:4px;"></i></span>
+                        </div>
+                    </div>
+                </div>
+            `).join('')}
+        </div>`;
+
+    // Add some dynamic styles for the hover effect
+    if (!document.getElementById('classCardStyles')) {
+        const style = document.createElement('style');
+        style.id = 'classCardStyles';
+        style.textContent = `
+            .class-manage-card:hover { 
+                transform: translateY(-5px); 
+                box-shadow: 0 12px 20px rgba(0,0,0,0.08) !important; 
+                border-color: var(--primary-light) !important; 
+            }
+            .class-option-card:hover {
+                background: var(--gray-50) !important;
+                border-color: var(--primary-light) !important;
+                transform: scale(1.02);
+            }
+        `;
+        document.head.appendChild(style);
+    }
+}
+
+function loadClassDashboard(classId) {
+    if (!classId) return loadAdminClassesPage();
+    const cls = mockData.classes.find(c => c.id === classId);
+    if (!cls) return loadAdminClassesPage();
+
+    pageContent.innerHTML = `
+        <div style="margin-bottom:24px; display:flex; align-items:center; gap:12px;">
+            <button class="btn btn-icon" onclick="navigateToPage('classes')" style="background:white; color:var(--gray-700);"><i class="fas fa-arrow-left"></i></button>
+            <div>
+                <h2 style="font-size:20px; font-weight:700; color:var(--gray-900);">${cls.course_name}</h2>
+                <p style="font-size:14px; color:var(--gray-500);">${cls.section} · Room ${cls.room_no} · ${cls.faculty_name}</p>
+            </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:20px;">
+            <div class="card class-option-card" onclick="navigateToPage('class_users', '${classId}')" style="cursor:pointer; transition:all 0.2s ease; padding:24px; text-align:center;">
+                <div style="width:60px; height:60px; background:rgba(99, 102, 241, 0.1); color:var(--primary-color); border-radius:15px; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:24px;">
+                    <i class="fas fa-users-cog"></i>
+                </div>
+                <h3 style="font-size:17px; font-weight:700; margin-bottom:8px;">User Management</h3>
+                <p style="font-size:13px; color:var(--gray-500);">Manage students and staff assigned to this class</p>
+            </div>
+            
+            <div class="card class-option-card" onclick="navigateToPage('class_timetable', '${classId}')" style="cursor:pointer; transition:all 0.2s ease; padding:24px; text-align:center;">
+                <div style="width:60px; height:60px; background:rgba(16, 185, 129, 0.1); color:var(--success-color); border-radius:15px; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:24px;">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h3 style="font-size:17px; font-weight:700; margin-bottom:8px;">Timetable Management</h3>
+                <p style="font-size:13px; color:var(--gray-500);">Configure class slots, timings, and rooms</p>
+            </div>
+
+            <div class="card class-option-card" onclick="navigateToPage('class_analytics', '${classId}')" style="cursor:pointer; transition:all 0.2s ease; padding:24px; text-align:center;">
+                <div style="width:60px; height:60px; background:rgba(245, 158, 11, 0.1); color:var(--warning-color); border-radius:15px; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:24px;">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 style="font-size:17px; font-weight:700; margin-bottom:8px;">Reports & Analytics</h3>
+                <p style="font-size:13px; color:var(--gray-500);">Detailed attendance statistics and exportable reports</p>
+            </div>
+
+            <div class="card class-option-card" onclick="navigateToPage('class_overview', '${classId}')" style="cursor:pointer; transition:all 0.2s ease; padding:24px; text-align:center;">
+                <div style="width:60px; height:60px; background:rgba(236, 72, 153, 0.1); color:#ec4899; border-radius:15px; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:24px;">
+                    <i class="fas fa-tachometer-alt"></i>
+                </div>
+                <h3 style="font-size:17px; font-weight:700; margin-bottom:8px;">Class Dashboard</h3>
+                <p style="font-size:13px; color:var(--gray-500);">Quick overview of trends and risk assessments</p>
+            </div>
+        </div>`;
+}
+
+function loadUsersPage(classId = null) {
+    const users = mockData.users;
+    pageContent.innerHTML = `
+        <div class="card">
+            <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h3 class="card-title"><i class="fas fa-users-cog" style="color:var(--primary-color);margin-right:8px;"></i>User Management</h3>
+                    <p style="font-size:13px;color:var(--gray-500);margin-top:2px;">Currently managing ${users.length} registered users</p>
+                </div>
+                <button class="btn btn-primary" onclick="openUserModal()"><i class="fas fa-plus"></i> Add User</button>
+            </div>
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>User Profile</th>
+                            <th>Email Address</th>
+                            <th>Current Role</th>
+                            <th style="text-align:right;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${users.map(u => `
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <img src="${u.avatar}" alt="${u.name}" class="user-avatar" style="width:36px; height:36px; border-radius:50%; margin-right:12px;">
+                                        <div style="display:flex; flex-direction:column;">
+                                            <span style="font-weight:600; font-size:14px;">${u.name}</span>
+                                            <span style="font-size:11px; color:var(--gray-500);">ID: ${u.id}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="font-size:14px; color:var(--gray-600);">${u.email}</td>
+                                <td>
+                                    <span class="status-badge ${u.role}">${u.role.toUpperCase()}</span>
+                                </td>
+                                <td style="text-align:right;">
+                                    <div style="display:flex; gap:8px; justify-content:flex-end;">
+                                        <button class="btn btn-icon btn-sm" style="background:var(--gray-100); color:var(--primary-color);" onclick="openUserModal('${u.id}')" title="Edit Details">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-icon btn-sm" style="background:rgba(239, 68, 68, 0.1); color:var(--danger-color);" onclick="deleteUser('${u.id}')" title="Delete User">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>`).join('')}
+                    </tbody>
+                </table>
+            </div>
+        </div>`;
+    renderUserModal();
 }
 function loadClassesPage() {
-    pageContent.innerHTML = `<div class="card"><div class="card-header"><h3 class="card-title">Class Management</h3><button class="btn btn-primary"><i class="fas fa-plus"></i> Add Class</button></div><div class="table-container"><table class="table"><thead><tr><th>Course</th><th>Faculty</th><th>Semester</th><th>Schedule</th><th>Actions</th></tr></thead><tbody>${mockData.classes.map(cls => `<tr><td>${cls.course_name}</td><td>${cls.faculty_name}</td><td>${cls.semester}</td><td>${cls.schedule_time}</td><td><button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button> <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></td></tr>`).join('')}</tbody></table></div></div>`;
+    loadTimetableAdminPage();
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -1751,11 +1924,12 @@ const additionalStyles = `
     .event-auto-badge { display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;background:rgba(99,102,241,0.12);color:#6366f1;font-size:13px;font-weight:600;border:1.5px solid rgba(99,102,241,0.3); }
     .cal-event-banner { background:rgba(99,102,241,0.06);border-radius:5px;padding:3px 5px;cursor:pointer;transition:var(--transition); }
     .cal-event-banner:hover { background:rgba(99,102,241,0.16); }
-    #eventModal { display:none;position:fixed;inset:0;z-index:5000;align-items:center;justify-content:center; }
-    #eventModal.active { display:flex; }
+    #eventModal, #userModal { display:none;position:fixed;inset:0;z-index:5000;align-items:center;justify-content:center; }
+    #eventModal.active, #userModal.active { display:flex; }
     .modal-backdrop { position:absolute;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(3px); }
     .modal-box { position:relative;background:white;border-radius:20px;padding:28px;width:92%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 40px rgba(0,0,0,0.2);animation:modalIn .25s ease; }
     @keyframes modalIn { from{transform:scale(0.92);opacity:0} to{transform:scale(1);opacity:1} }
+    .status-badge.staff { background:rgba(6, 182, 212, 0.1); color:var(--info-color); }
     .modal-header { display:flex;align-items:flex-start;gap:12px;margin-bottom:14px; }
     .event-alert-banner { display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#6366f1,#4f46e5);color:white;border-radius:var(--border-radius);padding:18px 24px;margin-bottom:24px;cursor:pointer;box-shadow:0 4px 14px rgba(99,102,241,0.35);transition:var(--transition); }
     .event-alert-banner:hover { transform:translateY(-2px);box-shadow:0 8px 20px rgba(99,102,241,0.45); }
@@ -1916,5 +2090,425 @@ function toggleTheme() {
     const btnIcon = document.querySelector('#themeToggleBtn i');
     if (btnIcon) {
         btnIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+    }
+}
+
+// ─── Admin Newly Added Pages ──────────────────────────────────────────────────
+function loadAttendanceMonitorPage(classId = null) {
+    let headerExtra = '';
+    const cls = classId ? mockData.classes.find(c => c.id === classId) : null;
+    
+    if (classId) {
+        headerExtra = `
+            <div style="margin-bottom:16px; display:flex; align-items:center; gap:12px;">
+                <button class="btn btn-icon btn-sm" onclick="navigateToPage('class_dashboard', '${classId}')" style="background:var(--gray-100); color:var(--gray-700);"><i class="fas fa-arrow-left"></i></button>
+                <span style="font-size:14px; color:var(--gray-500); font-weight:500;">Back to Class Dashboard</span>
+            </div>`;
+    }
+
+    // Filter data for this class if classId is provided
+    const att = classId ? mockData.attendanceRecords.filter(r => r.class_id === classId) : mockData.attendanceRecords;
+    const pCnt = att.filter(r => r.status === 'present').length;
+    const tCnt = att.length;
+    const pct = tCnt > 0 ? Math.round((pCnt / tCnt) * 100) : 0;
+    
+    const risks = classId ? mockData.riskAssessments.filter(r => r.class_id === classId) : mockData.riskAssessments;
+
+    pageContent.innerHTML = `
+        ${headerExtra}
+        <div class="stats-grid">
+            <div class="stat-card primary"><div class="stat-header"><div class="stat-icon primary"><i class="fas fa-users"></i></div></div><div class="stat-value">${classId ? 'Class Avg' : 'Global Avg'}</div><div class="stat-label">${pct}% Attendance</div></div>
+            <div class="stat-card warning"><div class="stat-header"><div class="stat-icon warning"><i class="fas fa-exclamation-triangle"></i></div></div><div class="stat-value">${risks.filter(r => r.risk_level === 'High').length}</div><div class="stat-label">High Risk Students</div></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><h3 class="card-title">Class Risk Assessments</h3></div>
+            <div class="table-container">
+                <table class="table">
+                    <thead><tr><th>Student</th><th>Attendance %</th><th>Risk Level</th><th>Action</th></tr></thead>
+                    <tbody>
+                        ${risks.map(r => `
+                            <tr>
+                                <td>${r.student_name}</td>
+                                <td>${r.attendance_percentage}%</td>
+                                <td><span class="status-badge ${r.risk_level.toLowerCase()}">${r.risk_level}</span></td>
+                                <td><button class="btn btn-outline btn-sm">Notify</button></td>
+                            </tr>`).join('')}
+                        ${risks.length === 0 ? '<tr><td colspan="4" style="text-align:center;color:var(--gray-400);">No risk assessments for this class</td></tr>' : ''}
+                    </tbody>
+                </table>
+            </div>
+        </div>`;
+}
+function loadTimetableAdminPage(classId = null) {
+    let classes = mockData.classes;
+    let headerExtra = '';
+    
+    if (classId) {
+        classes = classes.filter(c => c.id === classId);
+        headerExtra = `
+            <div style="margin-bottom:16px; display:flex; align-items:center; gap:12px;">
+                <button class="btn btn-icon btn-sm" onclick="navigateToPage('class_dashboard', '${classId}')" style="background:var(--gray-100); color:var(--gray-700);"><i class="fas fa-arrow-left"></i></button>
+                <span style="font-size:14px; color:var(--gray-500); font-weight:500;">Back to Class Dashboard</span>
+            </div>`;
+    }
+
+    pageContent.innerHTML = `
+        ${headerExtra}
+        <div class="card">
+            <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 class="card-title">Timetable Management ${classId ? '(Class Schedule)' : ''}</h3>
+                <button class="btn btn-primary" onclick="openClassModal()">
+                    <i class="fas fa-plus"></i> Add New Class Slot
+                </button>
+            </div>
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Course / Subject</th>
+                            <th>Faculty / Teacher</th>
+                            <th>Section / Batch</th>
+                            <th>Schedule Slot</th>
+                            <th style="text-align:right;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${classes.map(cls => `
+                            <tr>
+                                <td>
+                                    <div style="font-weight:600; color:var(--gray-900);">${cls.course_name}</div>
+                                    <div style="font-size:12px; color:var(--gray-500);">Room: ${cls.room_no}</div>
+                                </td>
+                                <td>${cls.faculty_name}</td>
+                                <td>${cls.section}</td>
+                                <td>
+                                    <span style="font-size:13px; color:var(--primary-color); font-weight:500;">
+                                        <i class="far fa-clock"></i> ${cls.schedule_time}
+                                    </span>
+                                </td>
+                                <td style="text-align:right;">
+                                    <div style="display:flex; gap:8px; justify-content:flex-end;">
+                                        <button class="btn btn-icon btn-sm" style="background:var(--gray-100); color:var(--primary-color);" onclick="openClassModal('${cls.id}')" title="Edit Schedule">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-icon btn-sm" style="background:rgba(239, 68, 68, 0.1); color:var(--danger-color);" onclick="deleteClass('${cls.id}')" title="Delete Slot">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>`).join('')}
+                    </tbody>
+                </table>
+            </div>
+        </div>`;
+    renderClassModal();
+}
+function loadReportsAnalyticsPage() {
+    pageContent.innerHTML = `<div class="card"><div class="card-header"><h3 class="card-title">Reports and Analytics</h3></div><div style="padding:80px 20px;text-align:center;color:var(--gray-500);"><i class="fas fa-chart-line" style="font-size:48px;color:var(--gray-300);margin-bottom:16px;"></i><br>Advanced reports and analytics dashboard coming soon...</div></div>`;
+}
+function loadEventActivityPage() {
+    pageContent.innerHTML = `<div class="card"><div class="card-header"><h3 class="card-title">Event and Activity Management</h3></div><div style="padding:80px 20px;text-align:center;color:var(--gray-500);"><i class="fas fa-calendar-star" style="font-size:48px;color:var(--gray-300);margin-bottom:16px;"></i><br>Event and activity management coming soon...</div></div>`;
+}
+function loadProfileControlPage() {
+    pageContent.innerHTML = `<div class="card"><div class="card-header"><h3 class="card-title">Profile System Control</h3></div><div style="padding:80px 20px;text-align:center;color:var(--gray-500);"><i class="fas fa-user-cog" style="font-size:48px;color:var(--gray-300);margin-bottom:16px;"></i><br>System-wide profile controls coming soon...</div></div>`;
+}
+
+// ─── User Management CRUD Helpers ─────────────────────────────────────────────
+let _editingUserId = null;
+
+function renderUserModal() {
+    if (document.getElementById('userModal')) return;
+    const modal = document.createElement('div');
+    modal.id = 'userModal';
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+        <div class="modal-backdrop" onclick="closeUserModal()"></div>
+        <div class="modal-box">
+            <div class="modal-header">
+                <div style="flex:1;"><h3 id="userModalTitle" style="font-size:18px;font-weight:700;">Add New User</h3><p style="font-size:13px;color:var(--gray-500);">Register a student, faculty, or staff member</p></div>
+                <button class="close-btn" onclick="closeUserModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="padding-top:10px;">
+                <div class="form-group"><label>Full Name</label><input type="text" id="userModName" class="input" placeholder="Enter full name"></div>
+                <div class="form-group"><label>Email Address</label><input type="email" id="userModEmail" class="input" placeholder="user@college.edu"></div>
+                <div id="userModPasswordGroup" class="form-group"><label>Password</label><input type="password" id="userModPassword" class="input" placeholder="Min. 6 characters"></div>
+                <div class="form-group">
+                    <label>Assign Role</label>
+                    <select id="userModRole" class="input">
+                        <option value="student">Student</option>
+                        <option value="faculty">Faculty</option>
+                        <option value="staff">Staff</option>
+                        <option value="admin">Administrator</option>
+                    </select>
+                </div>
+                <div id="userModExtraGroup" class="form-group">
+                    <label id="userModExtraLabel">Department / Section</label>
+                    <input type="text" id="userModExtra" class="input" placeholder="e.g. Computer Science - B.Tech">
+                </div>
+            </div>
+            <div class="modal-footer" style="display:flex; justify-content:flex-end; gap:12px; margin-top:10px;">
+                <button class="btn btn-outline" onclick="closeUserModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveUser()"><i class="fas fa-save"></i> Save User</button>
+            </div>
+        </div>`;
+    document.body.appendChild(modal);
+}
+
+function openUserModal(userId = null) {
+    renderUserModal();
+    _editingUserId = userId;
+    const modal = document.getElementById('userModal');
+    const title = document.getElementById('userModalTitle');
+    const nameInp = document.getElementById('userModName');
+    const emailInp = document.getElementById('userModEmail');
+    const passInp = document.getElementById('userModPassword');
+    const roleInp = document.getElementById('userModRole');
+    const extraInp = document.getElementById('userModExtra');
+    const passGroup = document.getElementById('userModPasswordGroup');
+
+    if (userId) {
+        const user = mockData.users.find(u => u.id === userId);
+        title.textContent = 'Edit User Details';
+        nameInp.value = user.name;
+        emailInp.value = user.email;
+        roleInp.value = user.role;
+        passGroup.style.display = 'none'; // Don't allow password change in simple edit for now
+        // Find existing profile/extra data if any
+        extraInp.value = ''; // Reset
+    } else {
+        title.textContent = 'Add New User';
+        nameInp.value = '';
+        emailInp.value = '';
+        passInp.value = '';
+        roleInp.value = 'student';
+        passGroup.style.display = 'block';
+        extraInp.value = '';
+    }
+    
+    modal.style.display = 'flex';
+    setTimeout(() => modal.classList.add('active'), 10);
+}
+
+function closeUserModal() {
+    const modal = document.getElementById('userModal');
+    modal.classList.remove('active');
+    setTimeout(() => modal.style.display = 'none', 250);
+}
+
+function saveUser() {
+    const name = document.getElementById('userModName').value.trim();
+    const email = document.getElementById('userModEmail').value.trim().toLowerCase();
+    const role = document.getElementById('userModRole').value;
+    const extra = document.getElementById('userModExtra').value.trim();
+    
+    if (!name || !email) { showToast('warning', 'Missing Details', 'Name and Email are required.'); return; }
+    
+    const db = getAccountsDB();
+
+    if (_editingUserId) {
+        // Update existing
+        const userIndex = mockData.users.findIndex(u => u.id === _editingUserId);
+        if (userIndex !== -1) {
+            mockData.users[userIndex].name = name;
+            mockData.users[userIndex].email = email;
+            mockData.users[userIndex].role = role;
+            
+            // Sync with localStorage DB
+            const dbMatch = db.find(u => u.id === _editingUserId);
+            if (dbMatch) {
+                dbMatch.name = name;
+                dbMatch.email = email;
+                dbMatch.role = role;
+                saveAccountsDB(db);
+            }
+            showToast('success', 'User Updated', `${name}'s profile has been updated.`);
+        }
+    } else {
+        // Add new
+        const password = document.getElementById('userModPassword').value;
+        if (password.length < 6) { showToast('warning', 'Weak Password', 'Password must be at least 6 characters.'); return; }
+        
+        if (db.some(u => u.email === email)) {
+            showToast('error', 'Duplicate Email', 'This email is already registered.');
+            return;
+        }
+
+        const newUser = {
+            id: 'u_' + Date.now(),
+            name, email, password, role,
+            avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=6366f1&color=fff&size=32`
+        };
+
+        mockData.users.push(newUser);
+        db.push(newUser);
+        saveAccountsDB(db);
+        showToast('success', 'User Registered', `Account created for ${name} as ${role}.`);
+    }
+
+    closeUserModal();
+    loadUsersPage();
+}
+
+function deleteUser(userId) {
+    const user = mockData.users.find(u => u.id === userId);
+    if (!user) return;
+    
+    if (confirm(`Are you sure you want to delete ${user.name}? This action cannot be undone.`)) {
+        mockData.users = mockData.users.filter(u => u.id !== userId);
+        const db = getAccountsDB().filter(u => u.id !== userId);
+        saveAccountsDB(db);
+        
+        showToast('info', 'User Deleted', 'The user account has been removed.');
+        loadUsersPage();
+    }
+}
+
+// ─── Timetable Management CRUD Helpers ──────────────────────────────────────────
+let _editingClassId = null;
+
+function renderClassModal() {
+    if (document.getElementById('classModal')) return;
+    const modal = document.createElement('div');
+    modal.id = 'classModal';
+    modal.className = 'modal-overlay';
+    
+    // Get list of Faculty for the dropdown
+    const facultyList = getAccountsDB().filter(u => u.role === 'faculty');
+    // Add default mock faculty if not in accountsDB
+    const mockFaculty = mockData.users.filter(u => u.role === 'faculty');
+    const combinedFaculty = [...new Map([...mockFaculty, ...facultyList].map(item => [item.id, item])).values()];
+
+    modal.innerHTML = `
+        <div class="modal-backdrop" onclick="closeClassModal()"></div>
+        <div class="modal-box" style="max-width:550px;">
+            <div class="modal-header">
+                <div style="flex:1;"><h3 id="classModalTitle" style="font-size:18px;font-weight:700;">Add Class Schedule</h3><p style="font-size:13px;color:var(--gray-500);">Schedule a subject with a teacher and room</p></div>
+                <button class="close-btn" onclick="closeClassModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="padding-top:10px;">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                    <div class="form-group"><label>Course / Subject Name</label><input type="text" id="clsModName" class="input" placeholder="e.g. Data Structures"></div>
+                    <div class="form-group">
+                        <label>Assigned Faculty / Teacher</label>
+                        <select id="clsModFaculty" class="input">
+                            ${combinedFaculty.map(f => `<option value="${f.id}" data-name="${f.name}">${f.name}</option>`).join('')}
+                        </select>
+                    </div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                    <div class="form-group"><label>Section / Batch</label><input type="text" id="clsModSection" class="input" placeholder="e.g. B.Tech CSE - A"></div>
+                    <div class="form-group"><label>Room No.</label><input type="text" id="clsModRoom" class="input" placeholder="e.g. A-302"></div>
+                </div>
+                <div class="form-group">
+                    <label>Schedule Timing (Slots)</label>
+                    <input type="text" id="clsModSchedule" class="input" placeholder="e.g. Mon, Wed 10:00-11:30">
+                    <small style="color:var(--gray-500); font-size:11px;">Day(s) and Time range</small>
+                </div>
+            </div>
+            <div class="modal-footer" style="display:flex; justify-content:flex-end; gap:12px; margin-top:20px;">
+                <button class="btn btn-outline" onclick="closeClassModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveClass()"><i class="fas fa-save"></i> Save Schedule</button>
+            </div>
+        </div>`;
+    document.body.appendChild(modal);
+}
+
+function openClassModal(classId = null) {
+    renderClassModal();
+    _editingClassId = classId;
+    const modal = document.getElementById('classModal');
+    const title = document.getElementById('classModalTitle');
+    
+    // Clear inputs first
+    document.getElementById('clsModName').value = '';
+    document.getElementById('clsModSection').value = '';
+    document.getElementById('clsModRoom').value = '';
+    document.getElementById('clsModSchedule').value = '';
+    
+    if (classId) {
+        const cls = mockData.classes.find(c => c.id === classId);
+        if (cls) {
+            title.textContent = 'Edit Class Schedule';
+            document.getElementById('clsModName').value = cls.course_name;
+            document.getElementById('clsModFaculty').value = cls.faculty_id;
+            document.getElementById('clsModSection').value = cls.section;
+            document.getElementById('clsModRoom').value = cls.room_no;
+            document.getElementById('clsModSchedule').value = cls.schedule_time;
+        }
+    } else {
+        title.textContent = 'Add Class Schedule';
+    }
+    
+    modal.style.display = 'flex';
+    setTimeout(() => modal.classList.add('active'), 10);
+}
+
+function closeClassModal() {
+    const modal = document.getElementById('classModal');
+    if (modal) {
+        modal.classList.remove('active');
+        setTimeout(() => modal.style.display = 'none', 250);
+    }
+}
+
+function saveClass() {
+    const name = document.getElementById('clsModName').value.trim();
+    const facEl = document.getElementById('clsModFaculty');
+    const facultyId = facEl.value;
+    const facultyName = facEl.options[facEl.selectedIndex].getAttribute('data-name');
+    const section = document.getElementById('clsModSection').value.trim();
+    const room = document.getElementById('clsModRoom').value.trim();
+    const schedule = document.getElementById('clsModSchedule').value.trim();
+
+    if (!name || !section || !room || !schedule) {
+        showToast('warning', 'Missing Details', 'Please fill in all the required fields.');
+        return;
+    }
+
+    if (_editingClassId) {
+        const idx = mockData.classes.findIndex(c => c.id === _editingClassId);
+        if (idx !== -1) {
+            mockData.classes[idx] = {
+                ...mockData.classes[idx],
+                course_name: name,
+                faculty_id: facultyId,
+                faculty_name: facultyName,
+                section: section,
+                room_no: room,
+                schedule_time: schedule
+            };
+            showToast('success', 'Schedule Updated', `Successfully updated ${name} for ${section}`);
+        }
+    } else {
+        const newClass = {
+            id: 'cls_' + Date.now(),
+            course_id: Date.now().toString(), // Simple mapping
+            course_name: name,
+            faculty_id: facultyId,
+            faculty_name: facultyName,
+            section: section,
+            room_no: room,
+            schedule_time: schedule,
+            semester: 'Current Semester'
+        };
+        mockData.classes.push(newClass);
+        showToast('success', 'Class Added', `New slot created for ${name}`);
+    }
+
+    // Persist to localStorage
+    saveClassesDB(mockData.classes);
+    closeClassModal();
+    loadTimetableAdminPage();
+}
+
+function deleteClass(classId) {
+    const cls = mockData.classes.find(c => c.id === classId);
+    if (!cls) return;
+    
+    if (confirm(`Are you sure you want to delete the schedule for ${cls.course_name} (${cls.section})?`)) {
+        mockData.classes = mockData.classes.filter(c => c.id !== classId);
+        saveClassesDB(mockData.classes);
+        showToast('info', 'Schedule Removed', 'The class slot has been deleted.');
+        loadTimetableAdminPage();
     }
 }
