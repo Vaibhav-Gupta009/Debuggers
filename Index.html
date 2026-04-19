@@ -7,6 +7,11 @@
     <title>Smart College Attendance System</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Reports & Visualization Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
 </head>
 
 <body>
@@ -243,6 +248,30 @@
                             <a href="#" class="nav-link" data-page="updateattendance">
                                 <i class="fas fa-history"></i>
                                 <span>Update Attendance</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="facultyNotificationsNavItem">
+                            <a href="#" class="nav-link" data-page="faculty_notifications">
+                                <i class="fas fa-bell"></i>
+                                <span>Notifications</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="analyticsNavItem">
+                            <a href="#" class="nav-link" data-page="analytics">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Analytics</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="studentReportNavItem">
+                            <a href="#" class="nav-link" data-page="student_report">
+                                <i class="fas fa-file-invoice"></i>
+                                <span>Student Reports</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="eventParticipationNavItem">
+                            <a href="#" class="nav-link" data-page="event_participation">
+                                <i class="fas fa-calendar-star"></i>
+                                <span>Event Students</span>
                             </a>
                         </li>
                         <li class="nav-item" id="calendarNavItem">
