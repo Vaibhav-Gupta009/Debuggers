@@ -187,7 +187,8 @@
                                 <input type="text" id="authCode" placeholder="Enter 6-digit code" maxlength="6"
                                     pattern="\d{6}" required>
                             </div>
-                            <small style="color:var(--gray-500); margin-top: 8px; display: block; font-size: 12px;">A verification code was sent to your email</small>
+                            <small style="color:var(--gray-500); margin-top: 8px; display: block; font-size: 12px;">A
+                                verification code was sent to your email</small>
                         </div>
 
                         <button type="submit" class="btn btn-primary btn-full">
@@ -279,24 +280,16 @@
                             </a>
                         </li>
 
-                        <li class="nav-item" id="usersNavItem">
-                            <a href="#" class="nav-link" data-page="users">
-                                <i class="fas fa-users"></i>
-                                <span>User Management</span>
-                            </a>
-                        </li>
+
+
+
                         <li class="nav-item" id="classesNavItem">
                             <a href="#" class="nav-link" data-page="classes">
                                 <i class="fas fa-school"></i>
                                 <span>Class Management</span>
                             </a>
                         </li>
-                        <li class="nav-item" id="eventverifyNavItem">
-                            <a href="#" class="nav-link" data-page="eventverify">
-                                <i class="fas fa-star"></i>
-                                <span>Event Verifications</span>
-                            </a>
-                        </li>
+
                     </ul>
                 </nav>
 
@@ -329,11 +322,14 @@
                                 <i class="fas fa-moon"></i>
                             </button>
                         </div>
-                        <div class="header-profile" onclick="navigateToPage('profile')" style="cursor:pointer; display:flex; align-items:center; gap:10px; margin-left:16px; padding-left:16px; border-left:1px solid var(--gray-200);">
-                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face" alt="User" class="user-avatar" id="headerAvatar" style="width:36px; height:36px;">
+                        <div class="header-profile" onclick="navigateToPage('profile')"
+                            style="cursor:pointer; display:flex; align-items:center; gap:10px; margin-left:16px; padding-left:16px; border-left:1px solid var(--gray-200);">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face"
+                                alt="User" class="user-avatar" id="headerAvatar" style="width:36px; height:36px;">
                             <div style="display:flex; flex-direction:column; line-height:1.2;">
                                 <span id="headerUserName" style="font-weight:600; font-size:14px;">Loading...</span>
-                                <span id="headerUserRole" style="font-size:12px; color:var(--gray-500); text-transform:capitalize;">Loading...</span>
+                                <span id="headerUserRole"
+                                    style="font-size:12px; color:var(--gray-500); text-transform:capitalize;">Loading...</span>
                             </div>
                         </div>
                     </div>
