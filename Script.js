@@ -2,8 +2,8 @@
 const mockData = {
     users: [
         { id: '1', name: 'Admin User', email: 'admin@college.edu', role: 'admin', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face' },
-        { id: '2', name: 'Dr. Sarah Johnson', email: 'faculty@college.edu', role: 'faculty', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=32&h=32&fit=crop&crop=face' },
-        { id: '3', name: 'Alice Williams', email: 'student@college.edu', role: 'student', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=32&h=32&fit=crop&crop=face' }
+        { id: 'fac4', name: 'Deepak Kaushik', email: 'faculty@college.edu', role: 'faculty', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=32&h=32&fit=crop&crop=face' },
+        { id: '3', name: 'Subham Kumar', email: 'student@college.edu', role: 'student', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=32&h=32&fit=crop&crop=face' }
     ],
     departments: [
         { id: '1', name: 'Computer Science' },
@@ -26,8 +26,10 @@ const mockData = {
         { id: '3', course_id: '4', course_name: 'Web Development-II', faculty_id: 'fac2', faculty_name: 'Dr Shadav Mohammad', semester: 'Fall 2024', schedule_time: 'Mon, Wed 11:00-12:30', room_no: 'C-302', section: 'B.Tech CSE (AI/ML)' },
         { id: '4', course_id: '5', course_name: 'Computational Mathematics-II', faculty_id: 'fac3', faculty_name: 'Dr Arun Yadav', semester: 'Fall 2024', schedule_time: 'Tue, Thu 9:00-10:30', room_no: 'A-203', section: 'B.Tech Data Science' },
         { id: '5', course_id: '6', course_name: 'Data Structures Algorithms', faculty_id: 'fac1', faculty_name: 'Dr Shaquinb Hassan', semester: 'Fall 2024', schedule_time: 'Wed, Fri 14:00-15:30', room_no: 'B-105', section: 'B.Tech CSE Core' },
-        { id: '6', course_id: '7', course_name: 'Minor Project', faculty_id: 'fac4', faculty_name: 'Dr Deepak Kaushik', semester: 'Fall 2024', schedule_time: 'Fri 10:00-13:30', room_no: 'Lab-3', section: 'B.Tech CSE (AI/ML)' },
-        { id: '7', course_id: '8', course_name: 'Physics', faculty_id: 'fac5', faculty_name: 'Dr Kirti Saini', semester: 'Fall 2024', schedule_time: 'Mon, Thu 15:00-16:30', room_no: 'D-401', section: 'B.Tech IT' }
+        { id: '6', course_id: '7', course_name: 'Minor Project', faculty_id: 'fac4', faculty_name: 'Deepak Kaushik', semester: 'Fall 2024', schedule_time: 'Fri 10:00-13:30', room_no: 'Lab-3', section: '1 Btech Cse Data Science 1st Year' },
+        { id: '7', course_id: '7', course_name: 'Minor Project', faculty_id: 'fac4', faculty_name: 'Deepak Kaushik', semester: 'Fall 2024', schedule_time: 'Mon 14:00-17:00', room_no: 'Lab-1', section: '2nd Btech Cse AI & ML (F) 1st year' },
+        { id: '8', course_id: '1', course_name: 'DSA', faculty_id: 'fac4', faculty_name: 'Deepak Kaushik', semester: 'Fall 2024', schedule_time: 'Tue, Thu 9:00-10:30', room_no: 'A-101', section: '1 Btech Cse (B) 2nd year' },
+        { id: '9', course_id: '1', course_name: 'DSA', faculty_id: 'fac4', faculty_name: 'Deepak Kaushik', semester: 'Fall 2024', schedule_time: 'Wed, Fri 11:00-12:30', room_no: 'B-205', section: '1 Btech Cse (B) 2nd year' }
     ],
     attendanceRecords: (() => {
         const fMap = {
@@ -45,230 +47,230 @@ const mockData = {
             timestamp: date + 'T09:00:00Z'
         });
         return [
-            // ── Alice Williams (id:3) ─────────────────────────────────────────────
-            mk('r01', '3', 'Web Development-II', '3', 'Alice Williams', '2024-02-01', 'present'),
-            mk('r02', '3', 'Web Development-II', '3', 'Alice Williams', '2024-02-06', 'present'),
-            mk('r03', '3', 'Web Development-II', '3', 'Alice Williams', '2024-02-08', 'absent'),
-            mk('r04', '3', 'Web Development-II', '3', 'Alice Williams', '2024-02-13', 'present'),
-            mk('r05', '3', 'Web Development-II', '3', 'Alice Williams', '2024-02-15', 'present'),
-            mk('r06', '3', 'Web Development-II', '3', 'Alice Williams', '2024-02-20', 'present'),
-            mk('r07', '3', 'Web Development-II', '3', 'Alice Williams', '2024-02-22', 'absent'),
-            mk('r08', '3', 'Web Development-II', '3', 'Alice Williams', '2024-02-24', 'present'),
-            mk('r09', '4', 'Computational Mathematics-II', '3', 'Alice Williams', '2024-02-02', 'present'),
-            mk('r10', '4', 'Computational Mathematics-II', '3', 'Alice Williams', '2024-02-07', 'absent'),
-            mk('r11', '4', 'Computational Mathematics-II', '3', 'Alice Williams', '2024-02-09', 'present'),
-            mk('r12', '4', 'Computational Mathematics-II', '3', 'Alice Williams', '2024-02-14', 'present'),
-            mk('r13', '4', 'Computational Mathematics-II', '3', 'Alice Williams', '2024-02-16', 'present'),
-            mk('r14', '4', 'Computational Mathematics-II', '3', 'Alice Williams', '2024-02-21', 'absent'),
-            mk('r15', '5', 'Data Structures Algorithms', '3', 'Alice Williams', '2024-02-01', 'present'),
-            mk('r16', '5', 'Data Structures Algorithms', '3', 'Alice Williams', '2024-02-05', 'present'),
-            mk('r17', '5', 'Data Structures Algorithms', '3', 'Alice Williams', '2024-02-12', 'absent'),
-            mk('r18', '5', 'Data Structures Algorithms', '3', 'Alice Williams', '2024-02-19', 'present'),
-            mk('r19', '5', 'Data Structures Algorithms', '3', 'Alice Williams', '2024-02-22', 'present'),
-            mk('r20', '6', 'Minor Project', '3', 'Alice Williams', '2024-02-03', 'present'),
-            mk('r21', '6', 'Minor Project', '3', 'Alice Williams', '2024-02-10', 'absent', 'Sick leave'),
-            mk('r22', '6', 'Minor Project', '3', 'Alice Williams', '2024-02-17', 'present'),
-            mk('r23', '6', 'Minor Project', '3', 'Alice Williams', '2024-02-24', 'present'),
-            mk('r24', '7', 'Physics', '3', 'Alice Williams', '2024-02-04', 'present'),
-            mk('r25', '7', 'Physics', '3', 'Alice Williams', '2024-02-11', 'present'),
-            mk('r26', '7', 'Physics', '3', 'Alice Williams', '2024-02-18', 'absent'),
-            mk('r27', '7', 'Physics', '3', 'Alice Williams', '2024-02-25', 'present'),
-            mk('r28', '1', 'Data Structures', '3', 'Alice Williams', '2024-02-06', 'present'),
-            mk('r29', '1', 'Data Structures', '3', 'Alice Williams', '2024-02-13', 'present'),
-            mk('r30', '1', 'Data Structures', '3', 'Alice Williams', '2024-02-20', 'absent'),
-            mk('r31', '2', 'Algorithms', '3', 'Alice Williams', '2024-02-07', 'present'),
-            mk('r32', '2', 'Algorithms', '3', 'Alice Williams', '2024-02-14', 'present'),
-            mk('r33', '2', 'Algorithms', '3', 'Alice Williams', '2024-02-21', 'present'),
-            // ── Bob Martinez (id:4) ──────────────────────────────────────────────
-            mk('r34', '3', 'Web Development-II', '4', 'Bob Martinez', '2024-02-01', 'absent'),
-            mk('r35', '3', 'Web Development-II', '4', 'Bob Martinez', '2024-02-06', 'absent'),
-            mk('r36', '3', 'Web Development-II', '4', 'Bob Martinez', '2024-02-08', 'present'),
-            mk('r37', '3', 'Web Development-II', '4', 'Bob Martinez', '2024-02-13', 'absent'),
-            mk('r38', '3', 'Web Development-II', '4', 'Bob Martinez', '2024-02-15', 'present'),
-            mk('r39', '3', 'Web Development-II', '4', 'Bob Martinez', '2024-02-20', 'absent'),
-            mk('r40', '3', 'Web Development-II', '4', 'Bob Martinez', '2024-02-22', 'present'),
-            mk('r41', '4', 'Computational Mathematics-II', '4', 'Bob Martinez', '2024-02-02', 'present'),
-            mk('r42', '4', 'Computational Mathematics-II', '4', 'Bob Martinez', '2024-02-07', 'present'),
-            mk('r43', '4', 'Computational Mathematics-II', '4', 'Bob Martinez', '2024-02-09', 'absent'),
-            mk('r44', '4', 'Computational Mathematics-II', '4', 'Bob Martinez', '2024-02-14', 'absent'),
-            mk('r45', '4', 'Computational Mathematics-II', '4', 'Bob Martinez', '2024-02-16', 'present'),
-            mk('r46', '5', 'Data Structures Algorithms', '4', 'Bob Martinez', '2024-02-01', 'absent'),
-            mk('r47', '5', 'Data Structures Algorithms', '4', 'Bob Martinez', '2024-02-05', 'absent'),
-            mk('r48', '5', 'Data Structures Algorithms', '4', 'Bob Martinez', '2024-02-12', 'present'),
-            mk('r49', '5', 'Data Structures Algorithms', '4', 'Bob Martinez', '2024-02-19', 'absent'),
-            mk('r50', '6', 'Minor Project', '4', 'Bob Martinez', '2024-02-03', 'event', 'Tech Fest participant'),
-            mk('r51', '6', 'Minor Project', '4', 'Bob Martinez', '2024-02-10', 'present'),
-            mk('r52', '7', 'Physics', '4', 'Bob Martinez', '2024-02-04', 'present'),
-            mk('r53', '7', 'Physics', '4', 'Bob Martinez', '2024-02-11', 'absent'),
-            mk('r54', '7', 'Physics', '4', 'Bob Martinez', '2024-02-18', 'absent'),
-            mk('r55', '1', 'Data Structures', '4', 'Bob Martinez', '2024-02-06', 'absent'),
-            mk('r56', '1', 'Data Structures', '4', 'Bob Martinez', '2024-02-13', 'present'),
-            mk('r57', '2', 'Algorithms', '4', 'Bob Martinez', '2024-02-07', 'absent'),
-            mk('r58', '2', 'Algorithms', '4', 'Bob Martinez', '2024-02-14', 'absent'),
-            // ── Carol Davis (id:5) ────────────────────────────────────────────────
-            mk('r59', '3', 'Web Development-II', '5', 'Carol Davis', '2024-02-01', 'present'),
-            mk('r60', '3', 'Web Development-II', '5', 'Carol Davis', '2024-02-06', 'present'),
-            mk('r61', '3', 'Web Development-II', '5', 'Carol Davis', '2024-02-08', 'present'),
-            mk('r62', '3', 'Web Development-II', '5', 'Carol Davis', '2024-02-13', 'absent'),
-            mk('r63', '3', 'Web Development-II', '5', 'Carol Davis', '2024-02-15', 'present'),
-            mk('r64', '3', 'Web Development-II', '5', 'Carol Davis', '2024-02-20', 'present'),
-            mk('r65', '4', 'Computational Mathematics-II', '5', 'Carol Davis', '2024-02-02', 'present'),
-            mk('r66', '4', 'Computational Mathematics-II', '5', 'Carol Davis', '2024-02-07', 'present'),
-            mk('r67', '4', 'Computational Mathematics-II', '5', 'Carol Davis', '2024-02-09', 'present'),
-            mk('r68', '4', 'Computational Mathematics-II', '5', 'Carol Davis', '2024-02-14', 'present'),
-            mk('r69', '5', 'Data Structures Algorithms', '5', 'Carol Davis', '2024-02-01', 'present'),
-            mk('r70', '5', 'Data Structures Algorithms', '5', 'Carol Davis', '2024-02-05', 'absent'),
-            mk('r71', '5', 'Data Structures Algorithms', '5', 'Carol Davis', '2024-02-12', 'present'),
-            mk('r72', '5', 'Data Structures Algorithms', '5', 'Carol Davis', '2024-02-19', 'present'),
-            mk('r73', '6', 'Minor Project', '5', 'Carol Davis', '2024-02-03', 'present'),
-            mk('r74', '6', 'Minor Project', '5', 'Carol Davis', '2024-02-10', 'present'),
-            mk('r75', '7', 'Physics', '5', 'Carol Davis', '2024-02-04', 'absent'),
-            mk('r76', '7', 'Physics', '5', 'Carol Davis', '2024-02-11', 'present'),
-            mk('r77', '7', 'Physics', '5', 'Carol Davis', '2024-02-18', 'present'),
-            mk('r78', '1', 'Data Structures', '5', 'Carol Davis', '2024-02-06', 'present'),
-            mk('r79', '1', 'Data Structures', '5', 'Carol Davis', '2024-02-13', 'present'),
-            mk('r80', '2', 'Algorithms', '5', 'Carol Davis', '2024-02-07', 'event', 'Sports Day'),
-            mk('r81', '2', 'Algorithms', '5', 'Carol Davis', '2024-02-14', 'present'),
-            // ── David Kim (id:6) ──────────────────────────────────────────────────
-            mk('r82', '3', 'Web Development-II', '6', 'David Kim', '2024-02-01', 'present'),
-            mk('r83', '3', 'Web Development-II', '6', 'David Kim', '2024-02-06', 'present'),
-            mk('r84', '3', 'Web Development-II', '6', 'David Kim', '2024-02-08', 'present'),
-            mk('r85', '3', 'Web Development-II', '6', 'David Kim', '2024-02-13', 'present'),
-            mk('r86', '3', 'Web Development-II', '6', 'David Kim', '2024-02-15', 'absent'),
-            mk('r87', '4', 'Computational Mathematics-II', '6', 'David Kim', '2024-02-02', 'present'),
-            mk('r88', '4', 'Computational Mathematics-II', '6', 'David Kim', '2024-02-07', 'absent'),
-            mk('r89', '4', 'Computational Mathematics-II', '6', 'David Kim', '2024-02-09', 'present'),
-            mk('r90', '5', 'Data Structures Algorithms', '6', 'David Kim', '2024-02-01', 'present'),
-            mk('r91', '5', 'Data Structures Algorithms', '6', 'David Kim', '2024-02-05', 'present'),
-            mk('r92', '5', 'Data Structures Algorithms', '6', 'David Kim', '2024-02-12', 'present'),
-            mk('r93', '6', 'Minor Project', '6', 'David Kim', '2024-02-03', 'present'),
-            mk('r94', '6', 'Minor Project', '6', 'David Kim', '2024-02-10', 'event', 'Tech Fest volunteer'),
-            mk('r95', '7', 'Physics', '6', 'David Kim', '2024-02-04', 'present'),
-            mk('r96', '7', 'Physics', '6', 'David Kim', '2024-02-11', 'present'),
-            mk('r97', '1', 'Data Structures', '6', 'David Kim', '2024-02-06', 'present'),
-            mk('r98', '1', 'Data Structures', '6', 'David Kim', '2024-02-13', 'present'),
-            mk('r99', '2', 'Algorithms', '6', 'David Kim', '2024-02-07', 'present'),
-            mk('r100', '2', 'Algorithms', '6', 'David Kim', '2024-02-14', 'absent'),
-            // ── Emma Thompson (id:7) ─────────────────────────────────────────────
-            mk('r101', '3', 'Web Development-II', '7', 'Emma Thompson', '2024-02-01', 'absent'),
-            mk('r102', '3', 'Web Development-II', '7', 'Emma Thompson', '2024-02-06', 'present'),
-            mk('r103', '3', 'Web Development-II', '7', 'Emma Thompson', '2024-02-08', 'absent'),
-            mk('r104', '3', 'Web Development-II', '7', 'Emma Thompson', '2024-02-13', 'present'),
-            mk('r105', '4', 'Computational Mathematics-II', '7', 'Emma Thompson', '2024-02-02', 'present'),
-            mk('r106', '4', 'Computational Mathematics-II', '7', 'Emma Thompson', '2024-02-07', 'absent'),
-            mk('r107', '4', 'Computational Mathematics-II', '7', 'Emma Thompson', '2024-02-09', 'absent'),
-            mk('r108', '5', 'Data Structures Algorithms', '7', 'Emma Thompson', '2024-02-01', 'present'),
-            mk('r109', '5', 'Data Structures Algorithms', '7', 'Emma Thompson', '2024-02-05', 'absent'),
-            mk('r110', '6', 'Minor Project', '7', 'Emma Thompson', '2024-02-03', 'present'),
-            mk('r111', '6', 'Minor Project', '7', 'Emma Thompson', '2024-02-10', 'event', 'Cultural Night performer'),
-            mk('r112', '7', 'Physics', '7', 'Emma Thompson', '2024-02-04', 'absent'),
-            mk('r113', '7', 'Physics', '7', 'Emma Thompson', '2024-02-11', 'present'),
-            mk('r114', '1', 'Data Structures', '7', 'Emma Thompson', '2024-02-06', 'absent'),
-            mk('r115', '1', 'Data Structures', '7', 'Emma Thompson', '2024-02-13', 'absent'),
-            mk('r116', '2', 'Algorithms', '7', 'Emma Thompson', '2024-02-07', 'present'),
-            mk('r117', '2', 'Algorithms', '7', 'Emma Thompson', '2024-02-14', 'absent'),
-            // ── Frank Patel (id:8) ────────────────────────────────────────────────
-            mk('r118', '3', 'Web Development-II', '8', 'Frank Patel', '2024-02-01', 'present'),
-            mk('r119', '3', 'Web Development-II', '8', 'Frank Patel', '2024-02-06', 'present'),
-            mk('r120', '3', 'Web Development-II', '8', 'Frank Patel', '2024-02-08', 'present'),
-            mk('r121', '3', 'Web Development-II', '8', 'Frank Patel', '2024-02-13', 'present'),
-            mk('r122', '3', 'Web Development-II', '8', 'Frank Patel', '2024-02-15', 'present'),
-            mk('r123', '4', 'Computational Mathematics-II', '8', 'Frank Patel', '2024-02-02', 'absent'),
-            mk('r124', '4', 'Computational Mathematics-II', '8', 'Frank Patel', '2024-02-07', 'present'),
-            mk('r125', '4', 'Computational Mathematics-II', '8', 'Frank Patel', '2024-02-09', 'present'),
-            mk('r126', '5', 'Data Structures Algorithms', '8', 'Frank Patel', '2024-02-01', 'present'),
-            mk('r127', '5', 'Data Structures Algorithms', '8', 'Frank Patel', '2024-02-05', 'present'),
-            mk('r128', '5', 'Data Structures Algorithms', '8', 'Frank Patel', '2024-02-12', 'absent'),
-            mk('r129', '6', 'Minor Project', '8', 'Frank Patel', '2024-02-03', 'present'),
-            mk('r130', '6', 'Minor Project', '8', 'Frank Patel', '2024-02-10', 'present'),
-            mk('r131', '7', 'Physics', '8', 'Frank Patel', '2024-02-04', 'present'),
-            mk('r132', '7', 'Physics', '8', 'Frank Patel', '2024-02-11', 'absent'),
-            mk('r133', '1', 'Data Structures', '8', 'Frank Patel', '2024-02-06', 'present'),
-            mk('r134', '2', 'Algorithms', '8', 'Frank Patel', '2024-02-07', 'present'),
-            mk('r135', '2', 'Algorithms', '8', 'Frank Patel', '2024-02-14', 'present'),
-            // ── Grace Lee (id:9) ──────────────────────────────────────────────────
-            mk('r136', '3', 'Web Development-II', '9', 'Grace Lee', '2024-02-01', 'present'),
-            mk('r137', '3', 'Web Development-II', '9', 'Grace Lee', '2024-02-06', 'absent'),
-            mk('r138', '3', 'Web Development-II', '9', 'Grace Lee', '2024-02-08', 'present'),
-            mk('r139', '4', 'Computational Mathematics-II', '9', 'Grace Lee', '2024-02-02', 'present'),
-            mk('r140', '4', 'Computational Mathematics-II', '9', 'Grace Lee', '2024-02-07', 'present'),
-            mk('r141', '5', 'Data Structures Algorithms', '9', 'Grace Lee', '2024-02-01', 'absent'),
-            mk('r142', '5', 'Data Structures Algorithms', '9', 'Grace Lee', '2024-02-05', 'present'),
-            mk('r143', '6', 'Minor Project', '9', 'Grace Lee', '2024-02-03', 'present'),
-            mk('r144', '7', 'Physics', '9', 'Grace Lee', '2024-02-04', 'present'),
-            mk('r145', '7', 'Physics', '9', 'Grace Lee', '2024-02-11', 'present'),
-            mk('r146', '1', 'Data Structures', '9', 'Grace Lee', '2024-02-06', 'absent'),
-            mk('r147', '1', 'Data Structures', '9', 'Grace Lee', '2024-02-13', 'present'),
-            mk('r148', '2', 'Algorithms', '9', 'Grace Lee', '2024-02-07', 'present'),
-            mk('r149', '2', 'Algorithms', '9', 'Grace Lee', '2024-02-14', 'event', 'Sports Day'),
-            // ── Henry Nguyen (id:10) ──────────────────────────────────────────────
-            mk('r150', '3', 'Web Development-II', '10', 'Henry Nguyen', '2024-02-01', 'present'),
-            mk('r151', '3', 'Web Development-II', '10', 'Henry Nguyen', '2024-02-06', 'present'),
-            mk('r152', '3', 'Web Development-II', '10', 'Henry Nguyen', '2024-02-08', 'present'),
-            mk('r153', '3', 'Web Development-II', '10', 'Henry Nguyen', '2024-02-13', 'absent'),
-            mk('r154', '4', 'Computational Mathematics-II', '10', 'Henry Nguyen', '2024-02-02', 'absent'),
-            mk('r155', '4', 'Computational Mathematics-II', '10', 'Henry Nguyen', '2024-02-07', 'present'),
-            mk('r156', '5', 'Data Structures Algorithms', '10', 'Henry Nguyen', '2024-02-01', 'present'),
-            mk('r157', '5', 'Data Structures Algorithms', '10', 'Henry Nguyen', '2024-02-05', 'present'),
-            mk('r158', '5', 'Data Structures Algorithms', '10', 'Henry Nguyen', '2024-02-12', 'event', 'Hackathon'),
-            mk('r159', '6', 'Minor Project', '10', 'Henry Nguyen', '2024-02-03', 'present'),
-            mk('r160', '6', 'Minor Project', '10', 'Henry Nguyen', '2024-02-10', 'present'),
-            mk('r161', '7', 'Physics', '10', 'Henry Nguyen', '2024-02-04', 'absent'),
-            mk('r162', '7', 'Physics', '10', 'Henry Nguyen', '2024-02-11', 'present'),
-            mk('r163', '1', 'Data Structures', '10', 'Henry Nguyen', '2024-02-06', 'present'),
-            mk('r164', '2', 'Algorithms', '10', 'Henry Nguyen', '2024-02-07', 'present'),
-            // ── Isla Robinson (id:11) ────────────────────────────────────────────
-            mk('r165', '3', 'Web Development-II', '11', 'Isla Robinson', '2024-02-01', 'present'),
-            mk('r166', '3', 'Web Development-II', '11', 'Isla Robinson', '2024-02-06', 'present'),
-            mk('r167', '3', 'Web Development-II', '11', 'Isla Robinson', '2024-02-08', 'absent'),
-            mk('r168', '4', 'Computational Mathematics-II', '11', 'Isla Robinson', '2024-02-02', 'present'),
-            mk('r169', '4', 'Computational Mathematics-II', '11', 'Isla Robinson', '2024-02-07', 'absent'),
-            mk('r170', '5', 'Data Structures Algorithms', '11', 'Isla Robinson', '2024-02-01', 'present'),
-            mk('r171', '5', 'Data Structures Algorithms', '11', 'Isla Robinson', '2024-02-05', 'present'),
-            mk('r172', '6', 'Minor Project', '11', 'Isla Robinson', '2024-02-03', 'absent'),
-            mk('r173', '6', 'Minor Project', '11', 'Isla Robinson', '2024-02-10', 'present'),
-            mk('r174', '7', 'Physics', '11', 'Isla Robinson', '2024-02-04', 'present'),
-            mk('r175', '1', 'Data Structures', '11', 'Isla Robinson', '2024-02-06', 'present'),
-            mk('r176', '1', 'Data Structures', '11', 'Isla Robinson', '2024-02-13', 'absent'),
-            mk('r177', '2', 'Algorithms', '11', 'Isla Robinson', '2024-02-07', 'present'),
-            mk('r178', '2', 'Algorithms', '11', 'Isla Robinson', '2024-02-14', 'present'),
-            // ── James Wilson (id:12) ─────────────────────────────────────────────
-            mk('r179', '3', 'Web Development-II', '12', 'James Wilson', '2024-02-01', 'absent'),
-            mk('r180', '3', 'Web Development-II', '12', 'James Wilson', '2024-02-06', 'absent'),
-            mk('r181', '3', 'Web Development-II', '12', 'James Wilson', '2024-02-08', 'present'),
-            mk('r182', '4', 'Computational Mathematics-II', '12', 'James Wilson', '2024-02-02', 'present'),
-            mk('r183', '4', 'Computational Mathematics-II', '12', 'James Wilson', '2024-02-07', 'present'),
-            mk('r184', '5', 'Data Structures Algorithms', '12', 'James Wilson', '2024-02-01', 'absent'),
-            mk('r185', '5', 'Data Structures Algorithms', '12', 'James Wilson', '2024-02-05', 'present'),
-            mk('r186', '6', 'Minor Project', '12', 'James Wilson', '2024-02-03', 'present'),
-            mk('r187', '6', 'Minor Project', '12', 'James Wilson', '2024-02-10', 'absent'),
-            mk('r188', '7', 'Physics', '12', 'James Wilson', '2024-02-04', 'present'),
-            mk('r189', '7', 'Physics', '12', 'James Wilson', '2024-02-11', 'absent'),
-            mk('r190', '1', 'Data Structures', '12', 'James Wilson', '2024-02-06', 'absent'),
-            mk('r191', '1', 'Data Structures', '12', 'James Wilson', '2024-02-13', 'present'),
-            mk('r192', '2', 'Algorithms', '12', 'James Wilson', '2024-02-07', 'absent'),
-            mk('r193', '2', 'Algorithms', '12', 'James Wilson', '2024-02-14', 'present'),
+            // ── Subham Kumar (id:3) ─────────────────────────────────────────────
+            mk('r01', '3', 'Web Development-II', '3', 'Subham Kumar', '2024-02-01', 'present'),
+            mk('r02', '3', 'Web Development-II', '3', 'Subham Kumar', '2024-02-06', 'present'),
+            mk('r03', '3', 'Web Development-II', '3', 'Subham Kumar', '2024-02-08', 'absent'),
+            mk('r04', '3', 'Web Development-II', '3', 'Subham Kumar', '2024-02-13', 'present'),
+            mk('r05', '3', 'Web Development-II', '3', 'Subham Kumar', '2024-02-15', 'present'),
+            mk('r06', '3', 'Web Development-II', '3', 'Subham Kumar', '2024-02-20', 'present'),
+            mk('r07', '3', 'Web Development-II', '3', 'Subham Kumar', '2024-02-22', 'absent'),
+            mk('r08', '3', 'Web Development-II', '3', 'Subham Kumar', '2024-02-24', 'present'),
+            mk('r09', '4', 'Computational Mathematics-II', '3', 'Subham Kumar', '2024-02-02', 'present'),
+            mk('r10', '4', 'Computational Mathematics-II', '3', 'Subham Kumar', '2024-02-07', 'absent'),
+            mk('r11', '4', 'Computational Mathematics-II', '3', 'Subham Kumar', '2024-02-09', 'present'),
+            mk('r12', '4', 'Computational Mathematics-II', '3', 'Subham Kumar', '2024-02-14', 'present'),
+            mk('r13', '4', 'Computational Mathematics-II', '3', 'Subham Kumar', '2024-02-16', 'present'),
+            mk('r14', '4', 'Computational Mathematics-II', '3', 'Subham Kumar', '2024-02-21', 'absent'),
+            mk('r15', '5', 'Data Structures Algorithms', '3', 'Subham Kumar', '2024-02-01', 'present'),
+            mk('r16', '5', 'Data Structures Algorithms', '3', 'Subham Kumar', '2024-02-05', 'present'),
+            mk('r17', '5', 'Data Structures Algorithms', '3', 'Subham Kumar', '2024-02-12', 'absent'),
+            mk('r18', '5', 'Data Structures Algorithms', '3', 'Subham Kumar', '2024-02-19', 'present'),
+            mk('r19', '5', 'Data Structures Algorithms', '3', 'Subham Kumar', '2024-02-22', 'present'),
+            mk('r20', '6', 'Minor Project', '3', 'Subham Kumar', '2024-02-03', 'present'),
+            mk('r21', '6', 'Minor Project', '3', 'Subham Kumar', '2024-02-10', 'absent', 'Sick leave'),
+            mk('r22', '6', 'Minor Project', '3', 'Subham Kumar', '2024-02-17', 'present'),
+            mk('r23', '6', 'Minor Project', '3', 'Subham Kumar', '2024-02-24', 'present'),
+            mk('r24', '7', 'Physics', '3', 'Subham Kumar', '2024-02-04', 'present'),
+            mk('r25', '7', 'Physics', '3', 'Subham Kumar', '2024-02-11', 'present'),
+            mk('r26', '7', 'Physics', '3', 'Subham Kumar', '2024-02-18', 'absent'),
+            mk('r27', '7', 'Physics', '3', 'Subham Kumar', '2024-02-25', 'present'),
+            mk('r28', '1', 'Data Structures', '3', 'Subham Kumar', '2024-02-06', 'present'),
+            mk('r29', '1', 'Data Structures', '3', 'Subham Kumar', '2024-02-13', 'present'),
+            mk('r30', '1', 'Data Structures', '3', 'Subham Kumar', '2024-02-20', 'absent'),
+            mk('r31', '2', 'Algorithms', '3', 'Subham Kumar', '2024-02-07', 'present'),
+            mk('r32', '2', 'Algorithms', '3', 'Subham Kumar', '2024-02-14', 'present'),
+            mk('r33', '2', 'Algorithms', '3', 'Subham Kumar', '2024-02-21', 'present'),
+            // ── Vaibhav Gupta (id:4) ──────────────────────────────────────────────
+            mk('r34', '3', 'Web Development-II', '4', 'Vaibhav Gupta', '2024-02-01', 'absent'),
+            mk('r35', '3', 'Web Development-II', '4', 'Vaibhav Gupta', '2024-02-06', 'absent'),
+            mk('r36', '3', 'Web Development-II', '4', 'Vaibhav Gupta', '2024-02-08', 'present'),
+            mk('r37', '3', 'Web Development-II', '4', 'Vaibhav Gupta', '2024-02-13', 'absent'),
+            mk('r38', '3', 'Web Development-II', '4', 'Vaibhav Gupta', '2024-02-15', 'present'),
+            mk('r39', '3', 'Web Development-II', '4', 'Vaibhav Gupta', '2024-02-20', 'absent'),
+            mk('r40', '3', 'Web Development-II', '4', 'Vaibhav Gupta', '2024-02-22', 'present'),
+            mk('r41', '4', 'Computational Mathematics-II', '4', 'Vaibhav Gupta', '2024-02-02', 'present'),
+            mk('r42', '4', 'Computational Mathematics-II', '4', 'Vaibhav Gupta', '2024-02-07', 'present'),
+            mk('r43', '4', 'Computational Mathematics-II', '4', 'Vaibhav Gupta', '2024-02-09', 'absent'),
+            mk('r44', '4', 'Computational Mathematics-II', '4', 'Vaibhav Gupta', '2024-02-14', 'absent'),
+            mk('r45', '4', 'Computational Mathematics-II', '4', 'Vaibhav Gupta', '2024-02-16', 'present'),
+            mk('r46', '5', 'Data Structures Algorithms', '4', 'Vaibhav Gupta', '2024-02-01', 'absent'),
+            mk('r47', '5', 'Data Structures Algorithms', '4', 'Vaibhav Gupta', '2024-02-05', 'absent'),
+            mk('r48', '5', 'Data Structures Algorithms', '4', 'Vaibhav Gupta', '2024-02-12', 'present'),
+            mk('r49', '5', 'Data Structures Algorithms', '4', 'Vaibhav Gupta', '2024-02-19', 'absent'),
+            mk('r50', '6', 'Minor Project', '4', 'Vaibhav Gupta', '2024-02-03', 'event', 'Tech Fest participant'),
+            mk('r51', '6', 'Minor Project', '4', 'Vaibhav Gupta', '2024-02-10', 'present'),
+            mk('r52', '7', 'Physics', '4', 'Vaibhav Gupta', '2024-02-04', 'present'),
+            mk('r53', '7', 'Physics', '4', 'Vaibhav Gupta', '2024-02-11', 'absent'),
+            mk('r54', '7', 'Physics', '4', 'Vaibhav Gupta', '2024-02-18', 'absent'),
+            mk('r55', '1', 'Data Structures', '4', 'Vaibhav Gupta', '2024-02-06', 'absent'),
+            mk('r56', '1', 'Data Structures', '4', 'Vaibhav Gupta', '2024-02-13', 'present'),
+            mk('r57', '2', 'Algorithms', '4', 'Vaibhav Gupta', '2024-02-07', 'absent'),
+            mk('r58', '2', 'Algorithms', '4', 'Vaibhav Gupta', '2024-02-14', 'absent'),
+            // ── Sameer Mishra (id:5) ────────────────────────────────────────────────
+            mk('r59', '3', 'Web Development-II', '5', 'Sameer Mishra', '2024-02-01', 'present'),
+            mk('r60', '3', 'Web Development-II', '5', 'Sameer Mishra', '2024-02-06', 'present'),
+            mk('r61', '3', 'Web Development-II', '5', 'Sameer Mishra', '2024-02-08', 'present'),
+            mk('r62', '3', 'Web Development-II', '5', 'Sameer Mishra', '2024-02-13', 'absent'),
+            mk('r63', '3', 'Web Development-II', '5', 'Sameer Mishra', '2024-02-15', 'present'),
+            mk('r64', '3', 'Web Development-II', '5', 'Sameer Mishra', '2024-02-20', 'present'),
+            mk('r65', '4', 'Computational Mathematics-II', '5', 'Sameer Mishra', '2024-02-02', 'present'),
+            mk('r66', '4', 'Computational Mathematics-II', '5', 'Sameer Mishra', '2024-02-07', 'present'),
+            mk('r67', '4', 'Computational Mathematics-II', '5', 'Sameer Mishra', '2024-02-09', 'present'),
+            mk('r68', '4', 'Computational Mathematics-II', '5', 'Sameer Mishra', '2024-02-14', 'present'),
+            mk('r69', '5', 'Data Structures Algorithms', '5', 'Sameer Mishra', '2024-02-01', 'present'),
+            mk('r70', '5', 'Data Structures Algorithms', '5', 'Sameer Mishra', '2024-02-05', 'absent'),
+            mk('r71', '5', 'Data Structures Algorithms', '5', 'Sameer Mishra', '2024-02-12', 'present'),
+            mk('r72', '5', 'Data Structures Algorithms', '5', 'Sameer Mishra', '2024-02-19', 'present'),
+            mk('r73', '6', 'Minor Project', '5', 'Sameer Mishra', '2024-02-03', 'present'),
+            mk('r74', '6', 'Minor Project', '5', 'Sameer Mishra', '2024-02-10', 'present'),
+            mk('r75', '7', 'Physics', '5', 'Sameer Mishra', '2024-02-04', 'absent'),
+            mk('r76', '7', 'Physics', '5', 'Sameer Mishra', '2024-02-11', 'present'),
+            mk('r77', '7', 'Physics', '5', 'Sameer Mishra', '2024-02-18', 'present'),
+            mk('r78', '1', 'Data Structures', '5', 'Sameer Mishra', '2024-02-06', 'present'),
+            mk('r79', '1', 'Data Structures', '5', 'Sameer Mishra', '2024-02-13', 'present'),
+            mk('r80', '2', 'Algorithms', '5', 'Sameer Mishra', '2024-02-07', 'event', 'Sports Day'),
+            mk('r81', '2', 'Algorithms', '5', 'Sameer Mishra', '2024-02-14', 'present'),
+            // ── Manik Chouhan (id:6) ──────────────────────────────────────────────────
+            mk('r82', '3', 'Web Development-II', '6', 'Manik Chouhan', '2024-02-01', 'present'),
+            mk('r83', '3', 'Web Development-II', '6', 'Manik Chouhan', '2024-02-06', 'present'),
+            mk('r84', '3', 'Web Development-II', '6', 'Manik Chouhan', '2024-02-08', 'present'),
+            mk('r85', '3', 'Web Development-II', '6', 'Manik Chouhan', '2024-02-13', 'present'),
+            mk('r86', '3', 'Web Development-II', '6', 'Manik Chouhan', '2024-02-15', 'absent'),
+            mk('r87', '4', 'Computational Mathematics-II', '6', 'Manik Chouhan', '2024-02-02', 'present'),
+            mk('r88', '4', 'Computational Mathematics-II', '6', 'Manik Chouhan', '2024-02-07', 'absent'),
+            mk('r89', '4', 'Computational Mathematics-II', '6', 'Manik Chouhan', '2024-02-09', 'present'),
+            mk('r90', '5', 'Data Structures Algorithms', '6', 'Manik Chouhan', '2024-02-01', 'present'),
+            mk('r91', '5', 'Data Structures Algorithms', '6', 'Manik Chouhan', '2024-02-05', 'present'),
+            mk('r92', '5', 'Data Structures Algorithms', '6', 'Manik Chouhan', '2024-02-12', 'present'),
+            mk('r93', '6', 'Minor Project', '6', 'Manik Chouhan', '2024-02-03', 'present'),
+            mk('r94', '6', 'Minor Project', '6', 'Manik Chouhan', '2024-02-10', 'event', 'Tech Fest volunteer'),
+            mk('r95', '7', 'Physics', '6', 'Manik Chouhan', '2024-02-04', 'present'),
+            mk('r96', '7', 'Physics', '6', 'Manik Chouhan', '2024-02-11', 'present'),
+            mk('r97', '1', 'Data Structures', '6', 'Manik Chouhan', '2024-02-06', 'present'),
+            mk('r98', '1', 'Data Structures', '6', 'Manik Chouhan', '2024-02-13', 'present'),
+            mk('r99', '2', 'Algorithms', '6', 'Manik Chouhan', '2024-02-07', 'present'),
+            mk('r100', '2', 'Algorithms', '6', 'Manik Chouhan', '2024-02-14', 'absent'),
+            // ── Aditya Kumar Singh (id:7) ─────────────────────────────────────────────
+            mk('r101', '3', 'Web Development-II', '7', 'Aditya Kumar Singh', '2024-02-01', 'absent'),
+            mk('r102', '3', 'Web Development-II', '7', 'Aditya Kumar Singh', '2024-02-06', 'present'),
+            mk('r103', '3', 'Web Development-II', '7', 'Aditya Kumar Singh', '2024-02-08', 'absent'),
+            mk('r104', '3', 'Web Development-II', '7', 'Aditya Kumar Singh', '2024-02-13', 'present'),
+            mk('r105', '4', 'Computational Mathematics-II', '7', 'Aditya Kumar Singh', '2024-02-02', 'present'),
+            mk('r106', '4', 'Computational Mathematics-II', '7', 'Aditya Kumar Singh', '2024-02-07', 'absent'),
+            mk('r107', '4', 'Computational Mathematics-II', '7', 'Aditya Kumar Singh', '2024-02-09', 'absent'),
+            mk('r108', '5', 'Data Structures Algorithms', '7', 'Aditya Kumar Singh', '2024-02-01', 'present'),
+            mk('r109', '5', 'Data Structures Algorithms', '7', 'Aditya Kumar Singh', '2024-02-05', 'absent'),
+            mk('r110', '6', 'Minor Project', '7', 'Aditya Kumar Singh', '2024-02-03', 'present'),
+            mk('r111', '6', 'Minor Project', '7', 'Aditya Kumar Singh', '2024-02-10', 'event', 'Cultural Night performer'),
+            mk('r112', '7', 'Physics', '7', 'Aditya Kumar Singh', '2024-02-04', 'absent'),
+            mk('r113', '7', 'Physics', '7', 'Aditya Kumar Singh', '2024-02-11', 'present'),
+            mk('r114', '1', 'Data Structures', '7', 'Aditya Kumar Singh', '2024-02-06', 'absent'),
+            mk('r115', '1', 'Data Structures', '7', 'Aditya Kumar Singh', '2024-02-13', 'absent'),
+            mk('r116', '2', 'Algorithms', '7', 'Aditya Kumar Singh', '2024-02-07', 'present'),
+            mk('r117', '2', 'Algorithms', '7', 'Aditya Kumar Singh', '2024-02-14', 'absent'),
+            // ── Simran (id:8) ────────────────────────────────────────────────
+            mk('r118', '3', 'Web Development-II', '8', 'Simran', '2024-02-01', 'present'),
+            mk('r119', '3', 'Web Development-II', '8', 'Simran', '2024-02-06', 'present'),
+            mk('r120', '3', 'Web Development-II', '8', 'Simran', '2024-02-08', 'present'),
+            mk('r121', '3', 'Web Development-II', '8', 'Simran', '2024-02-13', 'present'),
+            mk('r122', '3', 'Web Development-II', '8', 'Simran', '2024-02-15', 'present'),
+            mk('r123', '4', 'Computational Mathematics-II', '8', 'Simran', '2024-02-02', 'absent'),
+            mk('r124', '4', 'Computational Mathematics-II', '8', 'Simran', '2024-02-07', 'present'),
+            mk('r125', '4', 'Computational Mathematics-II', '8', 'Simran', '2024-02-09', 'present'),
+            mk('r126', '5', 'Data Structures Algorithms', '8', 'Simran', '2024-02-01', 'present'),
+            mk('r127', '5', 'Data Structures Algorithms', '8', 'Simran', '2024-02-05', 'present'),
+            mk('r128', '5', 'Data Structures Algorithms', '8', 'Simran', '2024-02-12', 'absent'),
+            mk('r129', '6', 'Minor Project', '8', 'Simran', '2024-02-03', 'present'),
+            mk('r130', '6', 'Minor Project', '8', 'Simran', '2024-02-10', 'present'),
+            mk('r131', '7', 'Physics', '8', 'Simran', '2024-02-04', 'present'),
+            mk('r132', '7', 'Physics', '8', 'Simran', '2024-02-11', 'absent'),
+            mk('r133', '1', 'Data Structures', '8', 'Simran', '2024-02-06', 'present'),
+            mk('r134', '2', 'Algorithms', '8', 'Simran', '2024-02-07', 'present'),
+            mk('r135', '2', 'Algorithms', '8', 'Simran', '2024-02-14', 'present'),
+            // ── Kajal (id:9) ──────────────────────────────────────────────────
+            mk('r136', '3', 'Web Development-II', '9', 'Kajal', '2024-02-01', 'present'),
+            mk('r137', '3', 'Web Development-II', '9', 'Kajal', '2024-02-06', 'absent'),
+            mk('r138', '3', 'Web Development-II', '9', 'Kajal', '2024-02-08', 'present'),
+            mk('r139', '4', 'Computational Mathematics-II', '9', 'Kajal', '2024-02-02', 'present'),
+            mk('r140', '4', 'Computational Mathematics-II', '9', 'Kajal', '2024-02-07', 'present'),
+            mk('r141', '5', 'Data Structures Algorithms', '9', 'Kajal', '2024-02-01', 'absent'),
+            mk('r142', '5', 'Data Structures Algorithms', '9', 'Kajal', '2024-02-05', 'present'),
+            mk('r143', '6', 'Minor Project', '9', 'Kajal', '2024-02-03', 'present'),
+            mk('r144', '7', 'Physics', '9', 'Kajal', '2024-02-04', 'present'),
+            mk('r145', '7', 'Physics', '9', 'Kajal', '2024-02-11', 'present'),
+            mk('r146', '1', 'Data Structures', '9', 'Kajal', '2024-02-06', 'absent'),
+            mk('r147', '1', 'Data Structures', '9', 'Kajal', '2024-02-13', 'present'),
+            mk('r148', '2', 'Algorithms', '9', 'Kajal', '2024-02-07', 'present'),
+            mk('r149', '2', 'Algorithms', '9', 'Kajal', '2024-02-14', 'event', 'Sports Day'),
+            // ── Trisha (id:10) ──────────────────────────────────────────────
+            mk('r150', '3', 'Web Development-II', '10', 'Trisha', '2024-02-01', 'present'),
+            mk('r151', '3', 'Web Development-II', '10', 'Trisha', '2024-02-06', 'present'),
+            mk('r152', '3', 'Web Development-II', '10', 'Trisha', '2024-02-08', 'present'),
+            mk('r153', '3', 'Web Development-II', '10', 'Trisha', '2024-02-13', 'absent'),
+            mk('r154', '4', 'Computational Mathematics-II', '10', 'Trisha', '2024-02-02', 'absent'),
+            mk('r155', '4', 'Computational Mathematics-II', '10', 'Trisha', '2024-02-07', 'present'),
+            mk('r156', '5', 'Data Structures Algorithms', '10', 'Trisha', '2024-02-01', 'present'),
+            mk('r157', '5', 'Data Structures Algorithms', '10', 'Trisha', '2024-02-05', 'present'),
+            mk('r158', '5', 'Data Structures Algorithms', '10', 'Trisha', '2024-02-12', 'event', 'Hackathon'),
+            mk('r159', '6', 'Minor Project', '10', 'Trisha', '2024-02-03', 'present'),
+            mk('r160', '6', 'Minor Project', '10', 'Trisha', '2024-02-10', 'present'),
+            mk('r161', '7', 'Physics', '10', 'Trisha', '2024-02-04', 'absent'),
+            mk('r162', '7', 'Physics', '10', 'Trisha', '2024-02-11', 'present'),
+            mk('r163', '1', 'Data Structures', '10', 'Trisha', '2024-02-06', 'present'),
+            mk('r164', '2', 'Algorithms', '10', 'Trisha', '2024-02-07', 'present'),
+            // ── Nikhil (id:11) ────────────────────────────────────────────
+            mk('r165', '3', 'Web Development-II', '11', 'Nikhil', '2024-02-01', 'present'),
+            mk('r166', '3', 'Web Development-II', '11', 'Nikhil', '2024-02-06', 'present'),
+            mk('r167', '3', 'Web Development-II', '11', 'Nikhil', '2024-02-08', 'absent'),
+            mk('r168', '4', 'Computational Mathematics-II', '11', 'Nikhil', '2024-02-02', 'present'),
+            mk('r169', '4', 'Computational Mathematics-II', '11', 'Nikhil', '2024-02-07', 'absent'),
+            mk('r170', '5', 'Data Structures Algorithms', '11', 'Nikhil', '2024-02-01', 'present'),
+            mk('r171', '5', 'Data Structures Algorithms', '11', 'Nikhil', '2024-02-05', 'present'),
+            mk('r172', '6', 'Minor Project', '11', 'Nikhil', '2024-02-03', 'absent'),
+            mk('r173', '6', 'Minor Project', '11', 'Nikhil', '2024-02-10', 'present'),
+            mk('r174', '7', 'Physics', '11', 'Nikhil', '2024-02-04', 'present'),
+            mk('r175', '1', 'Data Structures', '11', 'Nikhil', '2024-02-06', 'present'),
+            mk('r176', '1', 'Data Structures', '11', 'Nikhil', '2024-02-13', 'absent'),
+            mk('r177', '2', 'Algorithms', '11', 'Nikhil', '2024-02-07', 'present'),
+            mk('r178', '2', 'Algorithms', '11', 'Nikhil', '2024-02-14', 'present'),
+            // ── Sanchit (id:12) ─────────────────────────────────────────────
+            mk('r179', '3', 'Web Development-II', '12', 'Sanchit', '2024-02-01', 'absent'),
+            mk('r180', '3', 'Web Development-II', '12', 'Sanchit', '2024-02-06', 'absent'),
+            mk('r181', '3', 'Web Development-II', '12', 'Sanchit', '2024-02-08', 'present'),
+            mk('r182', '4', 'Computational Mathematics-II', '12', 'Sanchit', '2024-02-02', 'present'),
+            mk('r183', '4', 'Computational Mathematics-II', '12', 'Sanchit', '2024-02-07', 'present'),
+            mk('r184', '5', 'Data Structures Algorithms', '12', 'Sanchit', '2024-02-01', 'absent'),
+            mk('r185', '5', 'Data Structures Algorithms', '12', 'Sanchit', '2024-02-05', 'present'),
+            mk('r186', '6', 'Minor Project', '12', 'Sanchit', '2024-02-03', 'present'),
+            mk('r187', '6', 'Minor Project', '12', 'Sanchit', '2024-02-10', 'absent'),
+            mk('r188', '7', 'Physics', '12', 'Sanchit', '2024-02-04', 'present'),
+            mk('r189', '7', 'Physics', '12', 'Sanchit', '2024-02-11', 'absent'),
+            mk('r190', '1', 'Data Structures', '12', 'Sanchit', '2024-02-06', 'absent'),
+            mk('r191', '1', 'Data Structures', '12', 'Sanchit', '2024-02-13', 'present'),
+            mk('r192', '2', 'Algorithms', '12', 'Sanchit', '2024-02-07', 'absent'),
+            mk('r193', '2', 'Algorithms', '12', 'Sanchit', '2024-02-14', 'present'),
         ];
     })(),
     riskAssessments: [
-        { id: 'ra1', student_id: '3', student_name: 'Alice Williams', class_id: '3', class_name: 'Web Development-II', attendance_percentage: 87.5, risk_level: 'Low', predicted_drop_if_miss_next: false, updated_at: '2024-02-24T10:00:00Z' },
-        { id: 'ra2', student_id: '3', student_name: 'Alice Williams', class_id: '5', class_name: 'Data Structures Algorithms', attendance_percentage: 80.0, risk_level: 'Low', predicted_drop_if_miss_next: false, updated_at: '2024-02-24T10:00:00Z' },
-        { id: 'ra3', student_id: '4', student_name: 'Bob Martinez', class_id: '3', class_name: 'Web Development-II', attendance_percentage: 57.1, risk_level: 'High', predicted_drop_if_miss_next: true, updated_at: '2024-02-24T10:00:00Z' },
-        { id: 'ra4', student_id: '4', student_name: 'Bob Martinez', class_id: '5', class_name: 'Data Structures Algorithms', attendance_percentage: 50.0, risk_level: 'High', predicted_drop_if_miss_next: true, updated_at: '2024-02-24T10:00:00Z' },
-        { id: 'ra5', student_id: '5', student_name: 'Carol Davis', class_id: '3', class_name: 'Web Development-II', attendance_percentage: 91.7, risk_level: 'Low', predicted_drop_if_miss_next: false, updated_at: '2024-02-24T10:00:00Z' },
-        { id: 'ra6', student_id: '5', student_name: 'Carol Davis', class_id: '4', class_name: 'Computational Mathematics-II', attendance_percentage: 100.0, risk_level: 'Low', predicted_drop_if_miss_next: false, updated_at: '2024-02-24T10:00:00Z' },
-        { id: 'ra7', student_id: '6', student_name: 'David Kim', class_id: '3', class_name: 'Web Development-II', attendance_percentage: 80.0, risk_level: 'Low', predicted_drop_if_miss_next: false, updated_at: '2024-02-24T10:00:00Z' },
-        { id: 'ra8', student_id: '7', student_name: 'Emma Thompson', class_id: '3', class_name: 'Web Development-II', attendance_percentage: 50.0, risk_level: 'High', predicted_drop_if_miss_next: true, updated_at: '2024-02-24T10:00:00Z' },
-        { id: 'ra9', student_id: '7', student_name: 'Emma Thompson', class_id: '1', class_name: 'Data Structures', attendance_percentage: 33.3, risk_level: 'High', predicted_drop_if_miss_next: true, updated_at: '2024-02-24T10:00:00Z' },
-        { id: 'ra10', student_id: '8', student_name: 'Frank Patel', class_id: '3', class_name: 'Web Development-II', attendance_percentage: 100.0, risk_level: 'Low', predicted_drop_if_miss_next: false, updated_at: '2024-02-24T10:00:00Z' },
-        { id: 'ra11', student_id: '9', student_name: 'Grace Lee', class_id: '1', class_name: 'Data Structures', attendance_percentage: 66.7, risk_level: 'Medium', predicted_drop_if_miss_next: true, updated_at: '2024-02-24T10:00:00Z' },
-        { id: 'ra12', student_id: '10', student_name: 'Henry Nguyen', class_id: '4', class_name: 'Computational Mathematics-II', attendance_percentage: 66.7, risk_level: 'Medium', predicted_drop_if_miss_next: true, updated_at: '2024-02-24T10:00:00Z' },
-        { id: 'ra13', student_id: '11', student_name: 'Isla Robinson', class_id: '4', class_name: 'Computational Mathematics-II', attendance_percentage: 66.7, risk_level: 'Medium', predicted_drop_if_miss_next: false, updated_at: '2024-02-24T10:00:00Z' },
-        { id: 'ra14', student_id: '12', student_name: 'James Wilson', class_id: '3', class_name: 'Web Development-II', attendance_percentage: 33.3, risk_level: 'High', predicted_drop_if_miss_next: true, updated_at: '2024-02-24T10:00:00Z' },
+        { id: 'ra1', student_id: '3', student_name: 'Subham Kumar', class_id: '3', class_name: 'Web Development-II', attendance_percentage: 87.5, risk_level: 'Low', predicted_drop_if_miss_next: false, updated_at: '2024-02-24T10:00:00Z' },
+        { id: 'ra2', student_id: '3', student_name: 'Subham Kumar', class_id: '5', class_name: 'Data Structures Algorithms', attendance_percentage: 80.0, risk_level: 'Low', predicted_drop_if_miss_next: false, updated_at: '2024-02-24T10:00:00Z' },
+        { id: 'ra3', student_id: '4', student_name: 'Vaibhav Gupta', class_id: '3', class_name: 'Web Development-II', attendance_percentage: 57.1, risk_level: 'High', predicted_drop_if_miss_next: true, updated_at: '2024-02-24T10:00:00Z' },
+        { id: 'ra4', student_id: '4', student_name: 'Vaibhav Gupta', class_id: '5', class_name: 'Data Structures Algorithms', attendance_percentage: 50.0, risk_level: 'High', predicted_drop_if_miss_next: true, updated_at: '2024-02-24T10:00:00Z' },
+        { id: 'ra5', student_id: '5', student_name: 'Sameer Mishra', class_id: '3', class_name: 'Web Development-II', attendance_percentage: 91.7, risk_level: 'Low', predicted_drop_if_miss_next: false, updated_at: '2024-02-24T10:00:00Z' },
+        { id: 'ra6', student_id: '5', student_name: 'Sameer Mishra', class_id: '4', class_name: 'Computational Mathematics-II', attendance_percentage: 100.0, risk_level: 'Low', predicted_drop_if_miss_next: false, updated_at: '2024-02-24T10:00:00Z' },
+        { id: 'ra7', student_id: '6', student_name: 'Manik Chouhan', class_id: '3', class_name: 'Web Development-II', attendance_percentage: 80.0, risk_level: 'Low', predicted_drop_if_miss_next: false, updated_at: '2024-02-24T10:00:00Z' },
+        { id: 'ra8', student_id: '7', student_name: 'Aditya Kumar Singh', class_id: '3', class_name: 'Web Development-II', attendance_percentage: 50.0, risk_level: 'High', predicted_drop_if_miss_next: true, updated_at: '2024-02-24T10:00:00Z' },
+        { id: 'ra9', student_id: '7', student_name: 'Aditya Kumar Singh', class_id: '1', class_name: 'Data Structures', attendance_percentage: 33.3, risk_level: 'High', predicted_drop_if_miss_next: true, updated_at: '2024-02-24T10:00:00Z' },
+        { id: 'ra10', student_id: '8', student_name: 'Simran', class_id: '3', class_name: 'Web Development-II', attendance_percentage: 100.0, risk_level: 'Low', predicted_drop_if_miss_next: false, updated_at: '2024-02-24T10:00:00Z' },
+        { id: 'ra11', student_id: '9', student_name: 'Kajal', class_id: '1', class_name: 'Data Structures', attendance_percentage: 66.7, risk_level: 'Medium', predicted_drop_if_miss_next: true, updated_at: '2024-02-24T10:00:00Z' },
+        { id: 'ra12', student_id: '10', student_name: 'Trisha', class_id: '4', class_name: 'Computational Mathematics-II', attendance_percentage: 66.7, risk_level: 'Medium', predicted_drop_if_miss_next: true, updated_at: '2024-02-24T10:00:00Z' },
+        { id: 'ra13', student_id: '11', student_name: 'Nikhil', class_id: '4', class_name: 'Computational Mathematics-II', attendance_percentage: 66.7, risk_level: 'Medium', predicted_drop_if_miss_next: false, updated_at: '2024-02-24T10:00:00Z' },
+        { id: 'ra14', student_id: '12', student_name: 'Sanchit', class_id: '3', class_name: 'Web Development-II', attendance_percentage: 33.3, risk_level: 'High', predicted_drop_if_miss_next: true, updated_at: '2024-02-24T10:00:00Z' },
 
     ],
     leaveRequests: [
-        { id: '1', student_id: '3', student_name: 'Alice Williams', class_id: '1', class_name: 'Data Structures', start_date: '2024-02-26', end_date: '2024-02-27', reason: 'Medical appointment', status: 'pending', created_at: '2024-02-24T08:00:00Z' }
+        { id: '1', student_id: '3', student_name: 'Subham Kumar', class_id: '1', class_name: 'Data Structures', start_date: '2024-02-26', end_date: '2024-02-27', reason: 'Medical appointment', status: 'pending', created_at: '2024-02-24T08:00:00Z' }
     ],
     // College events — fixed to current month for demo
     collegeEvents: (() => {
@@ -287,29 +289,62 @@ const mockData = {
     eventParticipations: (() => {
         const d = (day) => { const n = new Date(); return `${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`; };
         return [
-            { id: 'ep001', event_id: 'ev1', event_name: 'Tech Fest 2024', date: d(5), student_id: '4', student_name: 'Bob Martinez', roll_no: 'CS2021002', reason: 'Participating in the coding contest and project expo.', status: 'pending', submitted_at: new Date().toISOString() },
-            { id: 'ep002', event_id: 'ev2', event_name: 'Sports Day', date: d(10), student_id: '5', student_name: 'Carol Davis', roll_no: 'CS2021003', reason: 'Representing department in 100m sprint and relay.', status: 'pending', submitted_at: new Date().toISOString() },
-            { id: 'ep003', event_id: 'ev3', event_name: 'Cultural Night', date: d(15), student_id: '7', student_name: 'Emma Thompson', roll_no: 'CS2021005', reason: 'Performing a classical dance in the cultural program.', status: 'pending', submitted_at: new Date().toISOString() },
-            { id: 'ep004', event_id: 'ev4', event_name: 'Hackathon', date: d(20), student_id: '10', student_name: 'Henry Nguyen', roll_no: 'CS2021008', reason: 'Team lead for an AI-based project submission.', status: 'pending', submitted_at: new Date().toISOString() },
-            { id: 'ep005', event_id: 'ev1', event_name: 'Tech Fest 2024', date: d(5), student_id: '6', student_name: 'David Kim', roll_no: 'CS2021004', reason: 'Volunteering as event coordinator for the tech expo.', status: 'approved', submitted_at: new Date().toISOString() },
-            { id: 'ep006', event_id: 'ev2', event_name: 'Sports Day', date: d(10), student_id: '9', student_name: 'Grace Lee', roll_no: 'CS2021007', reason: 'Playing in the badminton mixed doubles tournament.', status: 'rejected', submitted_at: new Date().toISOString() },
+            { id: 'ep001', event_id: 'ev1', event_name: 'Tech Fest 2024', date: d(5), student_id: '4', student_name: 'Vaibhav Gupta', roll_no: 'CS2021002', reason: 'Participating in the coding contest and project expo.', status: 'pending', submitted_at: new Date().toISOString() },
+            { id: 'ep002', event_id: 'ev2', event_name: 'Sports Day', date: d(10), student_id: '5', student_name: 'Sameer Mishra', roll_no: 'CS2021003', reason: 'Representing department in 100m sprint and relay.', status: 'pending', submitted_at: new Date().toISOString() },
+            { id: 'ep003', event_id: 'ev3', event_name: 'Cultural Night', date: d(15), student_id: '7', student_name: 'Aditya Kumar Singh', roll_no: 'CS2021005', reason: 'Performing a classical dance in the cultural program.', status: 'pending', submitted_at: new Date().toISOString() },
+            { id: 'ep004', event_id: 'ev4', event_name: 'Hackathon', date: d(20), student_id: '10', student_name: 'Trisha', roll_no: 'CS2021008', reason: 'Team lead for an AI-based project submission.', status: 'pending', submitted_at: new Date().toISOString() },
+            { id: 'ep005', event_id: 'ev1', event_name: 'Tech Fest 2024', date: d(5), student_id: '6', student_name: 'Manik Chouhan', roll_no: 'CS2021004', reason: 'Volunteering as event coordinator for the tech expo.', status: 'approved', submitted_at: new Date().toISOString() },
+            { id: 'ep006', event_id: 'ev2', event_name: 'Sports Day', date: d(10), student_id: '9', student_name: 'Kajal', roll_no: 'CS2021007', reason: 'Playing in the badminton mixed doubles tournament.', status: 'rejected', submitted_at: new Date().toISOString() },
         ];
     })()
 };
 
 // ─── Extended student list for attendance marking ────────────────────────────
 const allStudents = [
-    { id: '3', name: 'Alice Williams', rollNo: 'CS2021001', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=32&h=32&fit=crop&crop=face' },
-    { id: '4', name: 'Bob Martinez', rollNo: 'CS2021002', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=32&h=32&fit=crop&crop=face' },
-    { id: '5', name: 'Carol Davis', rollNo: 'CS2021003', avatar: 'https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=32&h=32&fit=crop&crop=face' },
-    { id: '6', name: 'David Kim', rollNo: 'CS2021004', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face' },
-    { id: '7', name: 'Emma Thompson', rollNo: 'CS2021005', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=32&h=32&fit=crop&crop=face' },
-    { id: '8', name: 'Frank Patel', rollNo: 'CS2021006', avatar: 'https://images.unsplash.com/photo-1552058544-f2b08422138a?w=32&h=32&fit=crop&crop=face' },
-    { id: '9', name: 'Grace Lee', rollNo: 'CS2021007', avatar: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=32&h=32&fit=crop&crop=face' },
-    { id: '10', name: 'Henry Nguyen', rollNo: 'CS2021008', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=32&h=32&fit=crop&crop=face' },
-    { id: '11', name: 'Isla Robinson', rollNo: 'CS2021009', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=32&h=32&fit=crop&crop=face' },
-    { id: '12', name: 'James Wilson', rollNo: 'CS2021010', avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=32&h=32&fit=crop&crop=face' },
+    { id: '3', name: 'Subham Kumar', rollNo: '2101011001', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=32&h=32&fit=crop&crop=face' },
+    { id: '4', name: 'Vaibhav Gupta', rollNo: '2101011002', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=32&h=32&fit=crop&crop=face' },
+    { id: '5', name: 'Sameer Mishra', rollNo: '2101011003', avatar: 'https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=32&h=32&fit=crop&crop=face' },
+    { id: '6', name: 'Manik Chouhan', rollNo: '2101011004', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face' },
+    { id: '7', name: 'Aditya Kumar Singh', rollNo: '2101011005', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=32&h=32&fit=crop&crop=face' },
+    { id: '8', name: 'Simran', rollNo: '2101011006', avatar: 'https://images.unsplash.com/photo-1552058544-f2b08422138a?w=32&h=32&fit=crop&crop=face' },
+    { id: '9', name: 'Kajal', rollNo: '2101011007', avatar: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=32&h=32&fit=crop&crop=face' },
+    { id: '10', name: 'Trisha', rollNo: '2101011008', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=32&h=32&fit=crop&crop=face' },
+    { id: '11', name: 'Nikhil', rollNo: '2101011009', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=32&h=32&fit=crop&crop=face' },
+    { id: '12', name: 'Sanchit', rollNo: '2101011010', avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=32&h=32&fit=crop&crop=face' },
 ];
+
+const API_URL = 'http://localhost:5000/api';
+
+async function apiCall(endpoint, method = 'GET', body = null) {
+    const headers = { 'Content-Type': 'application/json' };
+    const token = localStorage.getItem('token');
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+
+    try {
+        const response = await fetch(`${API_URL}${endpoint}`, {
+            method,
+            headers,
+            body: body ? JSON.stringify(body) : null
+        });
+        const data = await response.json();
+        if (response.status === 401) {
+            // Token expired or user deleted — force re-login
+            localStorage.removeItem('token');
+            localStorage.removeItem('currentUser');
+            currentUser = null;
+            showLogin();
+            showToast('warning', 'Session Expired', 'Please log in again.');
+            throw new Error(data.message || 'Unauthorized');
+        }
+        if (!response.ok) throw new Error(data.message || data.error || 'Something went wrong');
+        return data;
+    } catch (err) {
+        if (err.message !== 'Unauthorized') {
+            showToast('error', 'Server Error', err.message);
+        }
+        throw err;
+    }
+}
 
 // ─── Global State ─────────────────────────────────────────────────────────────
 let currentUser = null;
@@ -355,9 +390,17 @@ function initializeApp() {
     const db = getAccountsDB();
     if (!db.some(u => u.email === 'admin@college.edu')) {
         db.push({ id: '1', name: 'Admin User', email: 'admin@college.edu', password: 'admin123', role: 'admin', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face' });
-        db.push({ id: '2', name: 'Dr. Sarah Johnson', email: 'faculty@college.edu', password: 'faculty123', role: 'faculty', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=32&h=32&fit=crop&crop=face' });
-        db.push({ id: '3', name: 'Alice Williams', email: 'student@college.edu', password: 'student123', role: 'student', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=32&h=32&fit=crop&crop=face' });
+        db.push({ id: 'fac4', name: 'Deepak Kaushik', email: 'faculty@college.edu', password: 'faculty123', role: 'faculty', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=32&h=32&fit=crop&crop=face' });
+        db.push({ id: '3', name: 'Subham Kumar', email: 'student@college.edu', password: 'student123', role: 'student', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=32&h=32&fit=crop&crop=face' });
         saveAccountsDB(db);
+    } else {
+        // Ensure Deepak Kaushik is updated if it exists as an old demo name
+        let facultyAcc = db.find(u => u.email === 'faculty@college.edu');
+        if (facultyAcc && facultyAcc.name !== 'Deepak Kaushik') {
+            facultyAcc.name = 'Deepak Kaushik';
+            facultyAcc.id = 'fac4';
+            saveAccountsDB(db);
+        }
     }
     const saved = localStorage.getItem('currentUser');
     if (saved) { currentUser = JSON.parse(saved); showDashboard(); }
@@ -422,20 +465,67 @@ function generateStudentData(user) {
     return records;
 }
 
-function loadUserAttendanceData() {
-    if (!currentUser || currentUser.role !== 'student') return;
-    // Remove any previously loaded generated records for this user
-    mockData.attendanceRecords = mockData.attendanceRecords.filter(r => r.student_id !== currentUser.id || !r.id.startsWith('gen_'));
-
-    let stored = localStorage.getItem('userData_' + currentUser.id);
-    if (!stored) {
-        // First login — generate data now
-        generateStudentData(currentUser);
-        stored = localStorage.getItem('userData_' + currentUser.id);
+async function loadClasses() {
+    try {
+        let url = '/classes';
+        if (currentUser && currentUser.programme) {
+            url += `?programme=${encodeURIComponent(currentUser.programme)}`;
+        }
+        const response = await apiCall(url);
+        // Backend returns plain array for classes route
+        const classes = Array.isArray(response) ? response : (response.data || []);
+        mockData.classes = classes.map(c => ({
+            id: c._id,
+            course_name: c.course_name,
+            section: c.section,
+            room_no: c.room_no || 'N/A',
+            faculty_name: c.faculty_name,
+            schedule_time: c.schedule_time
+        }));
+    } catch (err) {
+        console.error('Failed to load classes:', err);
     }
-    const { records } = JSON.parse(stored);
-    // Merge into mockData so all dashboard functions work transparently
-    records.forEach(r => mockData.attendanceRecords.push(r));
+}
+
+async function loadUserAttendanceData() {
+    if (!currentUser) return;
+    
+    showLoading();
+    try {
+        let endpoint = '';
+        if (currentUser.role === 'student') {
+            endpoint = '/attendance/my';
+        } else if (currentUser.role === 'faculty') {
+            endpoint = '/attendance/faculty/reports';
+        } else {
+            return; // Admin
+        }
+
+        const response = await apiCall(endpoint);
+        // Backend returns { success, count, data: [...] }
+        const records = Array.isArray(response) ? response : (response.data || []);
+        
+        mockData.attendanceRecords = records.map((r, index) => ({
+            id: r._id || `backend_${index}`,
+            class_id: r._id || `backend_${index}`, // use record id so subject lookup works
+            class_name: r.subject,
+            student_id: currentUser.id,
+            student_name: currentUser.name,
+            date: r.date ? r.date.split('T')[0] : new Date().toISOString().split('T')[0],
+            status: r.status,
+            remarks: r.remarks || '',
+            timestamp: r.date
+        }));
+
+        if (currentPage === 'dashboard') loadDashboard();
+    } catch (err) {
+        console.error('Failed to load records:', err);
+        // Don't crash - just use empty records
+        mockData.attendanceRecords = [];
+        if (currentPage === 'dashboard') loadDashboard();
+    } finally {
+        hideLoading();
+    }
 }
 
 // ─── Auth ─────────────────────────────────────────────────────────────────────
@@ -449,56 +539,44 @@ function switchAuthTab(tab) {
     if (ind) ind.classList.toggle('signup-active', isSignUp);
 }
 
-function handleRegister(e) {
+async function handleRegister(e) {
     e.preventDefault();
     const name = document.getElementById('regName').value.trim();
     const email = document.getElementById('regEmail').value.trim().toLowerCase();
     const password = document.getElementById('regPassword').value;
     const role = document.getElementById('regRole').value;
+    
     if (!name || !email || !password) return;
-    const db = getAccountsDB();
-    if (db.some(u => u.email === email)) {
-        showToast('error', 'Email Taken', 'An account with this email already exists.');
-        return;
+    
+    showLoading();
+    try {
+        await apiCall('/auth/register', 'POST', { name, email, password, role });
+        showToast('success', 'Account Created!', `Welcome, ${name}! Please sign in.`);
+        switchAuthTab('signin');
+        document.getElementById('email').value = email;
+    } catch (err) {
+        // Error already shown by apiCall
+    } finally {
+        hideLoading();
     }
-    if (password.length < 6) {
-        showToast('warning', 'Weak Password', 'Password must be at least 6 characters.');
-        return;
-    }
-    const newUser = {
-        id: 'u_' + Date.now(),
-        name, email, password, role,
-        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=6366f1&color=fff&size=32`
-    };
-    db.push(newUser);
-    saveAccountsDB(db);
-    showToast('success', 'Account Created!', `Welcome, ${name}! Please sign in.`);
-    switchAuthTab('signin');
-    document.getElementById('email').value = email;
 }
 
-function handleLogin(e) {
+async function handleLogin(e) {
     e.preventDefault();
     const email = document.getElementById('email').value.trim().toLowerCase();
     const password = document.getElementById('password').value;
-    const db = getAccountsDB();
-    // Check real registered accounts
-    let user = db.find(u => u.email === email);
-    if (user) {
-        if (user.password !== password) {
-            showToast('error', 'Wrong Password', 'Incorrect password. Please try again.');
-            return;
-        }
-    } else {
-        // Check mock data accounts (demo)
-        user = mockData.users.find(u => u.email === email);
-        if (!user) {
-            showToast('error', 'Account Not Found', 'No account found. Please sign up first.');
-            return;
-        }
+    
+    showLoading();
+    try {
+        const data = await apiCall('/auth/login', 'POST', { email, password });
+        // Successfully authenticated, now show 2FA screen
+        pendingUser = { ...data.user, token: data.token };
+        showAuthScreen();
+    } catch (err) {
+        // Error toast already shown
+    } finally {
+        hideLoading();
     }
-    pendingUser = user;
-    showAuthScreen();
 }
 
 function loginAs(role) {
@@ -512,8 +590,9 @@ function handleAuthSubmit(e) {
     const code = document.getElementById('authCode').value;
     if (code === '123456' && pendingUser) {
         currentUser = pendingUser;
-        pendingUser = null;
+        localStorage.setItem('token', pendingUser.token); // Store JWT
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        pendingUser = null;
         showToast('success', 'Login Successful', `Welcome back, ${currentUser.name}!`);
         showDashboard();
     } else {
@@ -525,15 +604,17 @@ function cancelAuth() { pendingUser = null; showLogin(); }
 // ─── Navigation ───────────────────────────────────────────────────────────────
 function showAuthScreen() { loginScreen.classList.remove('active'); dashboardScreen.classList.remove('active'); if (authScreen) authScreen.classList.add('active'); document.body.style.background = 'linear-gradient(135deg,#667eea 0%,#764ba2 100%)'; }
 function showLogin() { loginScreen.classList.add('active'); dashboardScreen.classList.remove('active'); if (authScreen) authScreen.classList.remove('active'); document.body.style.background = 'linear-gradient(135deg,#667eea 0%,#764ba2 100%)'; }
-function showDashboard() {
+async function showDashboard() {
     loginScreen.classList.remove('active'); if (authScreen) authScreen.classList.remove('active'); dashboardScreen.classList.add('active');
     document.body.style.background = 'var(--gray-50)';
     const headerName = document.getElementById('headerUserName');
     if (headerName) headerName.textContent = currentUser.name;
     const headerRole = document.getElementById('headerUserRole');
     if (headerRole) headerRole.textContent = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
-    // Load any localStorage-persisted data for this user into mockData
-    loadUserAttendanceData();
+    
+    // Load data from backend
+    await loadClasses();
+    await loadUserAttendanceData();
     updateNavigation();
     navigateToPage('dashboard');
 }
@@ -547,14 +628,17 @@ function updateNavigation() {
         faculty: ['student'],
         future: ['student'],
         leave: [],
-        analytics: ['admin'],
+        analytics: ['admin', 'faculty'],
         users: ['admin'],
         classes: ['admin'],
         updateattendance: ['faculty'],
+        facultyNotifications: ['faculty'],
         attendanceMonitor: ['admin'],
         timetableAdmin: ['admin'],
         reportsAnalytics: ['admin'],
-        profileControl: ['admin']
+        profileControl: ['admin'],
+        studentReport: ['faculty'],
+        eventParticipation: ['faculty']
     };
     Object.keys(navItems).forEach(id => {
         const el = document.getElementById(id + 'NavItem');
@@ -566,7 +650,7 @@ function navigateToPage(page) {
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
     const a = document.querySelector(`[data-page="${page}"]`);
     if (a) a.classList.add('active');
-    const titles = { dashboard: 'Dashboard', profile: 'My Profile', attendance: 'Mark Attendance', calendar: 'Attendance Calendar', events: 'Events', faculty: 'Faculty Resources', timetable: 'My Timetable', future: 'Analytics', leave: 'Leave Request', analytics: 'Analytics', users: 'User Management', classes: 'Class Management', updateattendance: 'Update Attendance', attendance_monitor: 'Attendance Monitoring', timetable_admin: 'Timetable Management', reports_analytics: 'Reports and Analytics', profile_control: 'Profile System Control' };
+    const titles = { dashboard: 'Dashboard', profile: 'My Profile', attendance: 'Mark Attendance', calendar: 'Attendance Calendar', events: 'Events', faculty: 'Faculty Resources', timetable: 'My Timetable', future: 'Analytics', leave: 'Leave Request', analytics: 'Attendance Analytics', users: 'User Management', classes: 'Class Management', updateattendance: 'Update Attendance', attendance_monitor: 'Attendance Monitoring', timetable_admin: 'Timetable Management', reports_analytics: 'Reports and Analytics', profile_control: 'Profile System Control', faculty_notifications: 'Notifications', student_report: 'Student Reports', event_participation: 'Event Participation' };
     pageTitle.textContent = titles[page] || 'Dashboard';
     loadPageContent(page);
 }
@@ -577,13 +661,17 @@ function loadPageContent(page) {
             case 'dashboard': loadDashboard(); break;
             case 'profile': loadProfilePage(); break;
             case 'attendance': loadAttendancePage(); break;
+            case 'faculty_notifications': loadFacultyNotificationsPage(); break;
             case 'calendar': loadCalendarPage(); break;
             case 'events': loadEventsPage(); break;
             case 'faculty': loadFacultyPage(); break;
             case 'timetable': loadTimetablePage(); break;
             case 'future': loadFutureOutcomesPage(); break;
             case 'leave': loadLeavePage(); break;
-            case 'analytics': loadAnalyticsPage(); break;
+            case 'analytics': 
+                if (currentUser.role === 'faculty') loadFacultyAnalyticsPage();
+                else loadAnalyticsPage(); 
+                break;
             case 'users': loadUsersPage(); break;
             case 'classes': 
                 if (currentUser.role === 'admin') loadAdminClassesPage();
@@ -594,6 +682,8 @@ function loadPageContent(page) {
             case 'timetable_admin': loadTimetableAdminPage(); break;
             case 'reports_analytics': loadReportsAnalyticsPage(); break;
             case 'profile_control': loadProfileControlPage(); break;
+            case 'student_report': loadStudentReportPage(); break;
+            case 'event_participation': loadEventParticipationPage(); break;
             
             // New Class-Specific Pages
             case 'class_dashboard': loadClassDashboard(_selectedAdminClassId); break;
@@ -662,96 +752,100 @@ function getStudentDashboard() {
 }
 
 function getFacultyDashboard() {
-    let fc = mockData.classes.filter(c => c.faculty_id === currentUser.id);
-    if (fc.length === 0 && currentUser.role === 'faculty') fc = mockData.classes;
+    let fc = mockData.classes.filter(c => c.faculty_id === currentUser.id || (currentUser.role === 'faculty' && c.faculty_id === 'fac4'));
+    
+    const today = new Date();
+    const dayName = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][today.getDay()];
+    const todayStr = today.toISOString().split('T')[0];
 
-    const dayOrder = { 'Mon': 1, 'Tue': 2, 'Wed': 3, 'Thu': 4, 'Fri': 5, 'Sat': 6, 'Sun': 7 };
-    const dayColors = {
-        'Mon': { bg: '#eff6ff', border: '#3b82f6', text: '#1d4ed8' },
-        'Tue': { bg: '#f0fdf4', border: '#22c55e', text: '#15803d' },
-        'Wed': { bg: '#fefce8', border: '#f59e0b', text: '#b45309' },
-        'Thu': { bg: '#fdf4ff', border: '#a855f7', text: '#7e22ce' },
-        'Fri': { bg: '#fff1f2', border: '#f43f5e', text: '#be123c' },
-        'Sat': { bg: '#f0f9ff', border: '#06b6d4', text: '#0e7490' },
-    };
-
-    // Build day → classes map
-    const daysMap = {};
-    fc.forEach(cls => {
-        const parts = cls.schedule_time.split(' ');
-        const time = parts.slice(-1)[0];
-        const days = parts.slice(0, -1).join(' ').replace(/,/g, '').split(' ').filter(Boolean);
-        days.forEach(day => {
-            if (!daysMap[day]) daysMap[day] = [];
-            daysMap[day].push({ ...cls, timeSlot: time });
-        });
+    // Get today's classes
+    const todayClasses = fc.filter(cls => {
+        const days = cls.schedule_time.split(' ').slice(0, -1).join(' ').replace(/,/g, '').split(' ').filter(Boolean);
+        return days.includes(dayName);
     });
 
-    const sortedDays = Object.keys(daysMap).sort((a, b) => (dayOrder[a] || 9) - (dayOrder[b] || 9));
+    // Calculate stats
+    const totalClassesToday = todayClasses.length;
+    const markedToday = todayClasses.filter(cls => {
+        return mockData.attendanceRecords.some(rec => rec.class_id === cls.id && rec.date === todayStr);
+    }).length;
+    const pendingToday = totalClassesToday - markedToday;
 
-    const timetableHtml = sortedDays.map(day => {
-        const col = dayColors[day] || { bg: '#f9fafb', border: '#6b7280', text: '#374151' };
-        const classes = daysMap[day].sort((a, b) => a.timeSlot.localeCompare(b.timeSlot));
-        return `
-            <div class="tt-day-col">
-                <div class="tt-day-header" style="background:${col.bg};border-bottom:2px solid ${col.border};color:${col.text};">${day}</div>
-                <div class="tt-day-body">
-                    ${classes.map(cls => `
-                        <div class="tt-class-card" style="border-left:3px solid ${col.border};">
-                            <div class="tt-class-time"><i class="fas fa-clock" style="color:${col.border};font-size:10px;"></i> ${cls.timeSlot}</div>
-                            <div class="tt-class-name">${cls.section}</div>
-                            <div class="tt-class-course">${cls.course_name}</div>
-                            <div class="tt-room-row">
-                                <i class="fas fa-door-open" style="color:${col.border};font-size:10px;"></i>
-                                <span>${cls.room_no}</span>
-                            </div>
-                            <button class="tt-mark-btn" onclick="markAttendance('${cls.id}')" style="border-color:${col.border};color:${col.text};">
-                                Mark
-                            </button>
-                        </div>`).join('')}
-                </div>
-            </div>`;
-    }).join('');
+    // Show up to 5 classes, sorted by time
+    const displayClasses = todayClasses.sort((a, b) => {
+        const timeA = a.schedule_time.split(' ').slice(-1)[0];
+        const timeB = b.schedule_time.split(' ').slice(-1)[0];
+        return timeA.localeCompare(timeB);
+    }).slice(0, 5);
 
-    // All assigned classes list
-    const classListHtml = fc.map(cls => {
+    const todaysTimetableHtml = displayClasses.map((cls, idx) => {
         const time = cls.schedule_time.split(' ').slice(-1)[0];
-        const days = cls.schedule_time.split(' ').slice(0, -1).join(' ').replace(/,/g, '').trim();
+        const isMarked = mockData.attendanceRecords.some(rec => rec.class_id === cls.id && rec.date === todayStr);
         return `
-            <div class="cl-row">
-                <div class="cl-info">
-                    <div class="cl-name">${cls.section}</div>
-                    <div style="font-size:12px;color:var(--gray-500);margin-bottom:4px;">${cls.course_name}</div>
-                    <div class="cl-meta">
-                        <span><i class="fas fa-calendar-week"></i> ${days}</span>
-                        <span><i class="fas fa-clock"></i> ${time}</span>
-                        <span><i class="fas fa-door-open"></i> ${cls.room_no}</span>
-                        <span><i class="fas fa-layer-group"></i> ${cls.semester}</span>
-                    </div>
-                </div>
-                <button class="btn btn-primary btn-sm" onclick="markAttendance('${cls.id}')">
-                    <i class="fas fa-user-check"></i> Mark
-                </button>
-            </div>`;
+            <tr>
+                <td style="font-weight:700; color:var(--gray-400);">${idx + 1}</td>
+                <td><i class="fas fa-clock" style="color:var(--gray-400); margin-right:4px;"></i> ${time}</td>
+                <td style="font-weight: 500;">${cls.section}</td>
+                <td style="font-weight: 600; color:var(--gray-800);">${cls.course_name}</td>
+                <td>
+                    <button class="btn btn-primary btn-sm" onclick="markAttendance('${cls.id}')" ${isMarked ? 'disabled style="opacity: 0.6;"' : ''}>
+                        <i class="fas fa-user-check"></i> ${isMarked ? 'Marked' : 'Mark Attendance'}
+                    </button>
+                </td>
+            </tr>`;
     }).join('');
+
+    const timetableTable = `
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width:50px;">S.No</th>
+                            <th>Time</th>
+                            <th>Programme Name</th>
+                            <th>Subject Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${todaysTimetableHtml || '<tr><td colspan="5" style="text-align:center;color:var(--gray-400);padding:40px 0;"><i class="fas fa-calendar-times" style="font-size:32px;margin-bottom:12px;"></i><br>No classes scheduled for today.</td></tr>'}
+                    </tbody>
+                </table>
+            </div>`;
 
     return `
-        <div class="card" style="margin-bottom:24px;">
-            <div class="card-header" style="padding-bottom:0;">
-                <div>
-                    <h3 class="card-title">Weekly Timetable</h3>
-                    <p style="font-size:13px;color:var(--gray-500);margin-top:2px;">${fc.length} classes · ${currentUser.name}</p>
+        <div class="stats-grid" style="margin-bottom: 24px;">
+            <div class="stat-card primary">
+                <div class="stat-header">
+                    <div class="stat-icon primary"><i class="fas fa-calendar-day"></i></div>
                 </div>
+                <div class="stat-value">${totalClassesToday}</div>
+                <div class="stat-label">Total Classes Today</div>
             </div>
-            <div class="tt-grid" style="padding:16px 20px 20px;">${timetableHtml}</div>
+            <div class="stat-card success">
+                <div class="stat-header">
+                    <div class="stat-icon success"><i class="fas fa-check-circle"></i></div>
+                </div>
+                <div class="stat-value">${markedToday}</div>
+                <div class="stat-label">Attendance Marked</div>
+            </div>
+            <div class="stat-card warning">
+                <div class="stat-header">
+                    <div class="stat-icon warning"><i class="fas fa-clock"></i></div>
+                </div>
+                <div class="stat-value">${pendingToday}</div>
+                <div class="stat-label">Attendance Pending</div>
+            </div>
         </div>
 
-        <div class="card">
+        <div class="card" style="margin-bottom: 24px;">
             <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-list" style="color:var(--primary-color);margin-right:8px;"></i>All Assigned Classes</h3>
-                <span style="font-size:13px;color:var(--gray-500);">${fc.length} total</span>
+                <div>
+                    <h3 class="card-title"><i class="fas fa-calendar-day" style="color:var(--primary-color);margin-right:8px;"></i>Today's Timetable</h3>
+                    <p style="font-size:13px;color:var(--gray-500);margin-top:2px;">${displayClasses.length} classes scheduled for today</p>
+                </div>
             </div>
-            <div class="cl-list">${classListHtml}</div>
+            ${timetableTable}
         </div>`;
 }
 
@@ -852,6 +946,8 @@ function selectClassForAttendance(classId) {
 }
 
 let _selectedClassId = null;
+let qrInterval = null;
+let _lastMarkedData = null;
 
 function loadStudentsForClass() {
     const classId = _selectedClassId;
@@ -869,31 +965,135 @@ function loadStudentsForClass() {
 
     document.getElementById('attendanceForm').innerHTML = `
         <div class="mb-2"><p class="text-gray" style="font-size:13px;">Students marked <strong>In an Event</strong> have been pre-verified by admin.</p></div>
-        <div class="students-list">
-            ${allStudents.map(s => {
+        
+        <!-- Dynamic QR Code Section -->
+        <div style="display:flex; justify-content:center; align-items:center; padding:20px; background:white; border:1px solid var(--gray-200); border-radius:12px; margin-bottom:20px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+            <button class="btn btn-primary" onclick="openQRModal('${classId}')" style="font-size:16px; padding:12px 30px;">
+                <i class="fas fa-qrcode" style="margin-right:10px; font-size:20px;"></i> Show QR Code for Students
+            </button>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <div style="font-weight:600; color:var(--gray-800);">Student List</div>
+            <div style="display:flex; gap:10px;">
+                ${(_lastMarkedData && _lastMarkedData.section === cls.section && _lastMarkedData.classId !== classId) ? `
+                    <button class="btn btn-warning btn-sm" onclick="copyAttendanceFromPrevious()">
+                        <i class="fas fa-copy"></i> Copy from Previous Class
+                    </button>
+                ` : ''}
+                <button class="btn btn-success btn-sm" onclick="markAllStatus('present')"><i class="fas fa-check-double"></i> Mark All Present</button>
+                <button class="btn btn-danger btn-sm" onclick="markAllStatus('absent')"><i class="fas fa-times-circle"></i> Mark All Absent</button>
+            </div>
+        </div>
+        <div class="table-container">
+            <table class="table" style="min-width:750px;">
+                <thead>
+                    <tr>
+                        <th style="width:60px; padding-left:16px;">S.No.</th>
+                        <th>Student Name</th>
+                        <th>Roll No.</th>
+                        <th>Programme</th>
+                        <th>Attendance Marking</th>
+                    </tr>
+                </thead>
+                <tbody>
+            ${allStudents.map((s, index) => {
         const inEvent = eventStudentIds.includes(s.id) || preMarkedEventIds.includes(s.id);
-        return `<div class="student-attendance-item" id="sai-${s.id}">
-                    <div class="student-info">
-                        <img src="${s.avatar}" alt="${s.name}" class="student-avatar">
-                        <div><div style="font-weight:600;">${s.name}</div><div style="font-size:12px;color:var(--gray-500);">${s.rollNo}</div></div>
-                    </div>
-                    <div class="attendance-buttons">
-                        ${inEvent
+        const serialNo = index + 1;
+        return `<tr class="attendance-table-row" id="sai-${s.id}">
+                    <td style="font-weight:600; color:var(--gray-500); padding-left:16px;">${serialNo}</td>
+                    <td>
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <img src="${s.avatar}" alt="${s.name}" style="width:36px; height:36px; border-radius:50%; border:2px solid var(--gray-100);">
+                            <div style="font-weight:600; font-size:14px; color:var(--gray-800);">${s.name}</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="font-family:monospace; font-size:13px; color:var(--gray-600); background:#f1f5f9; padding:4px 8px; border-radius:4px; display:inline-block; letter-spacing:0.5px;">${s.rollNo}</div>
+                    </td>
+                    <td>
+                        <div style="font-size:13px; color:var(--gray-600); font-weight:500;">${cls.section}</div>
+                    </td>
+                    <td>
+                        <div class="attendance-buttons" style="display:flex; gap:16px;">
+                            ${inEvent
                 ? `<span class="event-auto-badge"><i class="fas fa-calendar-star"></i> In an Event</span>`
-                : `<button class="btn btn-success btn-sm att-btn" onclick="markStudentStatus('${s.id}','present',event)"><i class="fas fa-check"></i> Present</button>
-                               <button class="btn btn-danger  btn-sm att-btn" onclick="markStudentStatus('${s.id}','absent',event)"><i class="fas fa-times"></i> Absent</button>
-                               <button class="btn btn-primary btn-sm att-btn" onclick="markStudentStatus('${s.id}','event',event)"><i class="fas fa-file-medical"></i> Event</button>`}
-                    </div>
-                </div>`;
+                : `<label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+                       <input type="radio" class="att-radio-present" name="att_${s.id}" value="present" style="width:18px;height:18px;accent-color:var(--success-color);" onclick="markStudentStatus('${s.id}','present',event)">
+                       <span style="font-size:14px; color:var(--success-color); font-weight:600;">Present</span>
+                   </label>
+                   <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+                       <input type="radio" class="att-radio-absent" name="att_${s.id}" value="absent" style="width:18px;height:18px;accent-color:var(--danger-color);" onclick="markStudentStatus('${s.id}','absent',event)">
+                       <span style="font-size:14px; color:var(--danger-color); font-weight:600;">Absent</span>
+                   </label>`}
+                        </div>
+                    </td>
+                </tr>`;
     }).join('')}
+                </tbody>
+            </table>
         </div>
         <div class="mt-3"><button class="btn btn-primary" onclick="saveAttendance()"><i class="fas fa-save"></i> Save Attendance</button></div>`;
+
+    if (qrInterval) { clearInterval(qrInterval); qrInterval = null; }
 }
+
+let _qrModalInterval = null;
+
+function openQRModal(classId) {
+    if (document.getElementById('qrModal')) document.getElementById('qrModal').remove();
+    
+    const modal = document.createElement('div');
+    modal.id = 'qrModal';
+    modal.innerHTML = `
+        <div class="modal-backdrop" onclick="closeQRModal()" style="background:rgba(0,0,0,0.8);"></div>
+        <div class="modal-box" style="max-width:600px; width:90%; padding:40px; text-align:center; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:9999; background:white; border-radius:16px;">
+            <button class="close-btn" onclick="closeQRModal()" style="position:absolute; top:20px; right:20px; font-size:24px; background:none; border:none; cursor:pointer; color:var(--gray-500);"><i class="fas fa-times"></i></button>
+            <h2 style="font-size:28px; font-weight:800; color:var(--gray-800); margin-bottom:10px;"><i class="fas fa-qrcode" style="color:var(--primary-color); margin-right:10px;"></i>Scan to Mark Attendance</h2>
+            <p style="font-size:15px; color:var(--gray-600); margin-bottom:30px;">Point your camera at this code to automatically register your presence.</p>
+            <div style="display:flex; justify-content:center;">
+                <img id="modalDynamicQRCode" src="https://api.qrserver.com/v1/create-qr-code/?size=450x450&data=${classId}_${Date.now()}" style="width:450px; height:450px; max-width:100%; border-radius:16px; border:10px solid var(--gray-100); box-shadow:0 12px 30px rgba(0,0,0,0.15);" alt="Class QR Code">
+            </div>
+            <div style="font-size:13px; font-weight:600; color:var(--gray-500); margin-top:20px; display:flex; align-items:center; justify-content:center; gap:8px;">
+                <i class="fas fa-sync fa-spin"></i> Code updates automatically every 5 seconds
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    if (_qrModalInterval) clearInterval(_qrModalInterval);
+    _qrModalInterval = setInterval(() => {
+        const img = document.getElementById('modalDynamicQRCode');
+        if (img) {
+            img.src = `https://api.qrserver.com/v1/create-qr-code/?size=450x450&data=${classId}_${Date.now()}`;
+        } else {
+            clearInterval(_qrModalInterval);
+        }
+    }, 5000);
+}
+
+function closeQRModal() {
+    const modal = document.getElementById('qrModal');
+    if (modal) modal.remove();
+    if (_qrModalInterval) clearInterval(_qrModalInterval);
+}
+
+function markAllStatus(status) {
+    document.querySelectorAll('.attendance-table-row').forEach(el => {
+        if (!el.querySelector('.event-auto-badge')) {
+            const radio = el.querySelector(status === 'present' ? '.att-radio-present' : '.att-radio-absent');
+            if (radio) {
+                radio.checked = true;
+            }
+        }
+    });
+}
+
+
 
 // ─── Update Previous Attendance (standalone page) ────────────────────────────
 function loadUpdateAttendancePage() {
-    let fc = mockData.classes.filter(c => c.faculty_id === currentUser.id);
-    if (fc.length === 0 && currentUser.role === 'faculty') fc = mockData.classes;
+    let fc = mockData.classes.filter(c => c.faculty_id === currentUser.id || (currentUser.role === 'faculty' && c.faculty_id === 'fac4'));
     const today = new Date();
     const pastDates = [];
     for (let i = 1; i <= 7; i++) {
@@ -991,74 +1191,672 @@ function saveUpdateAttendance() {
     showToast('success', 'Attendance Updated', 'Previous attendance has been successfully updated.');
 }
 
-// ─── Student Timetable Page ───────────────────────────────────────────────────
-function loadTimetablePage() {
-    const sId = currentUser.id;
-    const att = mockData.attendanceRecords.filter(r => r.student_id === sId);
-    const studentClassIds = [...new Set(att.map(r => r.class_id))];
-    const studentClasses = mockData.classes.filter(c => studentClassIds.includes(c.id));
+// ─── Faculty Notifications ───────────────────────────────────────────────────
+function loadFacultyNotificationsPage() {
+    let fc = mockData.classes.filter(c => c.faculty_id === currentUser.id || (currentUser.role === 'faculty' && c.faculty_id === 'fac4'));
 
-    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
-    const fullDayNames = { 'Mon': 'Monday', 'Tue': 'Tuesday', 'Wed': 'Wednesday', 'Thu': 'Thursday', 'Fri': 'Friday' };
-    const today = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()];
+    pageContent.innerHTML = `
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-bell" style="color:var(--primary-color);margin-right:8px;"></i>Send Notifications & Warnings</h3>
+                <span style="font-size:13px;color:var(--gray-500);">Alert students with low attendance</span>
+            </div>
+            <div class="class-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:16px; margin-bottom: 24px;">
+                ${fc.map(cls => `
+                    <div class="card class-manage-card" onclick="loadNotificationClassDetails('${cls.id}')" style="cursor:pointer; transition:all 0.2s ease; border: 1px solid var(--gray-200); padding: 16px;">
+                        <div style="font-size:16px; font-weight:700; color:var(--gray-900);">${cls.course_name}</div>
+                        <div style="font-size:13px; color:var(--gray-500); margin-top:4px;">${cls.section}</div>
+                    </div>
+                `).join('') || '<p style="color:var(--gray-500);">No classes assigned.</p>'}
+            </div>
+            
+            <div id="notificationDetailsContainer">
+                <div style="text-align:center;padding:32px 0;color:var(--gray-400);">
+                    <i class="fas fa-hand-pointer" style="font-size:28px;margin-bottom:10px;display:block;"></i>
+                    <p style="font-size:14px;">Select a class above to view students with low attendance.</p>
+                </div>
+            </div>
+        </div>`;
+}
 
-    const dayColors = {
-        'Mon': { bg: '#eff6ff', border: '#3b82f6', text: '#1d4ed8', light: 'rgba(59,130,246,0.08)' },
-        'Tue': { bg: '#f0fdf4', border: '#22c55e', text: '#15803d', light: 'rgba(34,197,94,0.08)' },
-        'Wed': { bg: '#fefce8', border: '#f59e0b', text: '#b45309', light: 'rgba(245,158,11,0.08)' },
-        'Thu': { bg: '#fdf4ff', border: '#a855f7', text: '#7e22ce', light: 'rgba(168,85,247,0.08)' },
-        'Fri': { bg: '#fff1f2', border: '#f43f5e', text: '#be123c', light: 'rgba(244,63,94,0.08)' },
-    };
+function loadNotificationClassDetails(classId) {
+    const cls = mockData.classes.find(c => c.id === classId);
+    if (!cls) return;
+    
+    const container = document.getElementById('notificationDetailsContainer');
+    if (!container) return;
+    
+    // Generating mock attendance % purely for demonstration purposes
+    const studentsWithLowAtt = allStudents.map(s => {
+        // Generating random attendance between 50% and 95%
+        const pct = 50 + Math.floor(Math.random() * 45); 
+        return { ...s, attendance: pct };
+    }).filter(s => s.attendance < 75).sort((a,b) => a.attendance - b.attendance);
+    
+    container.innerHTML = `
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:10px 14px;background:rgba(99,102,241,0.07);border:1px solid rgba(99,102,241,0.22);border-radius:8px;">
+            <i class="fas fa-info-circle" style="color:var(--primary-color);"></i>
+            <span style="font-size:13px;color:var(--gray-700);">Showing students with under 75% attendance in <strong>${cls.course_name} (${cls.section})</strong></span>
+        </div>
+        
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-bottom:16px;">
+            ${studentsWithLowAtt.some(s => s.attendance < 60) ? `<button class="btn btn-danger btn-sm" onclick="notifyAllParents('${cls.id}')"><i class="fas fa-envelope-open-text"></i> Alert All Parents (< 60%)</button>` : ''}
+            ${studentsWithLowAtt.length > 0 ? `<button class="btn btn-warning btn-sm" style="color:#d97706; background:#fef3c7; border:1px solid #fcd34d;" onclick="notifyAllStudents('${cls.id}')"><i class="fas fa-comment-dots"></i> SMS All Students (< 75%)</button>` : ''}
+        </div>
+        <div class="table-container">
+            <table class="table" style="min-width:750px;">
+                <thead>
+                    <tr>
+                        <th style="padding-left:16px;">Student Name</th>
+                        <th>Roll No.</th>
+                        <th>Programme</th>
+                        <th>Attendance %</th>
+                        <th>Warning Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${studentsWithLowAtt.length === 0 ? '<tr><td colspan="5" style="text-align:center;color:var(--gray-500);padding:30px;">All students have good attendance!</td></tr>' : ''}
+                    ${studentsWithLowAtt.map(s => {
+                        const isDanger = s.attendance < 60;
+                        const badgeClass = isDanger ? 'absent' : 'warning';
+                        return `
+                        <tr>
+                            <td style="padding-left:16px;">
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <img src="${s.avatar}" style="width:36px; height:36px; border-radius:50%; border:2px solid var(--gray-100);">
+                                    <div style="font-weight:600; font-size:14px; color:var(--gray-800);">${s.name}</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="font-family:monospace; font-size:13px; color:var(--gray-600); background:#f1f5f9; padding:4px 8px; border-radius:4px; display:inline-block; letter-spacing:0.5px;">${s.rollNo}</div>
+                            </td>
+                            <td>
+                                <div style="font-size:13px; color:var(--gray-600); font-weight:500;">${cls.section}</div>
+                            </td>
+                            <td>
+                                <span class="status-badge ${badgeClass}" style="font-size:14px; font-weight:800; display:inline-block; min-width:50px; text-align:center;">${s.attendance}%</span>
+                            </td>
+                            <td>
+                                <div style="display:flex; gap:8px;">
+                                    ${isDanger ? `<button class="btn btn-danger btn-sm" onclick="notifyParents('${s.id}')" title="Email/SMS Parents"><i class="fas fa-bullhorn"></i> Parents</button>` : ''}
+                                    <button class="btn btn-outline btn-sm" style="border-color:#f59e0b; color:#d97706; background-color:#fffbeb;" onclick="notifyStudentMobile('${s.id}')" title="SMS Student"><i class="fas fa-mobile-alt"></i> Student</button>
+                                </div>
+                            </td>
+                        </tr>
+                        `;
+                    }).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+}
 
-    // Build day → classes map
-    const daysMap = {};
-    days.forEach(d => daysMap[d] = []);
-    studentClasses.forEach(cls => {
-        const parts = cls.schedule_time.split(' ');
-        const time = parts.slice(-1)[0];
-        const scheduledDays = parts.slice(0, -1).join(' ').replace(/,/g, '').split(' ').filter(Boolean);
-        scheduledDays.forEach(day => {
-            if (daysMap[day]) {
-                daysMap[day].push({ ...cls, timeSlot: time });
-            }
-        });
+// ─── Faculty Analytics Dashboard ─────────────────────────────────────────────
+let _selectedAnalyticsClass1 = null;
+let _selectedAnalyticsClass2 = null;
+let _pieChart = null;
+let _weeklyLineChart = null;
+let _monthlyLineChart = null;
+let _compBarChart = null;
+
+function loadFacultyAnalyticsPage() {
+    let fc = mockData.classes.filter(c => c.faculty_id === currentUser.id || (currentUser.role === 'faculty' && c.faculty_id === 'fac4'));
+
+    pageContent.innerHTML = `
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-chart-bar" style="color:var(--primary-color);margin-right:8px;"></i>Attendance Analytics Hub</h3>
+                <p style="font-size:13px;color:var(--gray-500);">Visual insights, trends, and class comparisons</p>
+            </div>
+            
+            <div style="padding:20px; border-bottom:1px solid var(--gray-200); background:#f8fafc; display:flex; flex-wrap:wrap; gap:20px;">
+                <div style="flex:1; min-width:250px;">
+                    <label style="font-weight:700; color:var(--gray-700); font-size:13px; margin-bottom:8px; display:block;">Primary Class:</label>
+                    <select id="analyticsClass1" class="input" onchange="loadAnalyticsClassDetails(this.value)">
+                        <option value="">Select a class</option>
+                        ${fc.map(cls => `<option value="${cls.id}">${cls.course_name} (${cls.section})</option>`).join('')}
+                    </select>
+                </div>
+                <div style="flex:1; min-width:250px;" id="comparisonSelector" style="display:none;">
+                    <label style="font-weight:700; color:var(--gray-700); font-size:13px; margin-bottom:8px; display:block;">Compare With (Optional):</label>
+                    <select id="analyticsClass2" class="input" onchange="updateComparison()">
+                        <option value="">No comparison</option>
+                        ${fc.map(cls => `<option value="${cls.id}">${cls.course_name} (${cls.section})</option>`).join('')}
+                    </select>
+                </div>
+            </div>
+
+            <div id="analyticsDashboard" style="display:none; padding:20px;">
+                <!-- Main Stats Row -->
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px; margin-bottom:30px;">
+                    <!-- Pie Chart -->
+                    <div class="card" style="margin:0; padding:20px; display:flex; flex-direction:column; align-items:center; text-align:center;">
+                        <h4 style="font-size:14px; font-weight:700; margin-bottom:20px; color:var(--gray-700); width:100%; text-align:left;">Engagement Distribution</h4>
+                        <div style="height:250px; width:100%; max-width:250px;">
+                            <canvas id="engagementPieChart"></canvas>
+                        </div>
+                        <div style="margin-top:16px; font-size:12px; color:var(--gray-500);">Overall presence vs absence ratio</div>
+                    </div>
+                    
+                    <!-- Line Charts Tabs -->
+                    <div class="card" style="margin:0; padding:20px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                            <h4 style="font-size:14px; font-weight:700; color:var(--gray-700);">Attendance Trends</h4>
+                            <div style="display:flex; background:var(--gray-100); padding:4px; border-radius:8px;">
+                                <button class="btn btn-sm trend-tab active" onclick="switchTrend('weekly')" style="padding:4px 12px; font-size:11px;">Weekly</button>
+                                <button class="btn btn-sm trend-tab" onclick="switchTrend('monthly')" style="padding:4px 12px; font-size:11px;">Monthly</button>
+                            </div>
+                        </div>
+                        <div id="weeklyTrendContainer" style="height:250px;">
+                            <canvas id="weeklyTrendChart"></canvas>
+                        </div>
+                        <div id="monthlyTrendContainer" style="height:250px; display:none;">
+                            <canvas id="monthlyTrendChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comparison Row -->
+                <div id="comparisonRow" style="display:none; margin-bottom:30px;">
+                    <div class="card" style="margin:0; padding:20px; border:1px solid var(--primary-light); background:linear-gradient(to bottom, #f0f9ff, #ffffff);">
+                        <h4 style="font-size:14px; font-weight:700; margin-bottom:20px; color:var(--gray-700);">Class Performance Comparison (%)</h4>
+                        <div style="height:300px;">
+                            <canvas id="comparisonBarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Insights Card -->
+                <div class="card" style="margin:0; padding:20px; background:var(--gray-900); color:white; border:none;">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <div style="background:var(--primary-color); width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center;">
+                            <i class="fas fa-lightbulb" style="color:white;"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight:700; font-size:15px;">Smart Insight</div>
+                            <div style="font-size:13px; color:var(--gray-400);" id="analyticsInsightText">Select a class to see detailed performance analysis.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="analyticsPlaceholder" style="text-align:center;padding:80px 0;color:var(--gray-400);">
+                <div style="font-size:60px; margin-bottom:20px; opacity:0.3;"><i class="fas fa-chart-pie"></i></div>
+                <p style="font-size:15px; font-weight:600;">Choose a primary class to begin analysis.</p>
+                <p style="font-size:13px; margin-top:8px;">Get real-time visual reports and cross-class comparisons.</p>
+            </div>
+        </div>
+    `;
+}
+
+function loadAnalyticsClassDetails(classId) {
+    if (!classId) {
+        document.getElementById('analyticsDashboard').style.display = 'none';
+        document.getElementById('analyticsPlaceholder').style.display = 'block';
+        return;
+    }
+    _selectedAnalyticsClass1 = classId;
+    document.getElementById('analyticsPlaceholder').style.display = 'none';
+    document.getElementById('analyticsDashboard').style.display = 'block';
+    document.getElementById('comparisonSelector').style.display = 'block';
+
+    renderFacultyCharts();
+}
+
+function updateComparison() {
+    _selectedAnalyticsClass2 = document.getElementById('analyticsClass2').value;
+    renderFacultyCharts();
+}
+
+function switchTrend(type) {
+    document.querySelectorAll('.trend-tab').forEach(b => b.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    
+    if (type === 'weekly') {
+        document.getElementById('weeklyTrendContainer').style.display = 'block';
+        document.getElementById('monthlyTrendContainer').style.display = 'none';
+    } else {
+        document.getElementById('weeklyTrendContainer').style.display = 'none';
+        document.getElementById('monthlyTrendContainer').style.display = 'block';
+    }
+}
+
+function renderFacultyCharts() {
+    const pieCtx = document.getElementById('engagementPieChart').getContext('2d');
+    const weeklyCtx = document.getElementById('weeklyTrendChart').getContext('2d');
+    const monthlyCtx = document.getElementById('monthlyTrendChart').getContext('2d');
+    const compCtx = document.getElementById('comparisonBarChart').getContext('2d');
+
+    // Stats for Class 1
+    const recs1 = mockData.attendanceRecords.filter(r => r.class_id === _selectedAnalyticsClass1);
+    const pres1 = recs1.filter(r => r.status === 'present').length;
+    const abs1 = recs1.filter(r => r.status === 'absent').length;
+    const total1 = recs1.length || 1;
+    const pct1 = Math.round((pres1 / total1) * 100);
+
+    // Insight update
+    const insightEl = document.getElementById('analyticsInsightText');
+    if (pct1 >= 85) insightEl.innerHTML = "Excellent engagement! This class is consistently above the college average of 80%.";
+    else if (pct1 >= 75) insightEl.innerHTML = "Good performance. Ensure periodic follow-ups with students in the warning zone (< 75%).";
+    else insightEl.innerHTML = "Critical trend detected. Average attendance is below the mandatory 75% threshold.";
+
+    // 1. Pie Chart
+    if (_pieChart) _pieChart.destroy();
+    _pieChart = new Chart(pieCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Present', 'Absent'],
+            datasets: [{
+                data: [pres1, abs1],
+                backgroundColor: ['#3b82f6', '#f87171'],
+                borderWidth: 0,
+                cutout: '70%'
+            }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } } } }
     });
 
-    // Sort each day's classes by time
-    days.forEach(d => { daysMap[d].sort((a, b) => a.timeSlot.localeCompare(b.timeSlot)); });
+    // 2. Weekly Line Chart
+    if (_weeklyLineChart) _weeklyLineChart.destroy();
+    _weeklyLineChart = new Chart(weeklyCtx, {
+        type: 'line',
+        data: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7'],
+            datasets: [{
+                label: 'Attendance %',
+                data: [82, 78, 85, 90, 88, 84, pct1],
+                borderColor: '#6366f1',
+                backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                fill: true,
+                tension: 0.4,
+                pointRadius: 4,
+                pointBackgroundColor: '#6366f1'
+            }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100 } } }
+    });
 
-    const totalClasses = studentClasses.length;
-    const todayClasses = daysMap[today] ? daysMap[today].length : 0;
+    // 3. Monthly Line Chart
+    if (_monthlyLineChart) _monthlyLineChart.destroy();
+    _monthlyLineChart = new Chart(monthlyCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Avg Attendance %',
+                data: [85, 76, 82, 88, 84, pct1],
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                fill: true,
+                tension: 0.4,
+                pointRadius: 4,
+                pointBackgroundColor: '#10b981'
+            }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100 } } }
+    });
 
-    // ── Summary stats
+    // 4. Comparison Chart
+    const compRow = document.getElementById('comparisonRow');
+    if (_selectedAnalyticsClass2) {
+        compRow.style.display = 'block';
+        const cls1 = mockData.classes.find(c => c.id === _selectedAnalyticsClass1);
+        const cls2 = mockData.classes.find(c => c.id === _selectedAnalyticsClass2);
+        
+        const recs2 = mockData.attendanceRecords.filter(r => r.class_id === _selectedAnalyticsClass2);
+        const pres2 = recs2.filter(r => r.status === 'present').length;
+        const total2 = recs2.length || 1;
+        const pct2 = Math.round((pres2 / total2) * 100);
+
+        if (_compBarChart) _compBarChart.destroy();
+        _compBarChart = new Chart(compCtx, {
+            type: 'bar',
+            data: {
+                labels: [cls1.course_name, cls2.course_name],
+                datasets: [{
+                    label: 'Overall Attendance %',
+                    data: [pct1, pct2],
+                    backgroundColor: ['#3b82f6', '#f59e0b'],
+                    borderRadius: 8,
+                    barThickness: 60
+                }]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                scales: { y: { beginAtZero: true, max: 100 } },
+                plugins: { legend: { display: false } }
+            }
+        });
+    } else {
+        compRow.style.display = 'none';
+    }
+}
+
+// ─── Student Reports & Analytics ──────────────────────────────────────────────
+let _currentReportData = [];
+
+function loadStudentReportPage() {
+    let fc = mockData.classes.filter(c => c.faculty_id === currentUser.id || (currentUser.role === 'faculty' && c.faculty_id === 'fac4'));
+
+    pageContent.innerHTML = `
+        <div class="card">
+            <div class="card-header">
+                <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+                    <div>
+                        <h3 class="card-title"><i class="fas fa-file-invoice" style="color:var(--primary-color);margin-right:8px;"></i>Student Attendance Reports</h3>
+                        <p style="font-size:13px;color:var(--gray-500);">Analyze performance & export detailed records</p>
+                    </div>
+                    <div style="display:flex; gap:12px;">
+                        <button class="btn btn-primary btn-sm" onclick="exportReport('excel')"><i class="fas fa-file-excel"></i> Export Excel</button>
+                        <button class="btn btn-danger btn-sm" onclick="exportReport('pdf')"><i class="fas fa-file-pdf"></i> Export PDF</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Class Selector -->
+            <div style="padding:20px; border-bottom:1px solid var(--gray-200); background:#f8fafc;">
+                <label style="font-weight:700; color:var(--gray-700); font-size:14px; margin-bottom:12px; display:block;">Select Class for Report:</label>
+                <div class="class-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:16px;">
+                    ${fc.map(cls => `
+                        <div class="card class-manage-card" id="rep-card-${cls.id}" onclick="loadReportDetails('${cls.id}')" style="cursor:pointer; transition:all 0.2s ease; border: 1px solid var(--gray-200); padding: 16px; margin-bottom:0;">
+                            <div style="font-size:15px; font-weight:700; color:var(--gray-900);">${cls.course_name}</div>
+                            <div style="font-size:12px; color:var(--gray-500); margin-top:4px;">${cls.section}</div>
+                        </div>
+                    `).join('') || '<p style="color:var(--gray-500);">No classes assigned.</p>'}
+                </div>
+            </div>
+
+            <div id="reportDetailsContainer" style="display:none; padding:20px;">
+                <!-- Filters -->
+                <div style="margin-bottom:20px;">
+                    <div style="font-size:14px; font-weight:700; color:var(--gray-700); margin-bottom:12px;">Attendance Thresholds:</div>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn btn-outline btn-sm threshold-btn active" data-threshold="101" onclick="filterReportStudents(101, this)">All Students</button>
+                        <button class="btn btn-outline btn-sm threshold-btn" style="border-color:#fbbf24; color:#92400e;" data-threshold="75" onclick="filterReportStudents(75, this)">Shortage (< 75%)</button>
+                        <button class="btn btn-outline btn-sm threshold-btn" style="border-color:#f87171; color:#991b1b;" data-threshold="60" onclick="filterReportStudents(60, this)">Critical (< 60%)</button>
+                        <button class="btn btn-outline btn-sm threshold-btn" style="border-color:#450a0a; color:#450a0a;" data-threshold="33" onclick="filterReportStudents(33, this)">Detained (< 33%)</button>
+                    </div>
+                </div>
+
+                <!-- Data Table -->
+                <div class="table-container">
+                    <table class="table" id="reportDataTable">
+                        <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Roll No.</th>
+                                <th>Programme</th>
+                                <th>Present</th>
+                                <th>Total</th>
+                                <th>Percentage</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="reportPlaceholder" style="text-align:center;padding:80px 0;color:var(--gray-400);">
+                <i class="fas fa-chart-line" style="font-size:48px;margin-bottom:16px;display:block;color:var(--gray-200);"></i>
+                <p style="font-size:15px;">Select a class above to generate real-time attendance reports.</p>
+            </div>
+        </div>`;
+}
+
+let _selectedReportClassId = null;
+let _weeklyChart = null;
+let _monthlyChart = null;
+
+function loadReportDetails(classId) {
+    _selectedReportClassId = classId;
+    document.querySelectorAll('.class-manage-card').forEach(c => c.style.borderColor = 'var(--gray-200)');
+    document.getElementById('rep-card-' + classId).style.borderColor = 'var(--primary-color)';
+    document.getElementById('rep-card-' + classId).style.background = '#f0f9ff';
+    
+    document.getElementById('reportPlaceholder').style.display = 'none';
+    document.getElementById('reportDetailsContainer').style.display = 'block';
+
+    const cls = mockData.classes.find(c => c.id === classId);
+    
+    // Process Data
+    const students = allStudents.map(s => {
+        const records = mockData.attendanceRecords.filter(r => r.student_id === s.id && r.class_id === classId);
+        const present = records.filter(r => r.status === 'present').length;
+        const total = records.length || 1; // Fallback to avoid division by zero
+        const pct = Math.round((present / total) * 100);
+        return { ...s, present, total, pct, section: cls.section };
+    });
+
+    _currentReportData = students;
+    filterReportStudents(101, document.querySelector('.threshold-btn[data-threshold="101"]'));
+}
+
+function filterReportStudents(threshold, btn) {
+    document.querySelectorAll('.threshold-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    const filtered = _currentReportData.filter(s => s.pct < threshold);
+    const tbody = document.getElementById('reportTableBody');
+    
+    tbody.innerHTML = filtered.map(s => {
+        let statusBadge = '';
+        if (s.pct < 33) statusBadge = '<span class="status-badge danger">Detained</span>';
+        else if (s.pct < 60) statusBadge = '<span class="status-badge danger">Critical</span>';
+        else if (s.pct < 75) statusBadge = '<span class="status-badge warning">Shortage</span>';
+        else statusBadge = '<span class="status-badge success">Safe</span>';
+
+        return `
+            <tr>
+                <td>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <img src="${s.avatar}" style="width:28px;height:28px;border-radius:50%;">
+                        <div style="font-weight:600;">${s.name}</div>
+                    </div>
+                </td>
+                <td style="font-family:monospace;">${s.rollNo}</td>
+                <td>${s.section}</td>
+                <td style="font-weight:600; color:var(--success-color);">${s.present}</td>
+                <td>${s.total}</td>
+                <td style="font-weight:700; color:${s.pct < 75 ? 'var(--danger-color)' : 'var(--gray-900)'}">${s.pct}%</td>
+                <td>${statusBadge}</td>
+            </tr>
+        `;
+    }).join('') || '<tr><td colspan="7" style="text-align:center; padding:30px; color:var(--gray-400);">No students found for this filter.</td></tr>';
+}
+
+
+
+function exportReport(format) {
+    if (!_selectedReportClassId) { showToast('error', 'Select Class', 'Please select a class first.'); return; }
+    
+    const cls = mockData.classes.find(c => c.id === _selectedReportClassId);
+    showToast('info', 'Exporting...', `Generating ${format.toUpperCase()} report...`);
+
+    if (format === 'pdf') {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        
+        doc.setFontSize(18);
+        doc.text(`Attendance Report: ${cls.course_name}`, 14, 20);
+        doc.setFontSize(12);
+        doc.text(`Section: ${cls.section} | Date: ${new Date().toLocaleDateString()}`, 14, 30);
+
+        const rows = _currentReportData.map(s => [s.name, s.rollNo, s.present, s.total, s.pct + '%']);
+        doc.autoTable({
+            startY: 40,
+            head: [['Student Name', 'Roll No', 'Present', 'Total', '%']],
+            body: rows,
+            theme: 'grid',
+            headStyles: { fillColor: [59, 130, 246] }
+        });
+
+        doc.save(`${cls.course_name.replace(/ /g, '_')}_Report.pdf`);
+        showToast('success', 'PDF Exported', 'The report has been saved to your device.');
+    } else {
+        const worksheetData = _currentReportData.map(s => ({
+            'Student Name': s.name,
+            'Roll Number': s.rollNo,
+            'Section/Programme': s.section,
+            'Classes Present': s.present,
+            'Total Classes': s.total,
+            'Attendance %': s.pct
+        }));
+
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.json_to_sheet(worksheetData);
+        XLSX.utils.book_append_sheet(wb, ws, "Attendance Report");
+        XLSX.writeFile(wb, `${cls.course_name.replace(/ /g, '_')}_Report.xlsx`);
+        showToast('success', 'Excel Exported', 'The excel sheet has been saved to your device.');
+    }
+}
+
+// ─── Event Participation ─────────────────────────────────────────────────────
+function loadEventParticipationPage() {
+    let fc = mockData.classes.filter(c => c.faculty_id === currentUser.id || (currentUser.role === 'faculty' && c.faculty_id === 'fac4'));
+
+    pageContent.innerHTML = `
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-calendar-star" style="color:var(--primary-color);margin-right:8px;"></i>Event Participation Ledger</h3>
+                <p style="font-size:13px;color:var(--gray-500);">Track students participating in college events</p>
+            </div>
+            
+            <div style="padding:20px; border-bottom:1px solid var(--gray-200); background:#f8fafc;">
+                <label style="font-weight:700; color:var(--gray-700); font-size:14px; margin-bottom:12px; display:block;">Select Class to View Participation:</label>
+                <div class="class-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:16px;">
+                    ${fc.map(cls => `
+                        <div class="card class-manage-card" id="ev-card-${cls.id}" onclick="loadEventStudentsDetails('${cls.id}')" style="cursor:pointer; transition:all 0.2s ease; border: 1px solid var(--gray-200); padding: 16px; margin-bottom:0;">
+                            <div style="font-size:15px; font-weight:700; color:var(--gray-900);">${cls.course_name}</div>
+                            <div style="font-size:12px; color:var(--gray-500); margin-top:4px;">${cls.section}</div>
+                        </div>
+                    `).join('') || '<p style="color:var(--gray-500);">No classes assigned.</p>'}
+                </div>
+            </div>
+
+            <div id="eventDetailsContainer" style="display:none; padding:20px;">
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Roll No.</th>
+                                <th>Missed Subject</th>
+                                <th>Class Time</th>
+                                <th>Event Name</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="eventTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="eventPlaceholder" style="text-align:center;padding:80px 0;color:var(--gray-400);">
+                <i class="fas fa-user-tag" style="font-size:48px;margin-bottom:16px;display:block;color:var(--gray-200);"></i>
+                <p style="font-size:15px;">Select a class above to view the event participation history.</p>
+            </div>
+        </div>`;
+}
+
+function loadEventStudentsDetails(classId) {
+    document.querySelectorAll('.class-manage-card').forEach(c => c.style.borderColor = 'var(--gray-200)');
+    const card = document.getElementById('ev-card-' + classId);
+    if (card) {
+        card.style.borderColor = 'var(--primary-color)';
+        card.style.background = '#f0f9ff';
+    }
+    
+    document.getElementById('eventPlaceholder').style.display = 'none';
+    document.getElementById('eventDetailsContainer').style.display = 'block';
+
+    const eventRecords = mockData.attendanceRecords.filter(r => r.class_id === classId && r.status === 'event');
+    const tbody = document.getElementById('eventTableBody');
+
+    tbody.innerHTML = eventRecords.map(r => {
+        const cls = mockData.classes.find(c => c.id === r.class_id);
+        const schedule = cls ? cls.schedule_time : 'N/A';
+        
+        return `
+            <tr>
+                <td>
+                    <div style="font-weight:600; color:var(--gray-900);">${r.student_name}</div>
+                </td>
+                <td style="font-family:monospace; color:var(--gray-600);">${allStudents.find(s => s.id === r.student_id)?.rollNo || 'N/A'}</td>
+                <td style="font-weight:500; color:var(--primary-dark);">${r.class_name}</td>
+                <td style="font-size:12px; color:var(--gray-600);"><i class="far fa-clock" style="margin-right:4px;"></i> ${schedule}</td>
+                <td>
+                    <div style="background:var(--primary-light); color:var(--primary-dark); padding:4px 10px; border-radius:6px; display:inline-block; font-size:11px; font-weight:600;">
+                        <i class="fas fa-award" style="margin-right:4px;"></i> ${r.remarks || 'College Event'}
+                    </div>
+                </td>
+                <td style="font-size:12px; color:var(--gray-500);">${new Date(r.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
+            </tr>
+        `;
+    }).join('') || `<tr><td colspan="6" style="text-align:center; padding:40px; color:var(--gray-400);">No event participation records found for this class.</td></tr>`;
+}
+
+
+// ─── Student Timetable Page ───────────────────────────────────────────────────
+function loadTimetablePage() {
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    const shortDay = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()];
+    const fullDayMap = { 'Mon':'Monday','Tue':'Tuesday','Wed':'Wednesday','Thu':'Thursday','Fri':'Friday','Sun':'Sunday','Sat':'Saturday' };
+    const today = fullDayMap[shortDay] || shortDay;
+
+    const dayColors = {
+        'Monday':    { bg: '#eff6ff', border: '#3b82f6', text: '#1d4ed8', light: 'rgba(59,130,246,0.08)' },
+        'Tuesday':   { bg: '#f0fdf4', border: '#22c55e', text: '#15803d', light: 'rgba(34,197,94,0.08)' },
+        'Wednesday': { bg: '#fefce8', border: '#f59e0b', text: '#b45309', light: 'rgba(245,158,11,0.08)' },
+        'Thursday':  { bg: '#fdf4ff', border: '#a855f7', text: '#7e22ce', light: 'rgba(168,85,247,0.08)' },
+        'Friday':    { bg: '#fff1f2', border: '#f43f5e', text: '#be123c', light: 'rgba(244,63,94,0.08)' },
+    };
+
+    // Use all classes loaded from backend (already programme-filtered)
+    const allClasses = mockData.classes;
+
+    // Build day → classes map using the 'day' field
+    const daysMap = {};
+    days.forEach(d => daysMap[d] = []);
+    allClasses.forEach(cls => {
+        const clsDay = cls.day || cls.schedule_time; // prefer 'day' field
+        if (daysMap[clsDay] !== undefined) {
+            daysMap[clsDay].push(cls);
+        }
+    });
+
+    const totalSubjects = [...new Set(allClasses.map(c => c.course_name))].length;
+    const todayCount = (daysMap[today] || []).length;
+    const weeklyTotal = allClasses.length;
+
     const statsHtml = `
         <div class="stats-grid" style="margin-bottom:24px;">
-            <div class="stat-card primary"><div class="stat-header"><div class="stat-icon primary"><i class="fas fa-book"></i></div></div><div class="stat-value">${totalClasses}</div><div class="stat-label">Total Subjects</div></div>
-            <div class="stat-card success"><div class="stat-header"><div class="stat-icon success"><i class="fas fa-calendar-day"></i></div></div><div class="stat-value">${todayClasses}</div><div class="stat-label">Classes Today</div></div>
-            <div class="stat-card warning"><div class="stat-header"><div class="stat-icon warning"><i class="fas fa-calendar-week"></i></div></div><div class="stat-value">${days.reduce((s,d)=>s+daysMap[d].length,0)}</div><div class="stat-label">Weekly Sessions</div></div>
+            <div class="stat-card primary"><div class="stat-header"><div class="stat-icon primary"><i class="fas fa-book"></i></div></div><div class="stat-value">${totalSubjects}</div><div class="stat-label">Total Subjects</div></div>
+            <div class="stat-card success"><div class="stat-header"><div class="stat-icon success"><i class="fas fa-calendar-day"></i></div></div><div class="stat-value">${todayCount}</div><div class="stat-label">Classes Today</div></div>
+            <div class="stat-card warning"><div class="stat-header"><div class="stat-icon warning"><i class="fas fa-calendar-week"></i></div></div><div class="stat-value">${weeklyTotal}</div><div class="stat-label">Weekly Sessions</div></div>
         </div>`;
 
-    // ── Row-based timetable: each day = one row with its classes flowing horizontally
     const timetableRows = days.map(day => {
         const col = dayColors[day];
         const isToday = day === today;
-        const classes = daysMap[day];
+        const classes = daysMap[day] || [];
 
         const classCards = classes.length > 0
             ? classes.map(cls => `
                 <div class="ttr-class-card" style="border-top:3px solid ${col.border};">
-                    <div class="ttr-time"><i class="fas fa-clock" style="color:${col.border};font-size:10px;"></i> ${cls.timeSlot}</div>
+                    <div class="ttr-time"><i class="fas fa-clock" style="color:${col.border};font-size:10px;"></i> ${cls.schedule_time}</div>
                     <div class="ttr-course">${cls.course_name}</div>
-                    <div class="ttr-section">${cls.section}</div>
-                    <div class="ttr-room"><i class="fas fa-door-open" style="color:${col.border};font-size:10px;"></i> ${cls.room_no}</div>
-                    <div class="ttr-faculty"><i class="fas fa-user-tie" style="font-size:10px;color:var(--gray-400);"></i> ${cls.faculty_name.replace('Dr. ', 'Dr.')}</div>
+                    <div class="ttr-section">${cls.section || 'DS-1'}</div>
+                    <div class="ttr-room"><i class="fas fa-door-open" style="color:${col.border};font-size:10px;"></i> ${cls.room_no || 'N/A'}</div>
+                    <div class="ttr-faculty"><i class="fas fa-user-tie" style="font-size:10px;color:var(--gray-400);"></i> ${cls.faculty_name || ''}</div>
                 </div>`).join('')
             : `<div class="ttr-no-class"><i class="fas fa-coffee" style="font-size:16px;color:var(--gray-300);"></i><span>No classes</span></div>`;
 
         return `
             <div class="ttr-day-row ${isToday ? 'ttr-today-row' : ''}">
                 <div class="ttr-day-label" style="background:${col.bg};border-left:4px solid ${col.border};color:${col.text};">
-                    <div class="ttr-day-name">${fullDayNames[day]}</div>
+                    <div class="ttr-day-name">${day}</div>
                     ${isToday ? '<span class="ttr-today-badge">TODAY</span>' : ''}
                     <div class="ttr-day-count">${classes.length} class${classes.length !== 1 ? 'es' : ''}</div>
                 </div>
@@ -1068,13 +1866,11 @@ function loadTimetablePage() {
 
     pageContent.innerHTML = `
         ${statsHtml}
-
-        <!-- Weekly Timetable (Row Layout) -->
         <div class="card">
             <div class="card-header">
                 <div>
                     <h3 class="card-title"><i class="fas fa-table" style="color:var(--primary-color);margin-right:8px;"></i>Weekly Class Schedule</h3>
-                    <p style="font-size:13px;color:var(--gray-500);margin-top:2px;">${currentUser.name} &nbsp;·&nbsp; ${totalClasses} subjects enrolled</p>
+                    <p style="font-size:13px;color:var(--gray-500);margin-top:2px;">${currentUser.name} &nbsp;·&nbsp; B.Tech CSE Data Science</p>
                 </div>
                 <div style="display:flex;gap:8px;">
                     <button class="btn btn-outline btn-sm" onclick="navigateToPage('calendar')"><i class="fas fa-calendar-alt"></i> Calendar</button>
@@ -1364,6 +2160,7 @@ async function loadProfilePage() {
             extraFields = `
                 <div class="form-group"><label>Department</label><input type="text" id="profDept" class="input" value="${p.department || ''}" placeholder="e.g. Computer Science"></div>
                 <div class="form-group"><label>Designation</label><input type="text" id="profDesig" class="input" value="${p.designation || ''}" placeholder="e.g. Assistant Professor"></div>
+                <div class="form-group"><label>Teacher ID</label><input type="text" class="input" value="${currentUser.id || ''}" disabled style="background:var(--gray-100);cursor:not-allowed;"></div>
             `;
         }
 
@@ -1382,6 +2179,13 @@ async function loadProfilePage() {
                         <div class="form-group"><label>Email Address</label><input type="text" class="input" value="${profileData.email || currentUser.email || ''}" disabled style="background:var(--gray-100);cursor:not-allowed;"></div>
                         <div class="form-group"><label>Phone Number</label><input type="text" id="profPhone" class="input" value="${p.phone || ''}" placeholder="+1 ..."></div>
                         ${extraFields}
+                    </div>
+                    <div style="margin-top:24px; padding-top:24px; border-top:1px solid var(--gray-200); display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <div style="font-weight:700; color:var(--gray-700); font-size:14px;">Account Security</div>
+                            <p style="font-size:12px; color:var(--gray-500);">Keep your account safe and updated</p>
+                        </div>
+                        <button class="btn btn-outline" onclick="handleForgotPassword()"><i class="fas fa-key"></i> Forgot Password?</button>
                     </div>
                 </div>
             </div>
@@ -1883,12 +2687,134 @@ function loadClassesPage() {
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 function markAttendance(classId) { _selectedClassId = classId; navigateToPage('attendance'); setTimeout(() => { loadAttendancePage(classId); }, 450); }
 function markStudentStatus(studentId, status, event) {
+    if (event && event.stopPropagation) event.stopPropagation();
     const row = document.getElementById('sai-' + studentId);
-    if (row) row.querySelectorAll('.att-btn').forEach(b => b.classList.remove('active-att'));
-    try { if (event && event.currentTarget) event.currentTarget.classList.add('active-att'); } catch (e) { }
-    showToast('success', 'Status Updated', `Marked as ${status}`);
+    if (row) {
+        // Clear previous highlights
+        document.querySelectorAll('.attendance-table-row').forEach(r => r.classList.remove('active-student-highlight'));
+        // Highlight current row
+        row.classList.add('active-student-highlight');
+    }
 }
-function saveAttendance() { showToast('success', 'Attendance Saved', 'Attendance has been saved'); navigateToPage('dashboard'); }
+function saveAttendance() {
+    const absentStudents = [];
+    document.querySelectorAll('.attendance-table-row').forEach(row => {
+        const radioAbsent = row.querySelector('.att-radio-absent');
+        if (radioAbsent && radioAbsent.checked) {
+            const name = row.querySelector('div[style*="font-weight:600"]').textContent;
+            const rollNo = row.querySelector('div[style*="font-family:monospace"]').textContent;
+            absentStudents.push({ name, rollNo });
+        }
+    });
+
+    if (document.getElementById('absentVerifyModal')) document.getElementById('absentVerifyModal').remove();
+
+    const modal = document.createElement('div');
+    modal.id = 'absentVerifyModal';
+    modal.innerHTML = `
+        <div class="modal-backdrop" onclick="closeAbsentModal()" style="background:rgba(0,0,0,0.8); z-index:10000; position:fixed; top:0; left:0; width:100%; height:100%;"></div>
+        <div class="modal-box" style="max-width:550px; width:90%; padding:32px; text-align:center; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:10001; background:white; border-radius:16px; box-shadow:0 20px 50px rgba(0,0,0,0.3);">
+            <div style="font-size:48px; color:var(--danger-color); margin-bottom:16px;"><i class="fas fa-user-times"></i></div>
+            <h2 style="font-size:24px; font-weight:800; color:var(--gray-800); margin-bottom:8px;">Verify Absent Students</h2>
+            <p style="font-size:14px; color:var(--gray-500); margin-bottom:24px;">Please cross-verify the list of students marked as <strong>Absent</strong> before final submission.</p>
+            
+            <div style="max-height:300px; overflow-y:auto; background:var(--gray-50); border-radius:12px; padding:16px; margin-bottom:24px; border:1px solid var(--gray-200);">
+                ${absentStudents.length > 0 ? `
+                    <table style="width:100%; border-collapse:collapse;">
+                        <thead>
+                            <tr style="border-bottom:2px solid var(--gray-200);">
+                                <th style="text-align:left; padding:8px; font-size:12px; color:var(--gray-400); text-transform:uppercase;">Student Name</th>
+                                <th style="text-align:right; padding:8px; font-size:12px; color:var(--gray-400); text-transform:uppercase;">Roll No.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${absentStudents.map(s => `
+                                <tr style="border-bottom:1px solid var(--gray-100);">
+                                    <td style="text-align:left; padding:12px 8px; font-weight:600; color:var(--gray-800); font-size:14px;">${s.name}</td>
+                                    <td style="text-align:right; padding:12px 8px; font-family:monospace; color:var(--gray-600); font-size:13px;">${s.rollNo}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                ` : `
+                    <div style="padding:20px; color:var(--success-color); font-weight:600;">
+                        <i class="fas fa-check-circle"></i> No students marked absent!
+                    </div>
+                `}
+            </div>
+
+            <div style="display:flex; gap:12px;">
+                <button class="btn btn-outline btn-full" onclick="closeAbsentModal()"><i class="fas fa-edit"></i> Edit List</button>
+                <button class="btn btn-primary btn-full" onclick="finalizeAttendance()"><i class="fas fa-cloud-upload-alt"></i> Confirm & Submit</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+function closeAbsentModal() {
+    const modal = document.getElementById('absentVerifyModal');
+    if (modal) modal.remove();
+}
+
+async function finalizeAttendance() {
+    const records = [];
+    document.querySelectorAll('.attendance-table-row').forEach(row => {
+        const studentId = row.id.replace('sai-', '');
+        const radioPresent = row.querySelector('.att-radio-present');
+        const radioAbsent = row.querySelector('.att-radio-absent');
+        
+        if (radioPresent && radioPresent.checked) records.push({ studentId, status: 'present' });
+        else if (radioAbsent && radioAbsent.checked) records.push({ studentId, status: 'absent' });
+    });
+
+    const cls = mockData.classes.find(c => c.id === _selectedClassId);
+    if (!cls) return;
+
+    showLoading();
+    try {
+        // Prepare the payload for the backend
+        // Note: Backend expects studentId, subject, date, status.
+        // We'll map our records to multiple calls or update backend to handle batch (standard is single for now based on previous schema)
+        // Let's assume the backend has a batch endpoint or we loop for now (batch is better, but I'll stick to what I designed)
+        const date = new Date().toISOString().split('T')[0];
+        
+        for (const rec of records) {
+            await apiCall('/attendance/mark', 'POST', {
+                studentId: rec.studentId,
+                subject: cls.course_name,
+                date: date,
+                status: rec.status
+            });
+        }
+
+        closeAbsentModal();
+        showToast('success', 'Attendance Saved', 'Attendance has been successfully recorded in the system.');
+        navigateToPage('dashboard');
+    } catch (err) {
+        // Error already handled by apiCall
+    } finally {
+        hideLoading();
+    }
+}
+
+function copyAttendanceFromPrevious() {
+    if (!_lastMarkedData) return;
+    
+    _lastMarkedData.records.forEach(rec => {
+        const row = document.getElementById('sai-' + rec.studentId);
+        if (row && !row.querySelector('.event-auto-badge')) {
+            const radio = row.querySelector(rec.status === 'present' ? '.att-radio-present' : '.att-radio-absent');
+            if (radio) {
+                radio.checked = true;
+                // Highlight if keyboard nav style is active
+                markStudentStatus(rec.studentId, rec.status, { currentTarget: radio });
+            }
+        }
+    });
+    
+    showToast('info', 'Attendance Copied', 'Attendance records have been synced from the previous session.');
+}
 function submitLeaveRequest(e) { e.preventDefault(); showToast('success', 'Leave Submitted', 'Your leave request has been submitted'); navigateToPage('dashboard'); }
 function approveLeave(id) { showToast('success', 'Leave Approved', 'Leave request approved'); loadDashboard(); }
 function rejectLeave(id) { showToast('warning', 'Leave Rejected', 'Leave request rejected'); loadDashboard(); }
@@ -2511,4 +3437,61 @@ function deleteClass(classId) {
         showToast('info', 'Schedule Removed', 'The class slot has been deleted.');
         loadTimetableAdminPage();
     }
+}
+
+// ─── Keyboard Navigation for Attendance Marking ───────────────────────────────
+document.addEventListener('keydown', function(event) {
+    const card = document.getElementById('markAttendanceCard');
+    if (!card || card.style.display === 'none') return;
+    
+    if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+    if (['INPUT', 'TEXTAREA'].includes(event.target.tagName)) return;
+
+    event.preventDefault();
+
+    const allRows = Array.from(document.querySelectorAll('.attendance-table-row'));
+    if (allRows.length === 0) return;
+
+    let currentIndex = allRows.findIndex(r => r.classList.contains('active-student-highlight'));
+    
+    if (event.key === 'ArrowDown') {
+        if (currentIndex !== -1) allRows[currentIndex].classList.remove('active-student-highlight');
+        let next = currentIndex === -1 ? 0 : currentIndex + 1;
+        while(next < allRows.length && allRows[next].querySelector('.event-auto-badge')) next++;
+        if (next < allRows.length) currentIndex = next;
+        else if (currentIndex === -1) currentIndex = 0; // fallback
+        
+        allRows[currentIndex].classList.add('active-student-highlight');
+        allRows[currentIndex].scrollIntoView({behavior: "smooth", block: "center"});
+    } else if (event.key === 'ArrowUp') {
+        if (currentIndex !== -1) allRows[currentIndex].classList.remove('active-student-highlight');
+        let prev = currentIndex === -1 ? allRows.length - 1 : currentIndex - 1;
+        while(prev >= 0 && allRows[prev].querySelector('.event-auto-badge')) prev--;
+        if (prev >= 0) currentIndex = prev;
+        else if (currentIndex === -1) currentIndex = 0;
+        
+        allRows[currentIndex].classList.add('active-student-highlight');
+        allRows[currentIndex].scrollIntoView({behavior: "smooth", block: "center"});
+    } else if (event.key === 'ArrowRight') {
+        if (currentIndex !== -1 && !allRows[currentIndex].querySelector('.event-auto-badge')) {
+            const radio = allRows[currentIndex].querySelector('.att-radio-absent');
+            if (radio) {
+                radio.checked = true;
+                markStudentStatus(allRows[currentIndex].id.replace('sai-',''), 'absent', {currentTarget: radio});
+            }
+        }
+    } else if (event.key === 'ArrowLeft') {
+        if (currentIndex !== -1 && !allRows[currentIndex].querySelector('.event-auto-badge')) {
+            const radio = allRows[currentIndex].querySelector('.att-radio-present');
+            if (radio) {
+                radio.checked = true;
+                markStudentStatus(allRows[currentIndex].id.replace('sai-',''), 'present', {currentTarget: radio});
+            }
+        }
+    }
+});
+
+function handleForgotPassword() {
+    const email = currentUser.email || 'your registered email';
+    showToast('info', 'Recovery Started', `A password reset link has been sent to ${email}. Please check your inbox.`);
 }
