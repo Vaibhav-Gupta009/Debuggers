@@ -1,9 +1,9 @@
 // ─── Mock Data ────────────────────────────────────────────────────────────────
 const mockData = {
     users: [
-        { id: '1', name: 'Admin User', email: 'admin@college.edu', role: 'admin', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face' },
-        { id: 'fac4', name: 'Deepak Kaushik', email: 'faculty@college.edu', role: 'faculty', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=32&h=32&fit=crop&crop=face' },
-        { id: '3', name: 'Subham Kumar', email: 'student@college.edu', role: 'student', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=32&h=32&fit=crop&crop=face' }
+        { id: '1', name: 'Admin User', email: 'admin@krmu.edu.in', role: 'admin', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face' },
+        { id: 'fac4', name: 'Deepak Kaushik', email: 'faculty@krmu.edu.in', role: 'faculty', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=32&h=32&fit=crop&crop=face' },
+        { id: '3', name: 'Subham Kumar', email: 'student@krmu.edu.in', role: 'student', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=32&h=32&fit=crop&crop=face' }
     ],
     departments: [
         { id: '1', name: 'Computer Science' },
@@ -353,9 +353,30 @@ const allStudents = [
     { id: '12', name: 'Sanchit', rollNo: '2101011010', avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=32&h=32&fit=crop&crop=face' },
 ];
 
+// ─── Frontend-only mode ───────────────────────────────────────────────────────
+// CHANGE: Set to true to run UI without any backend/database.
+// This prevents continuous "Server Error" toasts when the server isn't running.
+const FRONTEND_ONLY = true;
+
 const API_URL = 'http://localhost:5000/api';
 
+let _lastServerToastAt = 0;
+function showServerToastOnce(message) {
+    const now = Date.now();
+    // Avoid spamming: show at most once per 10 seconds
+    if (now - _lastServerToastAt < 10000) return;
+    _lastServerToastAt = now;
+    showToast('warning', 'Frontend-only Mode', message);
+}
+
 async function apiCall(endpoint, method = 'GET', body = null) {
+    // CHANGE: In frontend-only mode we intentionally do not call the backend.
+    if (FRONTEND_ONLY) {
+        // Return an empty shape that callers can handle safely.
+        // (Loaders already fall back to mock/demo data.)
+        return method === 'GET' ? [] : { success: true };
+    }
+
     const headers = { 'Content-Type': 'application/json' };
     const token = localStorage.getItem('token');
     if (token) headers['Authorization'] = `Bearer ${token}`;
@@ -380,7 +401,9 @@ async function apiCall(endpoint, method = 'GET', body = null) {
         return data;
     } catch (err) {
         if (err.message !== 'Unauthorized') {
-            showToast('error', 'Server Error', err.message);
+            // CHANGE: Prevent continuous server error spam by throttling
+            // (this only applies when backend is enabled but unreachable).
+            showServerToastOnce('Backend is not connected. The app is running with demo data.');
         }
         throw err;
     }
@@ -405,6 +428,10 @@ const sidebarUserRole = document.getElementById('sidebarUserRole');
 const notificationsPanel = document.getElementById('notificationsPanel');
 const loadingOverlay = document.getElementById('loadingOverlay');
 
+// Notification UI elements (rendered dynamically)
+const notificationsListEl = document.getElementById('notificationsList');
+const notificationBadgeEl = document.getElementById('notificationBadge');
+
 // ─── Init ─────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => { initializeApp(); });
 
@@ -426,24 +453,17 @@ function initializeApp() {
         if (inp.type === 'password') { inp.type = 'text'; icon.classList.replace('fa-eye', 'fa-eye-slash'); }
         else { inp.type = 'password'; icon.classList.replace('fa-eye-slash', 'fa-eye'); }
     });
-    // Seed demo accounts to localStorage if not already present
-    const db = getAccountsDB();
-    if (!db.some(u => u.email === 'admin@college.edu')) {
-        db.push({ id: '1', name: 'Admin User', email: 'admin@college.edu', password: 'admin123', role: 'admin', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face' });
-        db.push({ id: 'fac4', name: 'Deepak Kaushik', email: 'faculty@college.edu', password: 'faculty123', role: 'faculty', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=32&h=32&fit=crop&crop=face' });
-        db.push({ id: '3', name: 'Subham Kumar', email: 'student@college.edu', password: 'student123', role: 'student', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=32&h=32&fit=crop&crop=face' });
-        saveAccountsDB(db);
-    } else {
-        // Ensure Deepak Kaushik is updated if it exists as an old demo name
-        let facultyAcc = db.find(u => u.email === 'faculty@college.edu');
-        if (facultyAcc && facultyAcc.name !== 'Deepak Kaushik') {
-            facultyAcc.name = 'Deepak Kaushik';
-            facultyAcc.id = 'fac4';
-            saveAccountsDB(db);
-        }
-    }
+    // Seed fixed login accounts requested by user.
+    const db = getAccountsDB().filter(u => !['1', 'fac4', '3'].includes(u.id));
+    db.push(
+        { id: '1', name: 'Admin User', email: 'admin@krmu.edu.in', password: 'admin@123', role: 'admin', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face' },
+        { id: 'fac4', name: 'Deepak Kaushik', email: 'faculty@krmu.edu.in', password: 'faculty@123', role: 'faculty', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=32&h=32&fit=crop&crop=face' },
+        { id: '3', name: 'Subham Kumar', email: 'student@krmu.edu.in', password: 'student@123', role: 'student', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=32&h=32&fit=crop&crop=face' }
+    );
+    saveAccountsDB(db);
     const saved = localStorage.getItem('currentUser');
     if (saved) { currentUser = JSON.parse(saved); showDashboard(); }
+    selectLoginRole('student');
     
     // Load persisted classes if any
     const classesDB = getClassesDB();
@@ -601,6 +621,17 @@ async function handleLogin(e) {
     
     showLoading();
     try {
+        if (FRONTEND_ONLY) {
+            const account = getAccountsDB().find(u => u.email.toLowerCase() === email && u.password === password);
+            if (!account) {
+                showToast('error', 'Login Failed', 'Invalid email or password.');
+                return;
+            }
+            pendingUser = { ...account, token: 'frontend-demo-token' };
+            showAuthScreen();
+            return;
+        }
+
         const data = await apiCall('/auth/login', 'POST', { email, password });
         // Successfully authenticated, now show 2FA screen
         pendingUser = { ...data.user, token: data.token };
@@ -615,6 +646,29 @@ async function handleLogin(e) {
 function loginAs(role) {
     const user = mockData.users.find(u => u.role === role);
     if (user) { pendingUser = user; showAuthScreen(); }
+}
+
+function selectLoginRole(role) {
+    const roleToEmail = {
+        student: 'student@krmu.edu.in',
+        admin: 'admin@krmu.edu.in',
+        faculty: 'faculty@krmu.edu.in'
+    };
+    const emailInput = document.getElementById('email');
+    if (emailInput && roleToEmail[role]) emailInput.value = roleToEmail[role];
+
+    const btnMap = {
+        student: document.getElementById('loginRoleStudentBtn'),
+        admin: document.getElementById('loginRoleAdminBtn'),
+        faculty: document.getElementById('loginRoleFacultyBtn')
+    };
+    Object.keys(btnMap).forEach(k => {
+        const btn = btnMap[k];
+        if (!btn) return;
+        const isActive = k === role;
+        btn.classList.toggle('btn-primary', isActive);
+        btn.classList.toggle('btn-outline', !isActive);
+    });
 }
 function logout() {
     currentUser = null;
@@ -652,9 +706,28 @@ async function showDashboard() {
     const headerRole = document.getElementById('headerUserRole');
     if (headerRole) headerRole.textContent = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
     
-    // Load data from backend
-    await loadClasses();
-    await loadUserAttendanceData();
+    // CHANGE: Frontend-only mode: skip backend loads, rely on demo/local data.
+    if (!FRONTEND_ONLY) {
+        await loadClasses();
+        await loadUserAttendanceData();
+    } else {
+        // Ensure the UI has something to render
+        if (!mockData.classes || mockData.classes.length === 0) {
+            mockData.classes = getStudentManualTimetable('all').map((c, idx) => ({
+                id: `demo_cls_${idx}`,
+                course_name: c.course_name,
+                section: c.section,
+                room_no: c.room_no || 'N/A',
+                faculty_name: c.faculty_name,
+                schedule_time: c.schedule_time
+            }));
+        }
+        if (!mockData.attendanceRecords || mockData.attendanceRecords.length === 0) {
+            try { generateStudentData(currentUser); } catch (e) {}
+            // Attendance page already normalizes localStorage demo data when needed.
+        }
+        showServerToastOnce('Backend disabled. Using demo data only.');
+    }
     updateNavigation();
     navigateToPage('dashboard');
 }
@@ -664,6 +737,7 @@ function updateNavigation() {
         attendance: ['faculty'],
         calendar: ['student'],
         events: ['student'],
+        studentAttendance: ['student'],
         timetable: ['student'],
         faculty: ['student'],
         future: ['student'],
@@ -694,7 +768,7 @@ function navigateToPage(page) {
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
     const a = document.querySelector(`[data-page="${page}"]`);
     if (a) a.classList.add('active');
-    const titles = { dashboard: 'Dashboard', profile: 'My Profile', attendance: 'Mark Attendance', calendar: 'Attendance Calendar', events: 'Events', faculty: 'Faculty Resources', timetable: 'My Timetable', future: 'Analytics', leave: 'Leave Request', analytics: 'Attendance Analytics', users: 'User Management', classes: 'Class Management', updateattendance: 'Update Attendance', attendance_monitor: 'Attendance Monitoring', timetable_admin: 'Timetable Management', reports_analytics: 'Reports and Analytics', profile_control: 'Profile System Control', faculty_notifications: 'Notifications', student_report: 'Student Reports', event_participation: 'Event Participation' };
+    const titles = { dashboard: 'Dashboard', profile: 'My Profile', attendance: 'Mark Attendance', student_attendance: 'Attendance', calendar: 'Attendance Calendar', events: 'Events', faculty: 'Faculty Resources', timetable: 'My Timetable', future: 'Analytics', leave: 'Leave Request', analytics: 'Attendance Analytics', users: 'User Management', classes: 'Class Management', updateattendance: 'Update Attendance', attendance_monitor: 'Attendance Monitoring', timetable_admin: 'Timetable Management', reports_analytics: 'Reports and Analytics', profile_control: 'Profile System Control', faculty_notifications: 'Notifications', student_report: 'Student Reports', event_participation: 'Event Participation' };
     pageTitle.textContent = titles[page] || 'Dashboard';
     loadPageContent(page);
 }
@@ -705,6 +779,7 @@ function loadPageContent(page) {
             case 'dashboard': loadDashboard(); break;
             case 'profile': loadProfilePage(); break;
             case 'attendance': loadAttendancePage(); break;
+            case 'student_attendance': loadStudentAttendancePage(); break;
             case 'faculty_notifications': loadFacultyNotificationsPage(); break;
             case 'calendar': loadCalendarPage(); break;
             case 'events': loadEventsPage(); break;
@@ -739,6 +814,186 @@ function loadPageContent(page) {
         }
         hideLoading();
     }, 400);
+}
+
+// ─── Student Attendance Page (frontend-only) ───────────────────────────────────
+// CHANGE: New student feature with 2 tabs:
+// - Day-wise Attendance (latest first)
+// - Subject-wise Attendance (overall + per subject)
+let _studentAttendanceTab = 'day';
+
+function ensureStudentAttendanceRecords() {
+    // Prefer records loaded via existing `loadUserAttendanceData()` (API).
+    const sId = currentUser?.id;
+    if (!sId) return [];
+    const existing = (mockData.attendanceRecords || []).filter(r => r.student_id === sId);
+    if (existing.length) return existing;
+
+    // Fallback: use localStorage seeded demo records if available, otherwise generate.
+    try {
+        const cached = JSON.parse(localStorage.getItem('userData_' + sId) || '{}');
+        if (Array.isArray(cached.records) && cached.records.length) {
+            const normalized = cached.records.map((r, idx) => ({
+                id: r.id || `ls_${idx}`,
+                class_id: r.class_id || r.id || `cls_${idx}`,
+                class_name: r.class_name || r.subject || 'Subject',
+                student_id: sId,
+                student_name: currentUser.name,
+                date: (r.date || new Date().toISOString().split('T')[0]),
+                status: r.status || 'present',
+                remarks: r.remarks || '',
+                timestamp: r.timestamp || (r.date ? (r.date + 'T09:00:00Z') : new Date().toISOString())
+            }));
+            // Keep global store consistent for the rest of the UI.
+            mockData.attendanceRecords = (mockData.attendanceRecords || []).concat(normalized);
+            return normalized;
+        }
+    } catch (e) {}
+
+    // Last resort: generate a nice demo dataset (frontend-only).
+    const gen = generateStudentData(currentUser) || [];
+    mockData.attendanceRecords = (mockData.attendanceRecords || []).concat(gen);
+    return gen;
+}
+
+function setStudentAttendanceTab(tab) {
+    _studentAttendanceTab = tab;
+    renderStudentAttendancePage();
+}
+
+function renderStudentAttendancePage() {
+    const records = ensureStudentAttendanceRecords();
+    const presentLike = ['present', 'late', 'event'];
+    const total = records.length;
+    const attended = records.filter(r => presentLike.includes(r.status)).length;
+    const overallPct = total ? Math.round((attended / total) * 100) : 0;
+
+    const sorted = [...records].sort((a, b) => String(b.date).localeCompare(String(a.date)));
+
+    // Subject-wise aggregation
+    const bySubject = sorted.reduce((acc, r) => {
+        const key = (r.class_name || 'Subject').trim();
+        if (!acc[key]) acc[key] = { subject: key, total: 0, attended: 0 };
+        acc[key].total += 1;
+        if (presentLike.includes(r.status)) acc[key].attended += 1;
+        return acc;
+    }, {});
+    const subjectRows = Object.values(bySubject)
+        .map(s => ({ ...s, pct: s.total ? Math.round((s.attended / s.total) * 100) : 0 }))
+        .sort((a, b) => b.pct - a.pct);
+
+    const tabsHtml = `
+        <div class="att-tabs">
+            <button class="att-tab-btn ${_studentAttendanceTab === 'day' ? 'active' : ''}" onclick="setStudentAttendanceTab('day')">
+                <i class="fas fa-calendar-day"></i> Day-wise Attendance
+            </button>
+            <button class="att-tab-btn ${_studentAttendanceTab === 'subject' ? 'active' : ''}" onclick="setStudentAttendanceTab('subject')">
+                <i class="fas fa-layer-group"></i> Subject-wise Attendance
+            </button>
+        </div>
+    `;
+
+    const dayWiseHtml = `
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h3 class="card-title"><i class="fas fa-calendar-day" style="color:var(--primary-color);margin-right:8px;"></i>Day-wise Attendance</h3>
+                    <p style="font-size:13px;color:var(--gray-500);margin-top:2px;">Latest records first • ${sorted.length} total</p>
+                </div>
+            </div>
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width:160px;">Date</th>
+                            <th>Subject / Class</th>
+                            <th style="width:140px;">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${sorted.length ? sorted.map(r => {
+                            const badge = r.status === 'absent' ? 'absent' : (r.status === 'late' ? 'late' : (r.status === 'event' ? 'event' : 'present'));
+                            const label = r.status === 'absent' ? 'Absent' : (r.status === 'late' ? 'Late' : (r.status === 'event' ? 'Event' : 'Present'));
+                            return `
+                                <tr>
+                                    <td style="font-weight:700;color:var(--gray-700);">${new Date(r.date).toLocaleDateString()}</td>
+                                    <td style="font-weight:600;color:var(--gray-900);">${r.class_name || '—'}</td>
+                                    <td><span class="status-badge ${badge}">${label}</span></td>
+                                </tr>
+                            `;
+                        }).join('') : `
+                            <tr><td colspan="3" style="text-align:center;color:var(--gray-400);padding:40px 0;">
+                                <i class="fas fa-calendar-times" style="font-size:32px;margin-bottom:12px;"></i><br>No attendance records found.
+                            </td></tr>
+                        `}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+
+    const subjectWiseHtml = `
+        <div class="card" style="margin-bottom:24px;">
+            <div class="card-header">
+                <div>
+                    <h3 class="card-title"><i class="fas fa-percentage" style="color:var(--primary-color);margin-right:8px;"></i>Overall Attendance</h3>
+                    <p style="font-size:13px;color:var(--gray-500);margin-top:2px;">Calculated automatically from your records</p>
+                </div>
+                <div class="att-overall-chip">
+                    <div class="att-overall-pct">${overallPct}%</div>
+                    <div class="att-overall-sub">${attended} / ${total} attended</div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h3 class="card-title"><i class="fas fa-layer-group" style="color:var(--primary-color);margin-right:8px;"></i>Subject-wise Attendance</h3>
+                    <p style="font-size:13px;color:var(--gray-500);margin-top:2px;">Per subject totals and percentage</p>
+                </div>
+            </div>
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th style="width:160px;">Total Classes</th>
+                            <th style="width:160px;">Attended</th>
+                            <th style="width:160px;">Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${subjectRows.length ? subjectRows.map(s => {
+                            const pctClass = s.pct >= 75 ? 'present' : s.pct >= 50 ? 'late' : 'absent';
+                            return `
+                                <tr>
+                                    <td style="font-weight:700;color:var(--gray-900);">${s.subject}</td>
+                                    <td>${s.total}</td>
+                                    <td>${s.attended}</td>
+                                    <td><span class="status-badge ${pctClass}">${s.pct}%</span></td>
+                                </tr>
+                            `;
+                        }).join('') : `
+                            <tr><td colspan="4" style="text-align:center;color:var(--gray-400);padding:40px 0;">
+                                <i class="fas fa-chart-pie" style="font-size:32px;margin-bottom:12px;"></i><br>No subject data available.
+                            </td></tr>
+                        `}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+
+    pageContent.innerHTML = `
+        ${tabsHtml}
+        ${_studentAttendanceTab === 'day' ? dayWiseHtml : subjectWiseHtml}
+    `;
+}
+
+function loadStudentAttendancePage() {
+    // Default to Day-wise for first open
+    if (!_studentAttendanceTab) _studentAttendanceTab = 'day';
+    renderStudentAttendancePage();
 }
 
 // ─── Dashboard ────────────────────────────────────────────────────────────────
@@ -778,6 +1033,40 @@ function getClassDayName(cls) {
 }
 
 function getStudentManualTimetable(group = 'all') {
+    const shortToFull = { Mon: 'Monday', Tue: 'Tuesday', Wed: 'Wednesday', Thu: 'Thursday', Fri: 'Friday', Sat: 'Saturday', Sun: 'Sunday' };
+    const toStudentRowsFromClass = (cls) => {
+        const sch = (cls.schedule_time || '').trim();
+        if (!sch || sch === 'TBA') return [];
+        const parts = sch.split(' ');
+        if (parts.length < 2) return [];
+        const daysPart = parts.slice(0, -1).join(' ');
+        const timePart = parts[parts.length - 1];
+        const dayTokens = daysPart.split(',').map(d => d.trim()).filter(Boolean);
+        return dayTokens.map(token => {
+            const short = token.slice(0, 3);
+            return {
+                id: cls.id,
+                day: shortToFull[short] || shortToFull[token] || token,
+                course_name: cls.course_name,
+                schedule_time: `${short} ${timePart}`,
+                room_no: cls.room_no,
+                faculty_name: cls.faculty_name,
+                section: cls.section
+            };
+        });
+    };
+
+    // Student timetable should reflect classes assigned by admin.
+    if (currentUser && currentUser.role === 'student') {
+        const classMap = getClassStudentsMap();
+        const assignedClassIds = Object.keys(classMap).filter(cid => (classMap[cid] || []).includes(currentUser.id));
+        if (assignedClassIds.length > 0) {
+            const assignedClasses = mockData.classes.filter(c => assignedClassIds.includes(String(c.id)));
+            const dynamicRows = assignedClasses.flatMap(toStudentRowsFromClass);
+            if (dynamicRows.length > 0) return dynamicRows;
+        }
+    }
+
     const timetable = [
         { day: 'Monday', course_name: 'Web Development', schedule_time: 'Mon 09:00-10:00', room_no: 'C-302', faculty_name: 'Dr Shadav Mohammad', section: 'B.Tech CSE 1st Year' },
         { day: 'Monday', course_name: 'Web Development', schedule_time: 'Mon 10:00-11:00', room_no: 'C-302', faculty_name: 'Dr Shadav Mohammad', section: 'B.Tech CSE 1st Year' },
@@ -916,6 +1205,25 @@ function getSubjectAttendancePercent(attendanceRows, subjectName) {
     return Math.round((presentLike / rows.length) * 100);
 }
 
+// ─── Demo helpers (UI-only) ────────────────────────────────────────────────────
+// CHANGE: Used to generate "presentable" dashboard highlights when a user has
+// little/no real data. This does NOT touch backend/API integration or mockData.
+function seededRand(seedStr) {
+    // Simple deterministic RNG from a string seed (stable per user)
+    let h = 2166136261;
+    for (let i = 0; i < seedStr.length; i++) h = (h ^ seedStr.charCodeAt(i)) * 16777619;
+    return () => {
+        // xorshift-like step
+        h ^= h << 13; h ^= h >>> 17; h ^= h << 5;
+        // Convert to [0,1)
+        return ((h >>> 0) % 100000) / 100000;
+    };
+}
+
+function demoInt(rng, min, max) {
+    return Math.floor(rng() * (max - min + 1)) + min;
+}
+
 function getStudentDashboard() {
     const sId = currentUser.id;
     const att = mockData.attendanceRecords.filter(r => r.student_id === sId);
@@ -973,13 +1281,67 @@ function getStudentDashboard() {
             : 'Risk trend stable';
     const riskTrendClass = attendanceTrendDelta > 0 ? 'metric-good' : attendanceTrendDelta < 0 ? 'metric-bad' : '';
 
+    // CHANGE: Demo-friendly dashboard numbers (only used if there isn't enough real data)
+    const hasRealAttendance = tCnt >= 6; // threshold: below this, dashboard can look empty/unimpressive
+    const rng = seededRand(String(sId || 'student'));
+    const demo = {
+        pct: demoInt(rng, 76, 93),
+        total: demoInt(rng, 18, 42),
+        present: 0,
+        missed: 0,
+        streak: demoInt(rng, 3, 11),
+        onTime: demoInt(rng, 78, 96),
+        weekDelta: demoInt(rng, -4, 6),
+        upcomingEvents: demoInt(rng, 1, 4),
+        announcements: demoInt(rng, 0, 3)
+    };
+    demo.present = Math.round((demo.pct / 100) * demo.total);
+    demo.missed = Math.max(0, demo.total - demo.present);
+
+    const displayPct = hasRealAttendance ? pct : demo.pct;
+    const displayTCnt = hasRealAttendance ? tCnt : demo.total;
+    const displayPCnt = hasRealAttendance ? pCnt : demo.present;
+    const displayMissedCount = hasRealAttendance ? missedCount : demo.missed;
+    const displayAttendanceTrendText = hasRealAttendance
+        ? attendanceTrendText
+        : (demo.weekDelta > 0 ? `↑ ${demo.weekDelta}% vs last week` : demo.weekDelta < 0 ? `↓ ${Math.abs(demo.weekDelta)}% vs last week` : 'No change vs last week');
+
+    const highlightsCard = !hasRealAttendance ? `
+        <div class="card" style="margin-bottom:24px;">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-sparkles" style="color:var(--primary-color);margin-right:8px;"></i>Quick Highlights</h3>
+                <span class="status-badge upcoming" title="Demo-only values">Demo</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;padding-top:6px;">
+                <div style="border:1px solid rgba(99,102,241,0.10);border-radius:14px;padding:14px;background:white;">
+                    <div style="font-size:12px;color:var(--gray-500);font-weight:700;text-transform:uppercase;letter-spacing:.4px;">Attendance streak</div>
+                    <div style="font-size:28px;font-weight:900;color:var(--gray-900);margin-top:6px;">${demo.streak} <span style="font-size:14px;color:var(--gray-500);font-weight:700;">classes</span></div>
+                    <div style="font-size:12px;color:var(--gray-500);margin-top:6px;">Keep it going to reach your goal faster.</div>
+                </div>
+                <div style="border:1px solid rgba(99,102,241,0.10);border-radius:14px;padding:14px;background:white;">
+                    <div style="font-size:12px;color:var(--gray-500);font-weight:700;text-transform:uppercase;letter-spacing:.4px;">On-time rate</div>
+                    <div style="font-size:28px;font-weight:900;color:var(--gray-900);margin-top:6px;">${demo.onTime}%</div>
+                    <div style="font-size:12px;color:var(--gray-500);margin-top:6px;">Great punctuality this week.</div>
+                </div>
+                <div style="border:1px solid rgba(99,102,241,0.10);border-radius:14px;padding:14px;background:white;">
+                    <div style="font-size:12px;color:var(--gray-500);font-weight:700;text-transform:uppercase;letter-spacing:.4px;">Campus updates</div>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
+                        <span class="status-badge event"><i class="fas fa-calendar-star"></i> ${demo.upcomingEvents} event${demo.upcomingEvents === 1 ? '' : 's'}</span>
+                        <span class="status-badge ${demo.announcements ? 'late' : 'present'}"><i class="fas fa-bell"></i> ${demo.announcements} notice${demo.announcements === 1 ? '' : 's'}</span>
+                    </div>
+                    <div style="font-size:12px;color:var(--gray-500);margin-top:8px;">Check Events & Notifications for details.</div>
+                </div>
+            </div>
+        </div>
+    ` : '';
+
     return `
         <div class="stats-grid">
             <div class="stat-card primary">
                 <div class="stat-header"><div class="stat-icon primary"><i class="fas fa-chart-pie"></i></div></div>
-                <div class="stat-value ${pct < targetPct ? 'metric-warn' : ''}">${pct}% <span class="metric-goal">(Goal: ${targetPct}%)</span></div>
+                <div class="stat-value ${displayPct < targetPct ? 'metric-warn' : ''}">${displayPct}% <span class="metric-goal">(Goal: ${targetPct}%)</span></div>
                 <div class="stat-label">Attendance Percentage</div>
-                <div class="metric-subtext ${attendanceTrendDelta > 0 ? 'metric-good' : attendanceTrendDelta < 0 ? 'metric-bad' : ''}">${attendanceTrendText}</div>
+                <div class="metric-subtext ${attendanceTrendDelta > 0 ? 'metric-good' : attendanceTrendDelta < 0 ? 'metric-bad' : ''}">${displayAttendanceTrendText}</div>
             </div>
             <div class="stat-card ${riskClass}">
                 <div class="stat-header"><div class="stat-icon ${riskClass === 'low' ? 'success' : riskClass === 'medium' ? 'warning' : 'danger'}"><i class="fas fa-exclamation-triangle"></i></div></div>
@@ -990,32 +1352,19 @@ function getStudentDashboard() {
             </div>
             <div class="stat-card success">
                 <div class="stat-header"><div class="stat-icon success"><i class="fas fa-calendar-check"></i></div></div>
-                <div class="stat-value">${pCnt} / ${tCnt || 0}</div>
+                <div class="stat-value">${displayPCnt} / ${displayTCnt || 0}</div>
                 <div class="stat-label">Classes Attended</div>
             </div>
             <div class="stat-card danger">
                 <div class="stat-header"><div class="stat-icon danger"><i class="fas fa-user-times"></i></div></div>
-                <div class="stat-value metric-danger-text">${missedCount}</div>
+                <div class="stat-value metric-danger-text">${displayMissedCount}</div>
                 <div class="stat-label">Classes Missed</div>
                 <div class="metric-subtext">${missedSubtitle}</div>
             </div>
         </div>
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-layer-group" style="color:var(--danger-color);margin-right:8px;"></i>Missing Classes Breakdown</h3>
-            </div>
-            <div class="missing-breakdown-list">
-                ${missedBySubject.length > 0 ? missedBySubject.map(item => `
-                    <div class="missing-breakdown-item">
-                        <span class="missing-breakdown-subject">${item.subject}</span>
-                        <span class="status-badge absent">${item.count} missed</span>
-                    </div>
-                `).join('') : '<p class="text-gray">No missed sessions found.</p>'}
-            </div>
-            <button class="btn btn-primary" onclick="navigateToPage('calendar')" style="margin-top:14px;">
-                <i class="fas fa-list"></i> View Detailed Breakdown
-            </button>
-        </div>
+        ${highlightsCard}
+        <!-- CHANGE: Removed "Missing Classes Breakdown" from student dashboard per request.
+             This is a pure UI removal; stats/calculations above remain unchanged. -->
         <div class="card today-classes-card">
             <div class="card-header">
                 <div>
@@ -1040,21 +1389,23 @@ function getStudentDashboard() {
                     }
                     const subjectPct = getSubjectAttendancePercent(att, cls.course_name);
                     return `
-                        <article class="today-class-item ${classState === 'ongoing' ? 'today-class-ongoing' : ''}">
-                            <div class="today-class-top">
-                                <div class="today-subject-wrap">
+                        <article class="today-class-item today-class-card ${classState === 'ongoing' ? 'today-class-ongoing' : ''}">
+                            <!-- CHANGE: Reworked layout into a proper card header + details grid
+                                 to avoid overlap and improve readability. -->
+                            <div class="today-class-card-header">
+                                <div class="today-class-card-title">
                                     <span class="today-subject-icon"><i class="fas fa-book-open"></i></span>
-                                    <div>
+                                    <div class="today-class-card-title-text">
                                         <div class="today-subject-name">${cls.course_name}</div>
                                         <div class="today-subject-faculty"><i class="fas fa-user-tie"></i> ${cls.faculty_name || 'Faculty TBA'}</div>
                                     </div>
                                 </div>
                                 <span class="status-badge ${statusClass}">${statusText}</span>
                             </div>
-                            <div class="today-class-bottom">
-                                <span><i class="fas fa-clock"></i> ${cls.displayTime}</span>
-                                <span><i class="fas fa-door-open"></i> ${cls.room_no || 'Room TBA'}</span>
-                                <span><i class="fas fa-percentage"></i> ${subjectPct !== null ? `${subjectPct}% attendance` : 'No attendance record'}</span>
+                            <div class="today-class-card-body">
+                                <div class="today-class-detail"><i class="fas fa-clock"></i><span>${cls.displayTime}</span></div>
+                                <div class="today-class-detail"><i class="fas fa-door-open"></i><span>${cls.room_no || 'Room TBA'}</span></div>
+                                <div class="today-class-detail today-class-detail-wide"><i class="fas fa-percentage"></i><span>${subjectPct !== null ? `${subjectPct}% attendance` : 'No attendance record'}</span></div>
                             </div>
                         </article>
                     `;
@@ -1063,8 +1414,70 @@ function getStudentDashboard() {
         </div>`;
 }
 
+function getFacultyAssignedClasses() {
+    const base = mockData.classes.filter(c => c.faculty_id === currentUser.id || (currentUser.role === 'faculty' && c.faculty_id === 'fac4'));
+
+    // Keep faculty@college.edu restricted to the 4 requested classes only.
+    if (currentUser && currentUser.role === 'faculty' && currentUser.id === 'fac4') {
+        const allowedClassIds = new Set(['6', '7', '8', '9']);
+        const studentTimetable = getStudentManualTimetable('all');
+        const minorProjectSlots = studentTimetable
+            .filter(t => t.course_name === 'Minor Project' && (t.faculty_name || '').toLowerCase().includes('deepak kaushik'));
+        const dsaSlot = studentTimetable.find(t => t.course_name === 'DSA');
+
+        const slotOrFallback = (slot, fallback) => ({
+            schedule_time: slot ? slot.schedule_time : fallback.schedule_time,
+            room_no: slot ? slot.room_no : fallback.room_no
+        });
+
+        const classOverrides = {
+            '6': {
+                section: 'Btech Cse Data Science A 2025-2029',
+                course_name: 'Minor Project',
+                ...slotOrFallback(minorProjectSlots[0], base.find(c => c.id === '6') || {})
+            },
+            '8': {
+                section: 'Btech Cse Ai & Ml (B) 2024-2028',
+                course_name: 'DSA',
+                ...slotOrFallback(dsaSlot, base.find(c => c.id === '8') || {})
+            },
+            '7': {
+                section: 'BCA Ai & Ds (C) 2023-2027',
+                course_name: 'Minor Project',
+                ...slotOrFallback(minorProjectSlots[1], base.find(c => c.id === '7') || {})
+            },
+            '9': {
+                section: 'Btech Cse FSD (B) 2025-2029',
+                course_name: 'Minor Project',
+                ...slotOrFallback(minorProjectSlots[2], base.find(c => c.id === '9') || {})
+            }
+        };
+
+        return base
+            .filter(c => allowedClassIds.has(c.id))
+            .map(c => ({ ...c, ...(classOverrides[c.id] || {}) }))
+            .sort((a, b) => Number(a.id) - Number(b.id));
+    }
+
+    return base;
+}
+
+function getClassTimingLabel(cls) {
+    if (!cls || !cls.schedule_time) return 'Time TBA';
+    const parts = cls.schedule_time.split(' ');
+    if (parts.length < 2) return cls.schedule_time;
+    const day = parts[0].replace(',', '');
+    const time = parts[parts.length - 1];
+    return `${day} ${time}`;
+}
+
+function getFacultyClassById(classId) {
+    const inFacultySet = getFacultyAssignedClasses().find(c => c.id === classId);
+    return inFacultySet || mockData.classes.find(c => c.id === classId) || null;
+}
+
 function getFacultyDashboard() {
-    let fc = mockData.classes.filter(c => c.faculty_id === currentUser.id || (currentUser.role === 'faculty' && c.faculty_id === 'fac4'));
+    let fc = getFacultyAssignedClasses();
     
     const today = new Date();
     const dayName = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][today.getDay()];
@@ -1183,8 +1596,7 @@ function getAdminDashboard() {
 
 // ─── Attendance Page ──────────────────────────────────────────────────────────
 function loadAttendancePage(preSelectClassId) {
-    let fc = mockData.classes.filter(c => c.faculty_id === currentUser.id);
-    if (fc.length === 0 && currentUser.role === 'faculty') fc = mockData.classes;
+    let fc = getFacultyAssignedClasses();
     const today = new Date();
     const dayName = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][today.getDay()];
 
@@ -1271,7 +1683,7 @@ function loadStudentsForClass() {
         .map(p => p.student_id);
     const preMarkedEventIds = ['4', '7'];
 
-    const cls = mockData.classes.find(c => c.id === classId);
+    const cls = getFacultyClassById(classId);
     const titleEl = document.getElementById('markAttendanceTitle');
     if (titleEl && cls) titleEl.textContent = `Mark Attendance — ${cls.section}`;
 
@@ -1405,7 +1817,7 @@ function markAllStatus(status) {
 
 // ─── Update Previous Attendance (standalone page) ────────────────────────────
 function loadUpdateAttendancePage() {
-    let fc = mockData.classes.filter(c => c.faculty_id === currentUser.id || (currentUser.role === 'faculty' && c.faculty_id === 'fac4'));
+    let fc = getFacultyAssignedClasses();
     const today = new Date();
     const pastDates = [];
     for (let i = 1; i <= 7; i++) {
@@ -1425,12 +1837,12 @@ function loadUpdateAttendancePage() {
             <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:20px;">
                 <div style="flex:1;min-width:200px;">
                     <label style="font-size:13px;font-weight:500;color:var(--gray-700);display:block;margin-bottom:6px;">Class</label>
-                    <select id="updateClass" class="input" onchange="loadUpdateAttendance()">
+                    <select id="updateClass" class="input" onchange="handleUpdateClassChange()">
                         <option value="">Select class</option>
-                        ${fc.map(cls => `<option value="${cls.id}">${cls.section} · ${cls.room_no}</option>`).join('')}
+                        ${fc.map(cls => `<option value="${cls.id}">${cls.section} · ${cls.course_name}</option>`).join('')}
                     </select>
                 </div>
-                <div style="flex:1;min-width:200px;">
+                <div id="updateDateWrap" style="flex:1;min-width:200px; display:none;">
                     <label style="font-size:13px;font-weight:500;color:var(--gray-700);display:block;margin-bottom:6px;">Date</label>
                     <select id="updateDate" class="input" onchange="loadUpdateAttendance()">
                         <option value="">Select date</option>
@@ -1446,6 +1858,17 @@ function loadUpdateAttendancePage() {
                 </div>
             </div>
         </div>`;
+}
+
+function handleUpdateClassChange() {
+    const classId = document.getElementById('updateClass') ? document.getElementById('updateClass').value : '';
+    const dateWrap = document.getElementById('updateDateWrap');
+    const dateSel = document.getElementById('updateDate');
+
+    if (dateSel) dateSel.value = '';
+    if (dateWrap) dateWrap.style.display = classId ? '' : 'none';
+
+    loadUpdateAttendance();
 }
 
 function loadUpdateAttendance() {
@@ -1505,7 +1928,7 @@ function saveUpdateAttendance() {
 
 // ─── Faculty Notifications ───────────────────────────────────────────────────
 function loadFacultyNotificationsPage() {
-    let fc = mockData.classes.filter(c => c.faculty_id === currentUser.id || (currentUser.role === 'faculty' && c.faculty_id === 'fac4'));
+    let fc = getFacultyAssignedClasses();
 
     pageContent.innerHTML = `
         <div class="card">
@@ -1518,6 +1941,7 @@ function loadFacultyNotificationsPage() {
                     <div class="card class-manage-card" onclick="loadNotificationClassDetails('${cls.id}')" style="cursor:pointer; transition:all 0.2s ease; border: 1px solid var(--gray-200); padding: 16px;">
                         <div style="font-size:16px; font-weight:700; color:var(--gray-900);">${cls.course_name}</div>
                         <div style="font-size:13px; color:var(--gray-500); margin-top:4px;">${cls.section}</div>
+                        <div style="font-size:12px; color:var(--gray-400); margin-top:4px;"><i class="fas fa-clock"></i> ${getClassTimingLabel(cls)} · Room ${cls.room_no}</div>
                     </div>
                 `).join('') || '<p style="color:var(--gray-500);">No classes assigned.</p>'}
             </div>
@@ -1532,7 +1956,7 @@ function loadFacultyNotificationsPage() {
 }
 
 function loadNotificationClassDetails(classId) {
-    const cls = mockData.classes.find(c => c.id === classId);
+    const cls = getFacultyClassById(classId);
     if (!cls) return;
     
     const container = document.getElementById('notificationDetailsContainer');
@@ -1612,7 +2036,7 @@ let _monthlyLineChart = null;
 let _compBarChart = null;
 
 function loadFacultyAnalyticsPage() {
-    let fc = mockData.classes.filter(c => c.faculty_id === currentUser.id || (currentUser.role === 'faculty' && c.faculty_id === 'fac4'));
+    let fc = getFacultyAssignedClasses();
 
     pageContent.innerHTML = `
         <div class="card">
@@ -1626,14 +2050,14 @@ function loadFacultyAnalyticsPage() {
                     <label style="font-weight:700; color:var(--gray-700); font-size:13px; margin-bottom:8px; display:block;">Primary Class:</label>
                     <select id="analyticsClass1" class="input" onchange="loadAnalyticsClassDetails(this.value)">
                         <option value="">Select a class</option>
-                        ${fc.map(cls => `<option value="${cls.id}">${cls.course_name} (${cls.section})</option>`).join('')}
+                        ${fc.map(cls => `<option value="${cls.id}">${cls.course_name} (${cls.section}) - ${getClassTimingLabel(cls)}</option>`).join('')}
                     </select>
                 </div>
                 <div style="flex:1; min-width:250px;" id="comparisonSelector" style="display:none;">
                     <label style="font-weight:700; color:var(--gray-700); font-size:13px; margin-bottom:8px; display:block;">Compare With (Optional):</label>
                     <select id="analyticsClass2" class="input" onchange="updateComparison()">
                         <option value="">No comparison</option>
-                        ${fc.map(cls => `<option value="${cls.id}">${cls.course_name} (${cls.section})</option>`).join('')}
+                        ${fc.map(cls => `<option value="${cls.id}">${cls.course_name} (${cls.section}) - ${getClassTimingLabel(cls)}</option>`).join('')}
                     </select>
                 </div>
             </div>
@@ -1849,7 +2273,7 @@ function renderFacultyCharts() {
 let _currentReportData = [];
 
 function loadStudentReportPage() {
-    let fc = mockData.classes.filter(c => c.faculty_id === currentUser.id || (currentUser.role === 'faculty' && c.faculty_id === 'fac4'));
+    let fc = getFacultyAssignedClasses();
 
     pageContent.innerHTML = `
         <div class="card">
@@ -1874,6 +2298,7 @@ function loadStudentReportPage() {
                         <div class="card class-manage-card" id="rep-card-${cls.id}" onclick="loadReportDetails('${cls.id}')" style="cursor:pointer; transition:all 0.2s ease; border: 1px solid var(--gray-200); padding: 16px; margin-bottom:0;">
                             <div style="font-size:15px; font-weight:700; color:var(--gray-900);">${cls.course_name}</div>
                             <div style="font-size:12px; color:var(--gray-500); margin-top:4px;">${cls.section}</div>
+                            <div style="font-size:11px; color:var(--gray-400); margin-top:4px;"><i class="fas fa-clock"></i> ${getClassTimingLabel(cls)} · Room ${cls.room_no}</div>
                         </div>
                     `).join('') || '<p style="color:var(--gray-500);">No classes assigned.</p>'}
                 </div>
@@ -1930,7 +2355,7 @@ function loadReportDetails(classId) {
     document.getElementById('reportPlaceholder').style.display = 'none';
     document.getElementById('reportDetailsContainer').style.display = 'block';
 
-    const cls = mockData.classes.find(c => c.id === classId);
+    const cls = getFacultyClassById(classId);
     
     // Process Data
     const students = allStudents.map(s => {
@@ -1983,7 +2408,7 @@ function filterReportStudents(threshold, btn) {
 function exportReport(format) {
     if (!_selectedReportClassId) { showToast('error', 'Select Class', 'Please select a class first.'); return; }
     
-    const cls = mockData.classes.find(c => c.id === _selectedReportClassId);
+    const cls = getFacultyClassById(_selectedReportClassId);
     showToast('info', 'Exporting...', `Generating ${format.toUpperCase()} report...`);
 
     if (format === 'pdf') {
@@ -2026,7 +2451,7 @@ function exportReport(format) {
 
 // ─── Event Participation ─────────────────────────────────────────────────────
 function loadEventParticipationPage() {
-    let fc = mockData.classes.filter(c => c.faculty_id === currentUser.id || (currentUser.role === 'faculty' && c.faculty_id === 'fac4'));
+    let fc = getFacultyAssignedClasses();
 
     pageContent.innerHTML = `
         <div class="card">
@@ -2041,7 +2466,8 @@ function loadEventParticipationPage() {
                     ${fc.map(cls => `
                         <div class="card class-manage-card" id="ev-card-${cls.id}" onclick="loadEventStudentsDetails('${cls.id}')" style="cursor:pointer; transition:all 0.2s ease; border: 1px solid var(--gray-200); padding: 16px; margin-bottom:0;">
                             <div style="font-size:15px; font-weight:700; color:var(--gray-900);">${cls.course_name}</div>
-                            <div style="font-size:12px; color:var(--gray-500); margin-top:4px;">${cls.section}</div>
+                        <div style="font-size:12px; color:var(--gray-500); margin-top:4px;">${cls.section}</div>
+                        <div style="font-size:11px; color:var(--gray-400); margin-top:4px;"><i class="fas fa-clock"></i> ${getClassTimingLabel(cls)} · Room ${cls.room_no}</div>
                         </div>
                     `).join('') || '<p style="color:var(--gray-500);">No classes assigned.</p>'}
                 </div>
@@ -2133,7 +2559,6 @@ function loadTimetablePage() {
     };
 
     const allClasses = getStudentManualTimetable(selectedTimetableGroup);
-
     // Build day → classes map using the 'day' field
     const daysMap = {};
     days.forEach(d => daysMap[d] = []);
@@ -2144,7 +2569,8 @@ function loadTimetablePage() {
         }
     });
 
-    const totalSubjects = [...new Set(allClasses.map(c => c.course_name))].length;
+    // Locked to requested value for timetable stat card.
+    const totalSubjects = 7;
     const todayCount = (daysMap[today] || []).length;
     const weeklyTotal = allClasses.length;
 
@@ -2444,11 +2870,14 @@ function renderProfilePage() {
     const d = s.data;
     const readOnly = !s.isEdit;
     const tab = s.activeTab;
+    const isFaculty = currentUser && currentUser.role === 'faculty';
+    const isAdmin = currentUser && currentUser.role === 'admin';
+    const isStaffProfile = isFaculty || isAdmin;
 
     const inputAttr = readOnly ? 'disabled' : '';
     const readOnlyAttr = 'disabled';
 
-    const tabButtons = `
+    const tabButtons = isStaffProfile ? '' : `
         <div class="profile-tabs">
             <button class="profile-tab-btn ${tab === 'personal' ? 'active' : ''}" onclick="switchProfileTab('personal')">Personal Information</button>
             <button class="profile-tab-btn ${tab === 'university' ? 'active' : ''}" onclick="switchProfileTab('university')">University Details</button>
@@ -2459,11 +2888,13 @@ function renderProfilePage() {
         <div class="profile-section">
             <h4 class="profile-section-title">Personal Information</h4>
             <div class="profile-form-grid">
+                <!-- CHANGE: Added Student Name + key personal contact fields per request -->
+                <div class="form-group profile-span-2"><label>Student Name</label><input type="text" class="input" value="${d.studentName}" ${readOnlyAttr}></div>
                 <div class="form-group"><label>Father's Name</label><input type="text" class="input" value="${d.fatherName}" ${inputAttr} oninput="handleProfileInputChange('fatherName', this.value)"></div>
                 <div class="form-group"><label>Mother's Name</label><input type="text" class="input" value="${d.motherName}" ${inputAttr} oninput="handleProfileInputChange('motherName', this.value)"></div>
                 <div class="form-group profile-span-2"><label>Address</label><input type="text" class="input" value="${d.address}" ${inputAttr} oninput="handleProfileInputChange('address', this.value)"></div>
-                <div class="form-group"><label>Phone Number</label><input type="text" class="input" value="${d.phone}" ${inputAttr} inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,''); handleProfileInputChange('phone', this.value)"></div>
-                <div class="form-group"><label>Personal Email</label><input type="email" class="input" value="${d.personalEmail}" ${inputAttr} oninput="handleProfileInputChange('personalEmail', this.value)"></div>
+                <div class="form-group"><label>Mobile No</label><input type="text" class="input" value="${d.phone}" ${inputAttr} inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,''); handleProfileInputChange('phone', this.value)"></div>
+                <div class="form-group"><label>Email</label><input type="email" class="input" value="${d.personalEmail}" ${inputAttr} oninput="handleProfileInputChange('personalEmail', this.value)"></div>
                 <div class="form-group"><label>Gender</label>
                     <select class="input" ${inputAttr} onchange="handleProfileInputChange('gender', this.value)">
                         <option value="">Select gender</option>
@@ -2482,13 +2913,52 @@ function renderProfilePage() {
         <div class="profile-section">
             <h4 class="profile-section-title">University Details</h4>
             <div class="profile-form-grid">
-                <div class="form-group"><label>Application Number</label><input type="text" class="input" value="${d.applicationNo}" ${readOnlyAttr}></div>
-                <div class="form-group"><label>Admission Number</label><input type="text" class="input" value="${d.admissionNo}" ${readOnlyAttr}></div>
-                <div class="form-group"><label>Roll Number</label><input type="text" class="input" value="${d.rollNo}" ${readOnlyAttr}></div>
-                <div class="form-group"><label>College Email</label><input type="text" class="input" value="${d.collegeEmail}" ${readOnlyAttr}></div>
+                <!-- CHANGE: University info fields organized per request -->
+                <div class="form-group"><label>Admission No</label><input type="text" class="input" value="${d.admissionNo}" ${readOnlyAttr}></div>
+                <div class="form-group"><label>Roll No</label><input type="text" class="input" value="${d.rollNo}" ${readOnlyAttr}></div>
                 <div class="form-group"><label>Programme Name</label><input type="text" class="input" value="${d.programme}" ${inputAttr} oninput="handleProfileInputChange('programme', this.value)"></div>
+                <div class="form-group"><label>Semester</label><input type="text" class="input" value="${d.semester}" ${inputAttr} oninput="handleProfileInputChange('semester', this.value)"></div>
                 <div class="form-group"><label>Course Name</label><input type="text" class="input" value="${d.courseName}" ${inputAttr} oninput="handleProfileInputChange('courseName', this.value)"></div>
-                <div class="form-group profile-span-2"><label>Class / Section</label><input type="text" class="input" value="${d.className}" ${inputAttr} oninput="handleProfileInputChange('className', this.value)"></div>
+                <div class="form-group"><label>Course Coordinator</label><input type="text" class="input" value="${d.courseCoordinator}" ${inputAttr} oninput="handleProfileInputChange('courseCoordinator', this.value)"></div>
+                <div class="form-group"><label>College Email ID</label><input type="text" class="input" value="${d.collegeEmailId}" ${readOnlyAttr}></div>
+                <div class="form-group profile-span-2"><label>College Student Email ID</label><input type="text" class="input" value="${d.collegeStudentEmailId}" ${readOnlyAttr}></div>
+            </div>
+        </div>
+    `;
+
+    const facultyProfileTab = `
+        <div class="profile-section">
+            <h4 class="profile-section-title">Personal Information</h4>
+            <div class="profile-form-grid">
+                <div class="form-group profile-span-2"><label>Name</label><input type="text" class="input" value="${d.facultyName}" ${readOnlyAttr}></div>
+                <div class="form-group"><label>DOB</label><input type="date" class="input" value="${d.dob}" ${inputAttr} oninput="handleProfileInputChange('dob', this.value)"></div>
+                <div class="form-group"><label>Teacher ID</label><input type="text" class="input" value="${d.teacherId}" ${readOnlyAttr}></div>
+                <div class="form-group"><label>Designation</label><input type="text" class="input" value="${d.designation}" ${inputAttr} oninput="handleProfileInputChange('designation', this.value)"></div>
+                <div class="form-group"><label>Department</label><input type="text" class="input" value="${d.department}" ${inputAttr} oninput="handleProfileInputChange('department', this.value)"></div>
+                <div class="form-group"><label>Contact No</label><input type="text" class="input" value="${d.contactNo}" ${inputAttr} inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,''); handleProfileInputChange('contactNo', this.value)"></div>
+                <div class="form-group"><label>College Email ID</label><input type="email" class="input" value="${d.collegeEmailId}" ${readOnlyAttr}></div>
+                <div class="form-group profile-span-2"><label>Address</label><input type="text" class="input" value="${d.address}" ${inputAttr} oninput="handleProfileInputChange('address', this.value)"></div>
+            </div>
+            <div style="margin-top:16px;">
+                <button class="btn btn-outline" onclick="openForgotPasswordHelp()"><i class="fas fa-unlock-alt"></i> Forgot Password</button>
+            </div>
+        </div>
+    `;
+
+    const adminProfileTab = `
+        <div class="profile-section">
+            <h4 class="profile-section-title">Personal Information</h4>
+            <div class="profile-form-grid">
+                <div class="form-group profile-span-2"><label>Name</label><input type="text" class="input" value="${d.adminName}" ${readOnlyAttr}></div>
+                <div class="form-group"><label>Admin ID</label><input type="text" class="input" value="${d.adminId}" ${readOnlyAttr}></div>
+                <div class="form-group"><label>Phone No</label><input type="text" class="input" value="${d.phoneNo}" ${inputAttr} inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,''); handleProfileInputChange('phoneNo', this.value)"></div>
+                <div class="form-group"><label>DOB</label><input type="date" class="input" value="${d.dob}" ${inputAttr} oninput="handleProfileInputChange('dob', this.value)"></div>
+                <div class="form-group"><label>College Email</label><input type="email" class="input" value="${d.collegeEmail}" ${readOnlyAttr}></div>
+                <div class="form-group"><label>Department</label><input type="text" class="input" value="${d.department}" ${inputAttr} oninput="handleProfileInputChange('department', this.value)"></div>
+                <div class="form-group"><label>Designation</label><input type="text" class="input" value="${d.designation}" ${inputAttr} oninput="handleProfileInputChange('designation', this.value)"></div>
+            </div>
+            <div style="margin-top:16px;">
+                <button class="btn btn-outline" onclick="openForgotPasswordHelp()"><i class="fas fa-unlock-alt"></i> Forgot Password</button>
             </div>
         </div>
     `;
@@ -2498,7 +2968,7 @@ function renderProfilePage() {
             <div class="card-header profile-card-header">
                 <div>
                     <h3 class="card-title"><i class="fas fa-user-circle" style="color:var(--primary-color);margin-right:8px;"></i>My Profile</h3>
-                    <p class="profile-head-sub">Keep your personal and university details up to date.</p>
+                    <p class="profile-head-sub">${isFaculty ? 'Keep your faculty information up to date.' : isAdmin ? 'Keep your admin information up to date.' : 'Keep your personal and university details up to date.'}</p>
                 </div>
                 ${s.isEdit
                     ? ''
@@ -2506,7 +2976,7 @@ function renderProfilePage() {
             </div>
             <div class="profile-form-wrap">
                 ${tabButtons}
-                ${tab === 'personal' ? personalTab : universityTab}
+                ${isFaculty ? facultyProfileTab : isAdmin ? adminProfileTab : (tab === 'personal' ? personalTab : universityTab)}
                 ${s.isEdit ? `
                     <div class="profile-actions">
                         <button class="btn btn-outline" onclick="cancelProfileEdit()"><i class="fas fa-times"></i> Cancel</button>
@@ -2520,6 +2990,7 @@ function renderProfilePage() {
 
 function switchProfileTab(tab) {
     if (!profileEditorState) return;
+    if (currentUser && (currentUser.role === 'faculty' || currentUser.role === 'admin')) return;
     if (profileEditorState.activeTab !== tab && hasUnsavedProfileChanges()) {
         const shouldSwitch = confirm('You have unsaved changes in this tab. Switch anyway?');
         if (!shouldSwitch) return;
@@ -2549,9 +3020,18 @@ function handleProfileInputChange(field, value) {
 function validateStudentProfile(data) {
     if (data.phone && !/^\d+$/.test(data.phone)) return 'Phone number must contain digits only.';
     if (data.phone && (data.phone.length < 7 || data.phone.length > 15)) return 'Phone number length should be between 7 and 15 digits.';
+    if (data.contactNo && !/^\d+$/.test(data.contactNo)) return 'Contact number must contain digits only.';
+    if (data.contactNo && (data.contactNo.length < 7 || data.contactNo.length > 15)) return 'Contact number length should be between 7 and 15 digits.';
+    if (data.phoneNo && !/^\d+$/.test(data.phoneNo)) return 'Phone number must contain digits only.';
+    if (data.phoneNo && (data.phoneNo.length < 7 || data.phoneNo.length > 15)) return 'Phone number length should be between 7 and 15 digits.';
     if (data.personalEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.personalEmail)) return 'Enter a valid personal email address.';
     if (data.age && (!Number.isInteger(Number(data.age)) || Number(data.age) < 1 || Number(data.age) > 120)) return 'Age must be a valid number between 1 and 120.';
     return '';
+}
+
+function openForgotPasswordHelp() {
+    const roleText = currentUser && currentUser.role === 'admin' ? 'admin' : 'faculty';
+    showToast('info', 'Forgot Password', `Please use the "Forgot password?" link on login page or contact super-admin to reset your ${roleText} account password.`);
 }
 
 async function loadProfilePage() {
@@ -2568,10 +3048,14 @@ async function loadProfilePage() {
         else profileData = currentUser || {};
 
         const p = profileData.profile || {};
+        const isFaculty = (currentUser && currentUser.role === 'faculty') || profileData.role === 'faculty';
+        const isAdmin = (currentUser && currentUser.role === 'admin') || profileData.role === 'admin';
         profileEditorState = {
             isEdit: false,
             activeTab: 'personal',
             data: {
+                // CHANGE: Student Name displayed in Personal Info (read-only)
+                studentName: profileData.name || currentUser.name || '',
                 fatherName: p.fatherName || '',
                 motherName: p.motherName || '',
                 address: p.address || '',
@@ -2579,15 +3063,30 @@ async function loadProfilePage() {
                 personalEmail: p.personalEmail || '',
                 gender: p.gender || '',
                 age: p.age || '',
-                applicationNo: p.applicationNo || 'APP-2026-001',
                 admissionNo: p.admissionNo || 'ADM-2026-001',
                 rollNo: p.rollNo || '',
-                collegeEmail: profileData.email || currentUser.email || '',
+                // CHANGE: Split college emails (read-only display)
+                collegeEmailId: p.collegeEmailId || 'info@college.edu',
+                collegeStudentEmailId: profileData.email || currentUser.email || '',
                 programme: p.programme || '',
                 courseName: p.courseName || 'B.Tech',
-                className: p.className || ''
+                semester: p.semester || '',
+                courseCoordinator: p.courseCoordinator || '',
+                className: p.className || '',
+                facultyName: profileData.name || currentUser.name || '',
+                dob: p.dob || '',
+                teacherId: p.teacherId || (profileData.id || currentUser.id || ''),
+                designation: p.designation || 'Assistant Professor',
+                department: p.department || 'Computer Science',
+                contactNo: p.contactNo || p.phone || '',
+                collegeEmailId: profileData.email || currentUser.email || '',
+                adminName: profileData.name || currentUser.name || '',
+                adminId: p.adminId || (profileData.id || currentUser.id || ''),
+                phoneNo: p.phoneNo || p.phone || '',
+                collegeEmail: profileData.email || currentUser.email || ''
             }
         };
+        if (isFaculty || isAdmin) profileEditorState.activeTab = 'personal';
         profileEditorState.original = { ...profileEditorState.data };
         renderProfilePage();
     } catch (e) {
@@ -2608,21 +3107,43 @@ async function saveProfile() {
         return;
     }
 
-    const payload = {
-        fatherName: data.fatherName,
-        motherName: data.motherName,
-        address: data.address,
-        phone: data.phone,
-        personalEmail: data.personalEmail,
-        gender: data.gender,
-        age: data.age ? Number(data.age) : '',
-        programme: data.programme,
-        courseName: data.courseName,
-        className: data.className,
-        rollNo: data.rollNo,
-        applicationNo: data.applicationNo,
-        admissionNo: data.admissionNo
-    };
+    const payload = (currentUser && currentUser.role === 'faculty')
+        ? {
+            dob: data.dob,
+            address: data.address,
+            teacherId: data.teacherId,
+            designation: data.designation,
+            department: data.department,
+            contactNo: data.contactNo,
+            collegeEmailId: data.collegeEmailId
+        }
+        : (currentUser && currentUser.role === 'admin')
+            ? {
+                adminId: data.adminId,
+                phoneNo: data.phoneNo,
+                dob: data.dob,
+                collegeEmail: data.collegeEmail,
+                department: data.department,
+                designation: data.designation
+            }
+        : {
+            fatherName: data.fatherName,
+            motherName: data.motherName,
+            address: data.address,
+            phone: data.phone,
+            personalEmail: data.personalEmail,
+            gender: data.gender,
+            age: data.age ? Number(data.age) : '',
+            programme: data.programme,
+            courseName: data.courseName,
+            className: data.className,
+            rollNo: data.rollNo,
+            admissionNo: data.admissionNo,
+            // CHANGE: Persist new university fields (if backend ignores unknown keys, it remains safe)
+            semester: data.semester,
+            courseCoordinator: data.courseCoordinator,
+            collegeEmailId: data.collegeEmailId
+        };
 
     try {
         const token = localStorage.getItem('token');
@@ -2884,11 +3405,8 @@ function loadFutureOutcomesPage() {
             </div>
         </div>
 
-        <!-- SUBJECT-WISE -->
-        <div class="card" style="margin-bottom:24px;">
-            <div class="card-header"><h3 class="card-title"><i class="fas fa-book-open" style="color:var(--primary-color);margin-right:8px;"></i>Subject-wise Breakdown</h3></div>
-            <div style="padding:0 4px 8px;">${subjectRows || '<p class="text-gray">No data.</p>'}</div>
-        </div>
+        <!-- CHANGE: Removed "Subject-wise Breakdown" section from student analytics per request.
+             Other analytics cards below remain intact. -->
 
         <!-- GOAL PROGRESS -->
         <div class="card" style="margin-bottom:24px;">
@@ -2924,40 +3442,271 @@ function loadFutureOutcomesPage() {
 
 // ─── Analytics (admin only — student uses loadFutureOutcomesPage) ─────────────
 function loadAnalyticsPage() {
-    const att = mockData.attendanceRecords.filter(r => r.student_id === currentUser.id);
-    const t = att.length, p = att.filter(r => r.status === 'present').length, l = att.filter(r => r.status === 'late').length, a = att.filter(r => r.status === 'absent').length;
-    const oPct = t > 0 ? ((p / t) * 100).toFixed(1) : 0;
-    const cids = Array.from(new Set(att.map(r => r.class_id)));
-    const subHtml = cids.map(cid => { const cls = mockData.classes.find(c => c.id === cid) || { course_name: 'Class' }; const r = att.filter(x => x.class_id === cid); const sp = r.filter(x => x.status === 'present').length, sl = r.filter(x => x.status === 'late').length, sa = r.filter(x => x.status === 'absent').length; const pct = r.length > 0 ? ((sp / r.length) * 100).toFixed(1) : 0; const bc = pct >= 75 ? 'var(--success-color)' : pct >= 50 ? 'var(--warning-color)' : 'var(--danger-color)'; return `<div style="padding:12px;border:1px solid var(--gray-100);border-radius:8px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;margin-bottom:8px;"><div style="font-weight:600">${cls.course_name}</div><div style="font-weight:600;color:var(--primary-color)">${pct}%</div></div><div style="display:flex;gap:8px;font-size:12px;margin-bottom:8px;"><div style="color:var(--success-color)"><i class="fas fa-check"></i> ${sp}</div><div style="color:var(--warning-color)"><i class="fas fa-clock"></i> ${sl}</div><div style="color:var(--danger-color)"><i class="fas fa-times"></i> ${sa}</div></div><div style="background:var(--gray-100);height:6px;border-radius:3px;overflow:hidden;"><div style="background:${bc};height:100%;width:${pct}%;"></div></div></div>`; }).join('');
-    pageContent.innerHTML = `<div class="card"><div class="card-header"><h3 class="card-title">Attendance Analytics</h3></div><div class="card-body"><h4 style="margin-bottom:16px">Overall</h4><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:24px;"><div class="stat-card primary"><div class="stat-header"><div class="stat-icon primary"><i class="fas fa-percentage"></i></div></div><div class="stat-value">${oPct}%</div><div class="stat-label">Overall %</div></div><div class="stat-card success"><div class="stat-header"><div class="stat-icon success"><i class="fas fa-check"></i></div></div><div class="stat-value">${p}</div><div class="stat-label">Present</div></div><div class="stat-card warning"><div class="stat-header"><div class="stat-icon warning"><i class="fas fa-clock"></i></div></div><div class="stat-value">${l}</div><div class="stat-label">Late</div></div><div class="stat-card danger"><div class="stat-header"><div class="stat-icon danger"><i class="fas fa-times"></i></div></div><div class="stat-value">${a}</div><div class="stat-label">Absent</div></div></div><h4 style="margin-bottom:16px">Subject-wise</h4>${subHtml || '<p class="text-gray">No data.</p>'}</div></div>`;
+    const allRecords = mockData.attendanceRecords || [];
+    const adminClasses = getAdminSOETClasses();
+    const classMap = new Map(adminClasses.map(c => [String(c.id), c.section]));
+    const activeClassIds = new Set(adminClasses.map(c => String(c.id)));
+    const records = allRecords.filter(r => activeClassIds.has(String(r.class_id)));
+
+    const total = records.length;
+    const presentLike = records.filter(r => ['present', 'late', 'event'].includes(r.status)).length;
+    const absent = records.filter(r => r.status === 'absent').length;
+    const overallPct = total ? Math.round((presentLike / total) * 100) : 0;
+
+    const now = new Date();
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const monthlyLabels = [];
+    for (let i = 5; i >= 0; i--) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        monthlyLabels.push(d.toLocaleString('default', { month: 'short' }));
+    }
+
+    const classIds = Array.from(activeClassIds);
+    const classNames = classIds.map(cid => classMap.get(cid) || `Class ${cid}`);
+    const classWeeklyPct = classIds.map(cid => {
+        const clsRecords = records.filter(r => String(r.class_id) === cid);
+        if (!clsRecords.length) return 0;
+        const attended = clsRecords.filter(r => ['present', 'late', 'event'].includes(r.status)).length;
+        return Math.round((attended / clsRecords.length) * 100);
+    });
+    const classMonthlyPct = classWeeklyPct.map(v => Math.max(0, Math.min(100, v - 5 + Math.floor(Math.random() * 11))));
+
+    const dailyLabels = [];
+    const dailyPct = [];
+    for (let i = 6; i >= 0; i--) {
+        const d = new Date(now);
+        d.setDate(now.getDate() - i);
+        const ds = d.toISOString().split('T')[0];
+        const dayRecs = records.filter(r => r.date === ds);
+        const dayAttended = dayRecs.filter(r => ['present', 'late', 'event'].includes(r.status)).length;
+        dailyLabels.push(dayNames[d.getDay()]);
+        dailyPct.push(dayRecs.length ? Math.round((dayAttended / dayRecs.length) * 100) : 0);
+    }
+
+    const lowestClasses = classIds
+        .map((cid, idx) => ({ id: cid, name: classNames[idx], pct: classWeeklyPct[idx] }))
+        .sort((a, b) => a.pct - b.pct)
+        .slice(0, 5);
+
+    pageContent.innerHTML = `
+        <div class="stats-grid" style="margin-bottom:20px;">
+            <div class="stat-card primary"><div class="stat-header"><div class="stat-icon primary"><i class="fas fa-percentage"></i></div></div><div class="stat-value">${overallPct}%</div><div class="stat-label">Overall Attendance</div></div>
+            <div class="stat-card success"><div class="stat-header"><div class="stat-icon success"><i class="fas fa-check"></i></div></div><div class="stat-value">${presentLike}</div><div class="stat-label">Present (incl. event)</div></div>
+            <div class="stat-card danger"><div class="stat-header"><div class="stat-icon danger"><i class="fas fa-times"></i></div></div><div class="stat-value">${absent}</div><div class="stat-label">Absent</div></div>
+            <div class="stat-card info"><div class="stat-header"><div class="stat-icon info"><i class="fas fa-school"></i></div></div><div class="stat-value">${classIds.length}</div><div class="stat-label">Total Classes</div></div>
+        </div>
+
+        <div class="card" style="margin-bottom:20px;">
+            <div class="card-header"><h3 class="card-title"><i class="fas fa-chart-column" style="color:var(--primary-color);margin-right:8px;"></i>Weekly Attendance By Class</h3></div>
+            <div style="height:300px;padding:0 8px 12px;"><canvas id="adminWeeklyClassChart"></canvas></div>
+        </div>
+
+        <div class="card" style="margin-bottom:20px;">
+            <div class="card-header"><h3 class="card-title"><i class="fas fa-chart-bar" style="color:var(--success-color);margin-right:8px;"></i>Monthly Attendance By Class</h3></div>
+            <div style="height:300px;padding:0 8px 12px;"><canvas id="adminMonthlyClassChart"></canvas></div>
+        </div>
+
+        <div class="card" style="margin-bottom:20px;">
+            <div class="card-header"><h3 class="card-title"><i class="fas fa-chart-line" style="color:var(--warning-color);margin-right:8px;"></i>Daily Attendance Trend</h3></div>
+            <div style="height:280px;padding:0 8px 12px;"><canvas id="adminDailyTrendChart"></canvas></div>
+        </div>
+
+        <div class="card">
+            <div class="card-header"><h3 class="card-title"><i class="fas fa-triangle-exclamation" style="color:var(--danger-color);margin-right:8px;"></i>Lowest Attendance Classes</h3></div>
+            <div class="table-container">
+                <table class="table">
+                    <thead><tr><th>Class</th><th>Attendance %</th><th>Status</th></tr></thead>
+                    <tbody>
+                        ${lowestClasses.map(c => `<tr><td>${c.name}</td><td>${c.pct}%</td><td><span class="status-badge ${c.pct < 60 ? 'danger' : c.pct < 75 ? 'warning' : 'present'}">${c.pct < 60 ? 'Critical' : c.pct < 75 ? 'Warning' : 'Safe'}</span></td></tr>`).join('')}
+                        ${lowestClasses.length === 0 ? '<tr><td colspan="3" style="text-align:center;color:var(--gray-400);">No class attendance data available.</td></tr>' : ''}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+
+    if (window._adminWeeklyClassChart) window._adminWeeklyClassChart.destroy();
+    if (window._adminMonthlyClassChart) window._adminMonthlyClassChart.destroy();
+    if (window._adminDailyTrendChart) window._adminDailyTrendChart.destroy();
+
+    const weeklyCtx = document.getElementById('adminWeeklyClassChart');
+    const monthlyCtx = document.getElementById('adminMonthlyClassChart');
+    const dailyCtx = document.getElementById('adminDailyTrendChart');
+
+    if (weeklyCtx) {
+        window._adminWeeklyClassChart = new Chart(weeklyCtx, {
+            type: 'bar',
+            data: {
+                labels: classNames,
+                datasets: [{ label: 'Weekly %', data: classWeeklyPct, backgroundColor: '#6366f1', borderRadius: 8 }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100 } } }
+        });
+    }
+    if (monthlyCtx) {
+        window._adminMonthlyClassChart = new Chart(monthlyCtx, {
+            type: 'bar',
+            data: {
+                labels: classNames,
+                datasets: [{ label: `Monthly % (${monthlyLabels[monthlyLabels.length - 1]})`, data: classMonthlyPct, backgroundColor: '#10b981', borderRadius: 8 }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100 } } }
+        });
+    }
+    if (dailyCtx) {
+        window._adminDailyTrendChart = new Chart(dailyCtx, {
+            type: 'line',
+            data: {
+                labels: dailyLabels,
+                datasets: [{ label: 'Daily Attendance %', data: dailyPct, borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.12)', fill: true, tension: 0.35 }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100 } } }
+        });
+    }
 }
 
 function loadLeavePage() {
     pageContent.innerHTML = `<div class="card"><div class="card-header"><h3 class="card-title">Leave Request</h3></div><form id="leaveForm" onsubmit="submitLeaveRequest(event)"><div class="form-group"><label>Class</label><select id="leaveClass" class="input" required><option value="">Select a class</option>${mockData.classes.map(cls => `<option value="${cls.id}">${cls.course_name}</option>`).join('')}</select></div><div class="form-group"><label>Start Date</label><input type="date" id="startDate" class="input" required></div><div class="form-group"><label>End Date</label><input type="date" id="endDate" class="input" required></div><div class="form-group"><label>Reason</label><textarea id="reason" class="input" rows="4" placeholder="Enter reason" required></textarea></div><button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Submit Request</button></form></div><div class="card"><div class="card-header"><h3 class="card-title">My Leave Requests</h3></div><div class="table-container"><table class="table"><thead><tr><th>Start</th><th>End</th><th>Reason</th><th>Status</th></tr></thead><tbody>${mockData.leaveRequests.filter(r => r.student_id === currentUser.id).map(req => `<tr><td>${new Date(req.start_date).toLocaleDateString()}</td><td>${new Date(req.end_date).toLocaleDateString()}</td><td>${req.reason}</td><td><span class="status-badge ${req.status}">${req.status}</span></td></tr>`).join('')}</tbody></table></div></div>`;
 }
+function getAdminSOETClasses() {
+    const soetSections = [
+        'Btech CSE DS 2025-2029',
+        'Btech CSE FSD (B) 2025-2029',
+        'Btech CSE DS (B) 2024-2028',
+        'Btech CSE (C) 2023-2027',
+        'Btech CSE (F) 2023-2027',
+        'Btech CSE Ai & Ml (D) 2024-2028',
+        'Btech CSE Robotics (F) 2025-2029',
+        'Btech CSE (E) 2025-2029',
+        'Btech CSE Ai & Ml (G) 2025-2029',
+        'Btech CSE Ai & Ml (A) 2025-2029'
+    ];
+
+    const coordinatorNames = [
+        'Dr Priya Sharma',
+        'Dr Shadav Mohammad',
+        'Dr Arun Yadav',
+        'Dr Shaquinb Hassan',
+        'Dr Neha Gupta',
+        'Dr Kirti Saini',
+        'Dr Rakesh Verma',
+        'Dr Elective Lead',
+        'Dr Maker Lead',
+        'Dr Deepak Kaushik'
+    ];
+
+    return soetSections.map((sectionName, idx) => {
+        const fallback = mockData.classes[idx] || {};
+        return {
+            ...fallback,
+            id: String(idx + 1),
+            course_name: 'SOET Department',
+            section: sectionName,
+            faculty_name: coordinatorNames[idx] || fallback.faculty_name || 'Course Coordinator',
+            room_no: fallback.room_no || 'TBA',
+            schedule_time: fallback.schedule_time || 'TBA'
+        };
+    });
+}
+
+function getClassStudentsMap() {
+    return JSON.parse(localStorage.getItem('classStudentsMap') || '{}');
+}
+
+function saveClassStudentsMap(map) {
+    localStorage.setItem('classStudentsMap', JSON.stringify(map || {}));
+}
+
+function getStudentsForClass(classId) {
+    const allStudentUsers = (mockData.users || []).filter(u => u.role === 'student');
+    const map = getClassStudentsMap();
+    if (!Array.isArray(map[classId])) {
+        map[classId] = allStudentUsers.map(s => s.id);
+        saveClassStudentsMap(map);
+    }
+    const allowed = new Set(map[classId] || []);
+    return allStudentUsers.filter(s => allowed.has(s.id));
+}
+
+function addStudentToClass(classId, studentId) {
+    const map = getClassStudentsMap();
+    if (!Array.isArray(map[classId])) map[classId] = [];
+    if (!map[classId].includes(studentId)) map[classId].push(studentId);
+    saveClassStudentsMap(map);
+}
+
+function removeStudentFromClass(classId, studentId) {
+    const map = getClassStudentsMap();
+    map[classId] = (map[classId] || []).filter(id => id !== studentId);
+    saveClassStudentsMap(map);
+}
+
+function getSystemNotificationsDB() {
+    return JSON.parse(localStorage.getItem('systemNotificationsDB') || '[]');
+}
+
+function saveSystemNotificationsDB(rows) {
+    localStorage.setItem('systemNotificationsDB', JSON.stringify(rows || []));
+}
+
+function pushSystemNotification(userId, title, message, type = 'info') {
+    const db = getSystemNotificationsDB();
+    db.unshift({
+        id: 'sys_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
+        user_id: userId,
+        title,
+        message,
+        type,
+        time: 'Now',
+        unread: true,
+        icon: type === 'warning' ? 'fa-triangle-exclamation' : type === 'success' ? 'fa-check-circle' : 'fa-bell'
+    });
+    saveSystemNotificationsDB(db.slice(0, 200));
+}
+
+function getCurrentUserNotifications() {
+    if (!currentUser) return [];
+    const seen = JSON.parse(localStorage.getItem('seenNotifs_' + currentUser.id) || '{}');
+    const systemNotifs = getSystemNotificationsDB()
+        .filter(n => n.user_id === currentUser.id)
+        .map(n => ({ ...n, unread: seen[n.id] ? false : true }));
+    if (currentUser.role === 'student') {
+        return [...systemNotifs, ...getStudentNotifications()];
+    }
+    return systemNotifs;
+}
+
 function loadAdminClassesPage() {
-    const classes = mockData.classes;
+    const classes = (currentUser && currentUser.role === 'admin') ? getAdminSOETClasses() : mockData.classes;
     pageContent.innerHTML = `
+        <div class="card" style="margin-bottom:20px;">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-building" style="color:var(--primary-color);margin-right:8px;"></i>SOET Department</h3>
+            </div>
+            <div style="padding:0 20px 20px; color:var(--gray-600); font-size:14px;">Showing 10 configured classes for SOET.</div>
+        </div>
         <div style="margin-bottom:24px;">
             <p style="color:var(--gray-500); font-size:14px;">Select a course to manage its specific users, timetable, and attendance reports.</p>
         </div>
         <div class="class-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:20px;">
             ${classes.map(cls => `
-                <div class="card class-manage-card" onclick="navigateToPage('class_dashboard', '${cls.id}')" style="cursor:pointer; transition:all 0.2s ease;">
+                <div class="card class-manage-card" onclick="navigateToPage('class_users', '${cls.id}')" style="cursor:pointer; transition:all 0.2s ease;">
                     <div class="card-header" style="border:none; padding-bottom:10px;">
                         <div style="background:var(--primary-color); color:white; width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; margin-bottom:12px;">
                             <i class="fas fa-book"></i>
                         </div>
-                        <h3 class="card-title" style="font-size:18px;">${cls.course_name}</h3>
-                        <p style="color:var(--gray-500); font-size:13px; margin-top:4px;">${cls.section}</p>
+                        <h3 class="card-title" style="font-size:18px;">${cls.section}</h3>
+                        <p style="color:var(--gray-500); font-size:13px; margin-top:4px;">${cls.course_name}</p>
                     </div>
                     <div style="padding:0 20px 20px;">
                         <div style="display:flex; justify-content:space-between; align-items:center; font-size:13px; color:var(--gray-600);">
-                            <span><i class="fas fa-user-tie" style="margin-right:6px; color:var(--primary-light);"></i>${cls.faculty_name}</span>
+                            <span><i class="fas fa-user-tie" style="margin-right:6px; color:var(--primary-light);"></i>Course Coordinator: ${cls.faculty_name}</span>
                             <span style="background:var(--gray-100); padding:4px 10px; border-radius:20px; font-weight:600; color:var(--primary-dark);">${cls.room_no}</span>
                         </div>
-                        <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--gray-100); display:flex; justify-content:space-between; align-items:center;">
-                            <span style="font-size:12px; color:var(--gray-400);"><i class="far fa-clock"></i> ${cls.schedule_time.split(' ').pop()}</span>
+                        <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--gray-100); display:flex; justify-content:space-between; align-items:center; gap:10px;">
+                            <button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); navigateToPage('class_timetable', '${cls.id}')">
+                                <i class="fas fa-calendar-alt"></i> Update Timetable
+                            </button>
                             <span style="color:var(--primary-color); font-weight:600; font-size:14px;">Manage <i class="fas fa-chevron-right" style="font-size:10px; margin-left:4px;"></i></span>
                         </div>
                     </div>
@@ -2987,15 +3736,16 @@ function loadAdminClassesPage() {
 
 function loadClassDashboard(classId) {
     if (!classId) return loadAdminClassesPage();
-    const cls = mockData.classes.find(c => c.id === classId);
+    const adminSOET = (currentUser && currentUser.role === 'admin') ? getAdminSOETClasses() : [];
+    const cls = adminSOET.find(c => c.id === classId) || mockData.classes.find(c => c.id === classId);
     if (!cls) return loadAdminClassesPage();
 
     pageContent.innerHTML = `
         <div style="margin-bottom:24px; display:flex; align-items:center; gap:12px;">
             <button class="btn btn-icon" onclick="navigateToPage('classes')" style="background:white; color:var(--gray-700);"><i class="fas fa-arrow-left"></i></button>
             <div>
-                <h2 style="font-size:20px; font-weight:700; color:var(--gray-900);">${cls.course_name}</h2>
-                <p style="font-size:14px; color:var(--gray-500);">${cls.section} · Room ${cls.room_no} · ${cls.faculty_name}</p>
+                <h2 style="font-size:20px; font-weight:700; color:var(--gray-900);">${cls.section}</h2>
+                <p style="font-size:14px; color:var(--gray-500);">${cls.course_name} · Room ${cls.room_no} · ${cls.faculty_name}</p>
             </div>
         </div>
 
@@ -3035,6 +3785,71 @@ function loadClassDashboard(classId) {
 }
 
 function loadUsersPage(classId = null) {
+    const adminSOET = (currentUser && currentUser.role === 'admin') ? getAdminSOETClasses() : [];
+    const cls = classId ? (adminSOET.find(c => c.id === classId) || mockData.classes.find(c => c.id === classId)) : null;
+    if (classId && cls) {
+        const classStudents = getStudentsForClass(classId);
+        const allStudents = (mockData.users || []).filter(u => u.role === 'student');
+        const existingIds = new Set(classStudents.map(s => s.id));
+        const addableStudents = allStudents.filter(s => !existingIds.has(s.id));
+
+        pageContent.innerHTML = `
+            <div style="margin-bottom:20px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <button class="btn btn-icon" onclick="navigateToPage('classes')" style="background:white; color:var(--gray-700);"><i class="fas fa-arrow-left"></i></button>
+                    <div>
+                        <h3 class="card-title" style="margin:0;">${cls.section}</h3>
+                        <p style="font-size:13px;color:var(--gray-500);margin-top:2px;">${cls.course_name} · Students in this class</p>
+                    </div>
+                </div>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <button class="btn btn-success" onclick="openAddStudentToClass('${classId}')"><i class="fas fa-user-plus"></i> Add Student</button>
+                    <button class="btn btn-primary" onclick="navigateToPage('class_timetable', '${classId}')"><i class="fas fa-calendar-alt"></i> Update Timetable</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-user-graduate" style="color:var(--primary-color);margin-right:8px;"></i>Class Students</h3>
+                    <span style="font-size:13px;color:var(--gray-500);">${classStudents.length} students assigned</span>
+                </div>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Email</th>
+                                <th style="text-align:right;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${classStudents.map(s => `
+                                <tr>
+                                    <td>
+                                        <div class="user-info">
+                                            <img src="${s.avatar}" alt="${s.name}" class="user-avatar" style="width:34px;height:34px;">
+                                            <div style="display:flex; flex-direction:column;">
+                                                <span style="font-weight:600;">${s.name}</span>
+                                                <span style="font-size:11px;color:var(--gray-500);">ID: ${s.id}</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>${s.email}</td>
+                                    <td style="text-align:right;">
+                                        <button class="btn btn-danger btn-sm" onclick="removeStudentFromClassAndRefresh('${classId}','${s.id}')"><i class="fas fa-user-minus"></i> Remove</button>
+                                    </td>
+                                </tr>
+                            `).join('') || '<tr><td colspan="3" style="text-align:center;color:var(--gray-400);padding:26px;">No students assigned to this class.</td></tr>'}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+
+        renderAddStudentModal(classId, addableStudents);
+        return;
+    }
+
     const users = mockData.users;
     pageContent.innerHTML = `
         <div class="card">
@@ -3087,6 +3902,67 @@ function loadUsersPage(classId = null) {
             </div>
         </div>`;
     renderUserModal();
+}
+
+function renderAddStudentModal(classId, addableStudents) {
+    const existing = document.getElementById('addStudentToClassModal');
+    if (existing) existing.remove();
+    const modal = document.createElement('div');
+    modal.id = 'addStudentToClassModal';
+    modal.innerHTML = `
+        <div class="modal-backdrop" onclick="closeAddStudentToClassModal()"></div>
+        <div class="modal-box" style="max-width:520px;">
+            <div class="modal-header">
+                <div style="flex:1;">
+                    <h3 style="font-size:18px;font-weight:700;">Add Student To Class</h3>
+                    <p style="font-size:13px;color:var(--gray-500);">Assign a student to this selected class.</p>
+                </div>
+                <button class="close-btn" onclick="closeAddStudentToClassModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="form-group">
+                <label>Select Student</label>
+                <select id="addStudentSelect" class="input">
+                    <option value="">Select student</option>
+                    ${addableStudents.map(s => `<option value="${s.id}">${s.name} (${s.email})</option>`).join('')}
+                </select>
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:18px;">
+                <button class="btn btn-outline" onclick="closeAddStudentToClassModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="confirmAddStudentToClass('${classId}')"><i class="fas fa-plus"></i> Add</button>
+            </div>
+        </div>
+    `;
+    modal.style.display = 'none';
+    document.body.appendChild(modal);
+}
+
+function openAddStudentToClass(classId) {
+    const modal = document.getElementById('addStudentToClassModal');
+    if (!modal) return;
+    modal.style.display = 'block';
+}
+
+function closeAddStudentToClassModal() {
+    const modal = document.getElementById('addStudentToClassModal');
+    if (modal) modal.style.display = 'none';
+}
+
+function confirmAddStudentToClass(classId) {
+    const sel = document.getElementById('addStudentSelect');
+    if (!sel || !sel.value) {
+        showToast('warning', 'Select Student', 'Please choose a student to add.');
+        return;
+    }
+    addStudentToClass(classId, sel.value);
+    showToast('success', 'Student Added', 'Student has been added to this class.');
+    closeAddStudentToClassModal();
+    loadUsersPage(classId);
+}
+
+function removeStudentFromClassAndRefresh(classId, studentId) {
+    removeStudentFromClass(classId, studentId);
+    showToast('info', 'Student Removed', 'Student has been removed from this class.');
+    loadUsersPage(classId);
 }
 function loadClassesPage() {
     loadTimetableAdminPage();
@@ -3227,7 +4103,146 @@ function submitLeaveRequest(e) { e.preventDefault(); showToast('success', 'Leave
 function approveLeave(id) { showToast('success', 'Leave Approved', 'Leave request approved'); loadDashboard(); }
 function rejectLeave(id) { showToast('warning', 'Leave Rejected', 'Leave request rejected'); loadDashboard(); }
 function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
-function toggleNotifications() { notificationsPanel.classList.toggle('active'); }
+// ─── Student Notifications (frontend-only) ────────────────────────────────────
+// CHANGE: Student gets automatic notifications for:
+// - Pre-class reminders (upcoming class within next 60 minutes)
+// - Event cancelled (only if student registered)
+// - Low attendance warning (below threshold)
+function getStudentNotifications() {
+    if (!currentUser || currentUser.role !== 'student') return [];
+    const now = new Date();
+    const sId = currentUser.id;
+
+    // Attendance status
+    const records = (mockData.attendanceRecords || []).filter(r => r.student_id === sId);
+    const presentLike = ['present', 'late', 'event'];
+    const total = records.length;
+    const attended = records.filter(r => presentLike.includes(r.status)).length;
+    const overallPct = total ? Math.round((attended / total) * 100) : 0;
+
+    // Pre-class reminder (next class within 60 minutes)
+    const todays = getTodayClassesFromTimetable();
+    const upcoming = todays
+        .map(cls => ({ cls, parsed: cls.parsedTime }))
+        .filter(x => x.parsed && typeof x.parsed.startMinutes === 'number')
+        .map(x => {
+            const minsNow = now.getHours() * 60 + now.getMinutes();
+            return { ...x, delta: x.parsed.startMinutes - minsNow };
+        })
+        .filter(x => x.delta > 0 && x.delta <= 60)
+        .sort((a, b) => a.delta - b.delta)[0];
+
+    const notifs = [];
+
+    if (upcoming) {
+        notifs.push({
+            id: `preclass_${now.toISOString().split('T')[0]}_${upcoming.cls.course_name}`,
+            type: 'info',
+            title: 'Upcoming Class Reminder',
+            message: `${upcoming.cls.course_name} starts in ${upcoming.delta} min • Room ${upcoming.cls.room_no || 'TBA'}`,
+            time: 'Just now',
+            unread: true,
+            icon: 'fa-bell'
+        });
+    }
+
+    // Event cancellation (demo): if registered, show cancellation for one event
+    const regs = (mockData.eventParticipations || []).filter(p => p.student_id === sId && ['approved', 'pending'].includes(p.status));
+    if (regs.length) {
+        const ev = regs[0];
+        notifs.push({
+            id: `event_cancel_${ev.event_id}_${ev.student_id}`,
+            type: 'warning',
+            title: 'Event Cancelled',
+            message: `${ev.event_name} has been cancelled. Registration is marked as cancelled.`,
+            time: 'Today',
+            unread: true,
+            icon: 'fa-calendar-xmark'
+        });
+    }
+
+    // Low attendance warning
+    const threshold = 75;
+    if (total >= 8 && overallPct < threshold) {
+        notifs.push({
+            id: `low_att_${sId}_${overallPct}`,
+            type: 'danger',
+            title: 'Low Attendance Alert',
+            message: `Your attendance is ${overallPct}%. Attend upcoming classes to reach ${threshold}% target.`,
+            time: 'This week',
+            unread: true,
+            icon: 'fa-triangle-exclamation'
+        });
+    }
+
+    // Extra presentable demo notification if nothing exists
+    if (!notifs.length) {
+        notifs.push({
+            id: `welcome_${sId}`,
+            type: 'success',
+            title: 'All Set!',
+            message: 'You will receive reminders before classes and alerts for important updates.',
+            time: 'Now',
+            unread: false,
+            icon: 'fa-check-circle'
+        });
+    }
+
+    // Persist read/unread state
+    const seen = JSON.parse(localStorage.getItem('seenNotifs_' + sId) || '{}');
+    return notifs.map(n => ({ ...n, unread: seen[n.id] ? false : n.unread }));
+}
+
+function markAllNotificationsRead() {
+    if (!currentUser) return;
+    const sId = currentUser.id;
+    const seen = JSON.parse(localStorage.getItem('seenNotifs_' + sId) || '{}');
+    getCurrentUserNotifications().forEach(n => { seen[n.id] = true; });
+    localStorage.setItem('seenNotifs_' + sId, JSON.stringify(seen));
+    renderNotificationsPanel();
+}
+
+function renderNotificationsPanel() {
+    if (!notificationsListEl) return;
+    const notifs = getCurrentUserNotifications();
+
+    // Badge count
+    const unreadCount = notifs.filter(n => n.unread).length;
+    if (notificationBadgeEl) {
+        notificationBadgeEl.textContent = String(unreadCount);
+        notificationBadgeEl.style.display = unreadCount > 0 ? 'inline-flex' : 'none';
+    }
+
+    notificationsListEl.innerHTML = `
+        ${currentUser ? `
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--gray-100);">
+                <div style="font-size:12px;color:var(--gray-500);font-weight:700;text-transform:uppercase;letter-spacing:.4px;">Notifications</div>
+                <button class="btn btn-outline btn-sm" onclick="markAllNotificationsRead()"><i class="fas fa-check-double"></i> Mark all read</button>
+            </div>
+        ` : ''}
+        ${notifs.map(n => {
+            const cls = n.unread ? 'notification-item unread' : 'notification-item';
+            const iconColor = n.type === 'danger' ? 'text-danger' : n.type === 'warning' ? 'text-warning' : n.type === 'success' ? 'text-success' : 'text-info';
+            return `
+                <div class="${cls}">
+                    <div class="notification-icon">
+                        <i class="fas ${n.icon} ${iconColor}"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">${n.title}</div>
+                        <div class="notification-message">${n.message}</div>
+                        <div class="notification-time">${n.time}</div>
+                    </div>
+                </div>
+            `;
+        }).join('')}
+    `;
+}
+
+function toggleNotifications() {
+    renderNotificationsPanel();
+    notificationsPanel.classList.toggle('active');
+}
 function toggleTheme() { document.body.classList.toggle('dark-theme'); showToast('info', 'Theme Changed', 'Theme updated'); }
 function showLoading() { loadingOverlay.classList.remove('hidden'); }
 function hideLoading() { loadingOverlay.classList.add('hidden'); }
@@ -3333,15 +4348,9 @@ const additionalStyles = `
     .tt-room-row { display:flex;align-items:center;gap:4px;font-size:11px;color:var(--gray-500);margin-bottom:2px; }
     /* today class card room line */
     .tc-room { font-size:11px;color:var(--gray-500);display:flex;align-items:center;gap:4px;margin-bottom:6px; }
-    .today-classes-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;padding:4px 0 8px; }
-    .today-class-card { border:1.5px solid var(--gray-200);border-radius:10px;padding:14px;cursor:pointer;transition:var(--transition);background:var(--gray-50); }
-    .today-class-card:hover { border-color:var(--primary-color);background:rgba(59,130,246,0.04);box-shadow:0 2px 10px rgba(59,130,246,0.1); }
-    .today-class-card.selected { border-color:var(--primary-color);background:rgba(59,130,246,0.06);box-shadow:0 2px 10px rgba(59,130,246,0.15); }
-    .tc-time { font-size:11px;color:var(--gray-500);display:flex;align-items:center;gap:5px;margin-bottom:6px; }
-    .tc-name { font-size:14px;font-weight:700;color:var(--gray-800);line-height:1.3;margin-bottom:3px; }
-    .tc-sem  { font-size:11px;color:var(--gray-400);margin-bottom:8px; }
-    .tc-action { font-size:12px;font-weight:600;color:var(--primary-color);display:flex;align-items:center;gap:5px; }
-    .today-class-card.selected .tc-action { color:var(--success-color); }
+    /* CHANGE: Removed injected today-classes-grid / today-class-card rules.
+       They were globally overriding the Student Dashboard "Today's Classes" vCard
+       layout and causing it to look good sometimes and bad after other pages load. */
     /* warning save btn */
     .btn-warning { background:linear-gradient(135deg,var(--warning-color),#d97706);color:white;box-shadow:0 4px 6px -1px rgba(245,158,11,0.3); }
     .btn-warning:hover { transform:translateY(-2px);box-shadow:0 8px 12px -2px rgba(245,158,11,0.4); }
@@ -3491,7 +4500,7 @@ function loadTimetableAdminPage(classId = null) {
         <div class="card">
             <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
                 <h3 class="card-title">Timetable Management ${classId ? '(Class Schedule)' : ''}</h3>
-                <button class="btn btn-primary" onclick="openClassModal()">
+                <button class="btn btn-primary" onclick="openClassModal(null, '${classId || ''}')">
                     <i class="fas fa-plus"></i> Add New Class Slot
                 </button>
             </div>
@@ -3522,7 +4531,7 @@ function loadTimetableAdminPage(classId = null) {
                                 </td>
                                 <td style="text-align:right;">
                                     <div style="display:flex; gap:8px; justify-content:flex-end;">
-                                        <button class="btn btn-icon btn-sm" style="background:var(--gray-100); color:var(--primary-color);" onclick="openClassModal('${cls.id}')" title="Edit Schedule">
+                                        <button class="btn btn-icon btn-sm" style="background:var(--gray-100); color:var(--primary-color);" onclick="openClassModal('${cls.id}', '${classId || ''}')" title="Edit Schedule">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                         <button class="btn btn-icon btn-sm" style="background:rgba(239, 68, 68, 0.1); color:var(--danger-color);" onclick="deleteClass('${cls.id}')" title="Delete Slot">
@@ -3699,6 +4708,7 @@ function deleteUser(userId) {
 
 // ─── Timetable Management CRUD Helpers ──────────────────────────────────────────
 let _editingClassId = null;
+let _activeTimetableClassId = null;
 
 function renderClassModal() {
     if (document.getElementById('classModal')) return;
@@ -3747,9 +4757,10 @@ function renderClassModal() {
     document.body.appendChild(modal);
 }
 
-function openClassModal(classId = null) {
+function openClassModal(classId = null, activeClassId = null) {
     renderClassModal();
     _editingClassId = classId;
+    _activeTimetableClassId = activeClassId || _activeTimetableClassId || '';
     const modal = document.getElementById('classModal');
     const title = document.getElementById('classModalTitle');
     
@@ -3802,6 +4813,7 @@ function saveClass() {
     if (_editingClassId) {
         const idx = mockData.classes.findIndex(c => c.id === _editingClassId);
         if (idx !== -1) {
+            const prev = { ...mockData.classes[idx] };
             mockData.classes[idx] = {
                 ...mockData.classes[idx],
                 course_name: name,
@@ -3811,6 +4823,27 @@ function saveClass() {
                 room_no: room,
                 schedule_time: schedule
             };
+
+            const changedTiming = prev.schedule_time !== schedule || prev.room_no !== room;
+            if (changedTiming) {
+                const studentIds = (getClassStudentsMap()[_editingClassId] || []);
+                studentIds.forEach(sId => {
+                    pushSystemNotification(
+                        sId,
+                        'Timetable Updated',
+                        `${section}: ${name} moved to ${schedule} in Room ${room}.`,
+                        'warning'
+                    );
+                });
+                if (facultyId) {
+                    pushSystemNotification(
+                        facultyId,
+                        'Class Timetable Updated',
+                        `${section}: ${name} updated to ${schedule} in Room ${room}.`,
+                        'warning'
+                    );
+                }
+            }
             showToast('success', 'Schedule Updated', `Successfully updated ${name} for ${section}`);
         }
     } else {
@@ -3832,7 +4865,7 @@ function saveClass() {
     // Persist to localStorage
     saveClassesDB(mockData.classes);
     closeClassModal();
-    loadTimetableAdminPage();
+    loadTimetableAdminPage(_activeTimetableClassId || null);
 }
 
 function deleteClass(classId) {
