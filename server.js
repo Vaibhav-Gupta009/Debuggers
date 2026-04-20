@@ -13,6 +13,7 @@ connectDB();
 const authRoutes = require('./routes/authRoutes');
 const attendanceRoutes = require('./routes/attendanceRoutes');
 const classRoutes = require('./routes/classRoutes');
+const profileRoutes = require('./routes/profileRoutes');
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use(cors());
 app.use('/api/auth', authRoutes);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/classes', classRoutes);
+app.use('/api/profile', profileRoutes);
 
 // Base route
 app.get('/', (req, res) => {
