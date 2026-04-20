@@ -3,9 +3,10 @@ services:
     name: projexa-attendance
     runtime: node
     plan: free
-    rootDir: backend
+    # If you deploy from the repo root, these commands work.
+    # (They also work if you deploy from an uploaded zip.)
     buildCommand: npm install
-    startCommand: node src/server.js
+    startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
