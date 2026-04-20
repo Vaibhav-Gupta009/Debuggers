@@ -59,6 +59,76 @@ body.dark .table th {
     background: var(--gray-50);
 }
 
+/* ─── Dark theme fixes (readability + consistency) ─────────────────────────── */
+body.dark {
+    background: var(--gray-50);
+}
+
+/* The app uses a light gradient on `.page-content`; override in dark mode */
+body.dark .page-content {
+    background: linear-gradient(135deg, #0b1220 0%, #0f172a 100%);
+}
+
+body.dark .sidebar-nav {
+    border-color: var(--gray-200);
+}
+
+body.dark .nav-link {
+    color: var(--gray-700);
+}
+
+body.dark .nav-link:hover {
+    background: rgba(99, 102, 241, 0.10);
+    color: var(--gray-900);
+}
+
+body.dark .nav-link.active {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.22), rgba(79, 70, 229, 0.18));
+    color: var(--gray-900);
+}
+
+body.dark .table td {
+    color: var(--gray-700);
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+body.dark .table tr:hover {
+    background: rgba(99, 102, 241, 0.06);
+}
+
+body.dark .input,
+body.dark input,
+body.dark select,
+body.dark textarea {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--gray-900);
+    border-color: rgba(255, 255, 255, 0.10);
+}
+
+body.dark .input::placeholder,
+body.dark input::placeholder,
+body.dark textarea::placeholder {
+    color: var(--gray-500);
+}
+
+body.dark .notifications-panel {
+    background: var(--gray-100);
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+body.dark .notification-item {
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+body.dark .notification-title {
+    color: var(--gray-900);
+}
+
+body.dark .notification-message,
+body.dark .notification-time {
+    color: var(--gray-600);
+}
+
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -98,6 +168,13 @@ body {
     overflow: hidden;
 }
 
+#loginScreen {
+    background:
+        radial-gradient(circle at 10% 10%, rgba(255,255,255,0.08), transparent 30%),
+        radial-gradient(circle at 90% 90%, rgba(255,255,255,0.1), transparent 35%),
+        linear-gradient(120deg, #4338ca 0%, #312e81 45%, #0f172a 100%);
+}
+
 .auth-brand {
     position: relative;
     z-index: 2;
@@ -118,6 +195,21 @@ body {
     margin-bottom: 24px;
     border: 1px solid rgba(255,255,255,0.2);
     box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+
+.brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #22d3ee 0%, #6366f1 100%);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.35);
 }
 
 .auth-brand h2 {
@@ -212,11 +304,17 @@ body {
     justify-content: center;
     padding: 40px;
     overflow-y: auto;
+    border-left: 1px solid rgba(99, 102, 241, 0.14);
 }
 
 .auth-form-container {
     width: 100%;
     max-width: 380px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 24px 45px rgba(15, 23, 42, 0.1);
 }
 
 /* Auth Tabs */
@@ -591,10 +689,7 @@ body {
     gap: 12px;
     font-size: 20px;
     font-weight: 800;
-    background: linear-gradient(135deg, #6366f1, #4f46e5);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--gray-900);
 }
 
 .sidebar-header .logo i {
@@ -610,10 +705,25 @@ body {
     box-shadow: var(--shadow-md);
 }
 
+.sidebar-header .logo .brand-mark {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
 .sidebar-header .logo span {
     font-size: 18px;
     font-weight: 800;
     line-height: 1;
+}
+
+.sidebar-header .logo > span:last-child {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .sidebar-toggle {
@@ -953,12 +1063,90 @@ body {
     background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, #ffffff 100%);
 }
 
-.today-class-top {
+/* ── CHANGE: Student "Today's Classes" card layout ────────────────────────────
+   The student dashboard now renders each class using:
+   - `.today-class-card-header` (title + status badge)
+   - `.today-class-card-body` (details grid)
+   This avoids overlap and improves readability on all screen sizes. */
+.today-class-card-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 10px;
+    gap: 12px;
     margin-bottom: 12px;
+}
+
+.today-class-card-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    min-width: 0;
+}
+
+.today-class-card-title-text {
+    min-width: 0;
+}
+
+.today-class-card-header .status-badge {
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.today-class-card-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(99, 102, 241, 0.10);
+}
+
+.today-class-detail {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--gray-700);
+    min-width: 0;
+    padding: 10px 10px;
+    border-radius: 12px;
+    background: rgba(99, 102, 241, 0.04);
+    border: 1px solid rgba(99, 102, 241, 0.08);
+}
+
+.today-class-detail i {
+    color: var(--primary-color);
+    flex-shrink: 0;
+}
+
+.today-class-detail span {
+    overflow-wrap: anywhere;
+}
+
+.today-class-detail-wide {
+    grid-column: 1 / -1;
+}
+
+.today-class-top {
+    /* CHANGE: Prevent status badge overlapping timetable text.
+       Use a 2-column grid (content | badge) so long titles wrap cleanly. */
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    column-gap: 10px;
+    row-gap: 10px;
+    margin-bottom: 12px;
+}
+
+.today-class-top .status-badge {
+    /* Keep badge stable and aligned; never overlap content */
+    white-space: nowrap;
+    justify-self: end;
+}
+
+.today-subject-name,
+.today-subject-faculty {
+    /* Allow long subject/faculty strings to wrap instead of colliding with badge */
+    overflow-wrap: anywhere;
 }
 
 .today-subject-wrap {
@@ -1162,6 +1350,72 @@ body {
     display: block;
     margin-top: 10px;
     font-size: 14px;
+}
+
+/* ─── Student Attendance Page ──────────────────────────────────────────────── */
+.att-tabs {
+    display: inline-flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding: 6px;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1px solid var(--gray-200);
+}
+
+.att-tab-btn {
+    border: none;
+    background: transparent;
+    color: var(--gray-600);
+    font-weight: 800;
+    font-size: 13px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.att-tab-btn.active {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: #fff;
+}
+
+.att-overall-chip {
+    text-align: right;
+    padding: 10px 14px;
+    border-radius: 14px;
+    background: rgba(99, 102, 241, 0.08);
+    border: 1px solid rgba(99, 102, 241, 0.18);
+}
+
+.att-overall-pct {
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--primary-color);
+    line-height: 1.1;
+}
+
+.att-overall-sub {
+    font-size: 12px;
+    color: var(--gray-600);
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+@media (max-width: 480px) {
+    .att-tabs {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .att-overall-chip {
+        width: 100%;
+        text-align: left;
+        margin-top: 10px;
+    }
 }
 
 @keyframes todayCardEnter {
@@ -1880,9 +2134,14 @@ body {
         grid-template-columns: 1fr;
     }
 
-    .today-class-top {
+    /* CHANGE: Mobile behavior for the new card layout */
+    .today-class-card-header {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .today-class-card-body {
+        grid-template-columns: 1fr;
     }
 
     .profile-form-grid {
