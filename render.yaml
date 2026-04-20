@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: projexa-attendance
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node src/server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_ORIGIN
+        value: "*"
+      - key: DB_FILE
+        value: /var/data/app.sqlite
+      # Configure SMTP for email OTP (required for real users)
+      # - key: SMTP_HOST
+      #   value: smtp.example.com
+      # - key: SMTP_PORT
+      #   value: "587"
+      # - key: SMTP_SECURE
+      #   value: "false"
+      # - key: SMTP_USER
+      #   value: your_user
+      # - key: SMTP_PASS
+      #   value: your_pass
+      # - key: MAIL_FROM
+      #   value: "Projexa Attendance <no-reply@yourdomain.com>"
+    disk:
+      name: projexa-data
+      mountPath: /var/data
+      sizeGB: 1
+
