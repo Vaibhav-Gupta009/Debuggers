@@ -1468,3 +1468,12 @@ body {
         font-size: 24px;
     }
 }
+
+.active-student-highlight {
+    background-color: #f1f5f9 !important;
+    border-left: 5px solid var(--primary-color) !important;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1) !important;
+    transform: scale(1.01);
+    transition: all 0.2s ease-in-out;
+}
