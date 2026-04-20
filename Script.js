@@ -29,7 +29,36 @@ const mockData = {
         { id: '6', course_id: '7', course_name: 'Minor Project', faculty_id: 'fac4', faculty_name: 'Deepak Kaushik', semester: 'Fall 2024', schedule_time: 'Fri 10:00-13:30', room_no: 'Lab-3', section: '1 Btech Cse Data Science 1st Year' },
         { id: '7', course_id: '7', course_name: 'Minor Project', faculty_id: 'fac4', faculty_name: 'Deepak Kaushik', semester: 'Fall 2024', schedule_time: 'Mon 14:00-17:00', room_no: 'Lab-1', section: '2nd Btech Cse AI & ML (F) 1st year' },
         { id: '8', course_id: '1', course_name: 'DSA', faculty_id: 'fac4', faculty_name: 'Deepak Kaushik', semester: 'Fall 2024', schedule_time: 'Tue, Thu 9:00-10:30', room_no: 'A-101', section: '1 Btech Cse (B) 2nd year' },
-        { id: '9', course_id: '1', course_name: 'DSA', faculty_id: 'fac4', faculty_name: 'Deepak Kaushik', semester: 'Fall 2024', schedule_time: 'Wed, Fri 11:00-12:30', room_no: 'B-205', section: '1 Btech Cse (B) 2nd year' }
+        { id: '9', course_id: '1', course_name: 'DSA', faculty_id: 'fac4', faculty_name: 'Deepak Kaushik', semester: 'Fall 2024', schedule_time: 'Wed, Fri 11:00-12:30', room_no: 'B-205', section: '1 Btech Cse (B) 2nd year' },
+        { id: '10', day: 'Monday', course_id: '1', course_name: 'Web Development', faculty_id: 'fac2', faculty_name: 'Dr Shadav Mohammad', semester: 'Fall 2024', schedule_time: 'Mon 9:00-10:00', room_no: 'C-302', section: 'B.Tech CSE 1st Year' },
+        { id: '11', day: 'Monday', course_id: '1', course_name: 'Web Development', faculty_id: 'fac2', faculty_name: 'Dr Shadav Mohammad', semester: 'Fall 2024', schedule_time: 'Mon 10:00-11:00', room_no: 'C-302', section: 'B.Tech CSE 1st Year' },
+        { id: '12', day: 'Monday', course_id: '1', course_name: 'DSA', faculty_id: 'fac1', faculty_name: 'Dr Shaquinb Hassan', semester: 'Fall 2024', schedule_time: 'Mon 10:00-11:00', room_no: 'A-101', section: 'B.Tech CSE 1st Year' },
+        { id: '13', day: 'Monday', course_id: '7', course_name: 'Minor Project', faculty_id: 'fac4', faculty_name: 'Deepak Kaushik', semester: 'Fall 2024', schedule_time: 'Mon 12:00-13:00', room_no: 'Lab-1', section: 'B.Tech CSE 1st Year' },
+        { id: '14', day: 'Monday', course_id: '5', course_name: 'Mathematics', faculty_id: 'fac5', faculty_name: 'Dr Priya Sharma', semester: 'Fall 2024', schedule_time: 'Mon 14:00-15:00', room_no: 'A-201', section: 'B.Tech CSE 1st Year' },
+        { id: '15', day: 'Monday', course_id: '5', course_name: 'Mathematics', faculty_id: 'fac5', faculty_name: 'Dr Priya Sharma', semester: 'Fall 2024', schedule_time: 'Mon 15:00-16:00', room_no: 'A-201', section: 'B.Tech CSE 1st Year' },
+        { id: '16', day: 'Tuesday', course_id: '1', course_name: 'DSA Lab', faculty_id: 'fac1', faculty_name: 'Dr Shaquinb Hassan', semester: 'Fall 2024', schedule_time: 'Tue 9:00-10:00', room_no: 'Lab-2', section: 'B.Tech CSE 1st Year' },
+        { id: '17', day: 'Tuesday', course_id: '1', course_name: 'DSA Lab', faculty_id: 'fac1', faculty_name: 'Dr Shaquinb Hassan', semester: 'Fall 2024', schedule_time: 'Tue 10:00-11:00', room_no: 'Lab-2', section: 'B.Tech CSE 1st Year' },
+        { id: '18', day: 'Tuesday', course_id: '2', course_name: 'Web Development', faculty_id: 'fac2', faculty_name: 'Dr Shadav Mohammad', semester: 'Fall 2024', schedule_time: 'Tue 12:00-13:00', room_no: 'C-303', section: 'B.Tech CSE 1st Year' },
+        { id: '19', day: 'Tuesday', course_id: '2', course_name: 'Web Development', faculty_id: 'fac2', faculty_name: 'Dr Shadav Mohammad', semester: 'Fall 2024', schedule_time: 'Tue 13:00-14:00', room_no: 'C-303', section: 'B.Tech CSE 1st Year' },
+        { id: '20', day: 'Tuesday', course_id: '8', course_name: 'Physics', faculty_id: 'fac6', faculty_name: 'Dr Kirti Saini', semester: 'Fall 2024', schedule_time: 'Tue 15:00-16:00', room_no: 'Sci-Lab-1', section: 'B.Tech CSE 1st Year' },
+        { id: '21', day: 'Wednesday', course_id: '7', course_name: 'Minor Project', faculty_id: 'fac4', faculty_name: 'Deepak Kaushik', semester: 'Fall 2024', schedule_time: 'Wed 9:00-10:00', room_no: 'Lab-3', section: 'B.Tech CSE 1st Year' },
+        { id: '22', day: 'Wednesday', course_id: '7', course_name: 'Minor Project', faculty_id: 'fac4', faculty_name: 'Deepak Kaushik', semester: 'Fall 2024', schedule_time: 'Wed 10:00-11:00', room_no: 'Lab-3', section: 'B.Tech CSE 1st Year' },
+        { id: '23', day: 'Wednesday', course_id: '9', course_name: 'Makers Lab', faculty_id: 'fac8', faculty_name: 'Dr Maker Lead', semester: 'Fall 2024', schedule_time: 'Wed 12:00-13:00', room_no: 'Maker-Lab', section: 'B.Tech CSE 1st Year (Group-1)' },
+        { id: '24', day: 'Wednesday', course_id: '9', course_name: 'Makers Lab', faculty_id: 'fac8', faculty_name: 'Dr Maker Lead', semester: 'Fall 2024', schedule_time: 'Wed 13:00-14:00', room_no: 'Maker-Lab', section: 'B.Tech CSE 1st Year (Group-1)' },
+        { id: '25', day: 'Wednesday', course_id: '9', course_name: 'Makers Lab', faculty_id: 'fac8', faculty_name: 'Dr Maker Lead', semester: 'Fall 2024', schedule_time: 'Wed 14:00-15:00', room_no: 'Maker-Lab', section: 'B.Tech CSE 1st Year (Group-1)' },
+        { id: '26', day: 'Wednesday', course_id: '8', course_name: 'Physics Lab', faculty_id: 'fac6', faculty_name: 'Dr Kirti Saini', semester: 'Fall 2024', schedule_time: 'Wed 12:00-13:00', room_no: 'Sci-Lab-2', section: 'B.Tech CSE 1st Year (Group 1)' },
+        { id: '27', day: 'Wednesday', course_id: '8', course_name: 'Physics Lab', faculty_id: 'fac6', faculty_name: 'Dr Kirti Saini', semester: 'Fall 2024', schedule_time: 'Wed 13:00-14:00', room_no: 'Sci-Lab-2', section: 'B.Tech CSE 1st Year (Group 1)' },
+        { id: '28', day: 'Thursday', course_id: '2', course_name: 'Web Development Lab', faculty_id: 'fac2', faculty_name: 'Dr Shadav Mohammad', semester: 'Fall 2024', schedule_time: 'Thu 9:00-10:00', room_no: 'Lab-4', section: 'B.Tech CSE 1st Year' },
+        { id: '29', day: 'Thursday', course_id: '2', course_name: 'Web Development Lab', faculty_id: 'fac2', faculty_name: 'Dr Shadav Mohammad', semester: 'Fall 2024', schedule_time: 'Thu 10:00-11:00', room_no: 'Lab-4', section: 'B.Tech CSE 1st Year' },
+        { id: '30', day: 'Thursday', course_id: '5', course_name: 'Mathematics', faculty_id: 'fac5', faculty_name: 'Dr Priya Sharma', semester: 'Fall 2024', schedule_time: 'Thu 12:00-13:00', room_no: 'A-201', section: 'B.Tech CSE 1st Year' },
+        { id: '31', day: 'Thursday', course_id: '8', course_name: 'Physics', faculty_id: 'fac6', faculty_name: 'Dr Kirti Saini', semester: 'Fall 2024', schedule_time: 'Thu 13:00-14:00', room_no: 'Sci-Lab-1', section: 'B.Tech CSE 1st Year' },
+        { id: '32', day: 'Thursday', course_id: '10', course_name: 'Open Elective', faculty_id: 'fac9', faculty_name: 'Dr Elective Lead', semester: 'Fall 2024', schedule_time: 'Thu 15:00-16:00', room_no: 'A-301', section: 'B.Tech CSE 1st Year' },
+        { id: '33', day: 'Friday', course_id: '8', course_name: 'Physics Lab', faculty_id: 'fac6', faculty_name: 'Dr Kirti Saini', semester: 'Fall 2024', schedule_time: 'Fri 9:00-10:00', room_no: 'Sci-Lab-1', section: 'B.Tech CSE 1st Year (Group-2)' },
+        { id: '34', day: 'Friday', course_id: '8', course_name: 'Physics Lab', faculty_id: 'fac6', faculty_name: 'Dr Kirti Saini', semester: 'Fall 2024', schedule_time: 'Fri 10:00-11:00', room_no: 'Sci-Lab-1', section: 'B.Tech CSE 1st Year (Group-2)' },
+        { id: '35', day: 'Friday', course_id: '9', course_name: 'Makers Lab', faculty_id: 'fac8', faculty_name: 'Dr Maker Lead', semester: 'Fall 2024', schedule_time: 'Fri 9:00-10:00', room_no: 'Maker-Lab', section: 'B.Tech CSE 1st Year (Group 2)' },
+        { id: '36', day: 'Friday', course_id: '9', course_name: 'Makers Lab', faculty_id: 'fac8', faculty_name: 'Dr Maker Lead', semester: 'Fall 2024', schedule_time: 'Fri 10:00-11:00', room_no: 'Maker-Lab', section: 'B.Tech CSE 1st Year (Group 2)' },
+        { id: '37', day: 'Friday', course_id: '9', course_name: 'Makers Lab', faculty_id: 'fac8', faculty_name: 'Dr Maker Lead', semester: 'Fall 2024', schedule_time: 'Fri 11:00-12:00', room_no: 'Maker-Lab', section: 'B.Tech CSE 1st Year (Group 2)' },
+        { id: '38', day: 'Friday', course_id: '10', course_name: 'Open Elective', faculty_id: 'fac9', faculty_name: 'Dr Elective Lead', semester: 'Fall 2024', schedule_time: 'Fri 13:00-15:00', room_no: 'A-301', section: 'B.Tech CSE 1st Year' }
     ],
     attendanceRecords: (() => {
         const fMap = {
@@ -39,7 +68,18 @@ const mockData = {
             'Computational Mathematics-II': ['fac3', 'Dr Arun Yadav'],
             'Data Structures Algorithms': ['fac1', 'Dr Shaquinb Hassan'],
             'Minor Project': ['fac4', 'Dr Deepak Kaushik'],
-            'Physics': ['fac5', 'Dr Kirti Saini']
+            'Physics': ['fac5', 'Dr Kirti Saini'],
+            'DSA': ['fac1', 'Dr Shaquinb Hassan'],
+            'WebDev': ['fac2', 'Dr Shadav Mohammad'],
+            'Minor Computation': ['fac3', 'Dr Arun Yadav'],
+            'Mathematics': ['fac5', 'Dr Priya Sharma'],
+            'Chemistry': ['fac7', 'Dr Neha Gupta'],
+            'Web Development': ['fac2', 'Dr Shadav Mohammad'],
+            'DSA Lab': ['fac1', 'Dr Shaquinb Hassan'],
+            'Web Development Lab': ['fac2', 'Dr Shadav Mohammad'],
+            'Physics Lab': ['fac6', 'Dr Kirti Saini'],
+            'Makers Lab': ['fac8', 'Dr Maker Lead'],
+            'Open Elective': ['fac9', 'Dr Elective Lead']
         };
         const mk = (id, cls_id, cls_name, stu_id, stu_name, date, status, remarks) => ({
             id, class_id: cls_id, class_name: cls_name, student_id: stu_id, student_name: stu_name,
@@ -472,8 +512,9 @@ async function loadClasses() {
             url += `?programme=${encodeURIComponent(currentUser.programme)}`;
         }
         const response = await apiCall(url);
-        // Backend returns plain array for classes route
-        const classes = Array.isArray(response) ? response : (response.data || []);
+        const classes = Array.isArray(response)
+            ? response
+            : response.classes || response.data || [];
         mockData.classes = classes.map(c => ({
             id: c._id,
             course_name: c.course_name,
@@ -492,22 +533,15 @@ async function loadUserAttendanceData() {
     
     showLoading();
     try {
-        let endpoint = '';
-        if (currentUser.role === 'student') {
-            endpoint = '/attendance/my';
-        } else if (currentUser.role === 'faculty') {
-            endpoint = '/attendance/faculty/reports';
-        } else {
-            return; // Admin
-        }
-
+        const endpoint = '/attendance';
         const response = await apiCall(endpoint);
-        // Backend returns { success, count, data: [...] }
-        const records = Array.isArray(response) ? response : (response.data || []);
+        const records = Array.isArray(response)
+            ? response
+            : response.records || response.data || [];
         
         mockData.attendanceRecords = records.map((r, index) => ({
             id: r._id || `backend_${index}`,
-            class_id: r._id || `backend_${index}`, // use record id so subject lookup works
+            class_id: r._id || `backend_${index}`,
             class_name: r.subject,
             student_id: currentUser.id,
             student_name: currentUser.name,
@@ -520,7 +554,6 @@ async function loadUserAttendanceData() {
         if (currentPage === 'dashboard') loadDashboard();
     } catch (err) {
         console.error('Failed to load records:', err);
-        // Don't crash - just use empty records
         mockData.attendanceRecords = [];
         if (currentPage === 'dashboard') loadDashboard();
     } finally {
@@ -583,7 +616,14 @@ function loginAs(role) {
     const user = mockData.users.find(u => u.role === role);
     if (user) { pendingUser = user; showAuthScreen(); }
 }
-function logout() { currentUser = null; pendingUser = null; localStorage.removeItem('currentUser'); showToast('info', 'Logged Out', 'You have been successfully logged out'); showLogin(); }
+function logout() {
+    currentUser = null;
+    pendingUser = null;
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('token');
+    showToast('info', 'Logged Out', 'You have been successfully logged out');
+    showLogin();
+}
 
 function handleAuthSubmit(e) {
     e.preventDefault();
@@ -646,6 +686,10 @@ function updateNavigation() {
     });
 }
 function navigateToPage(page) {
+    if (currentPage === 'profile' && page !== 'profile' && hasUnsavedProfileChanges()) {
+        const shouldLeave = confirm('You have unsaved profile changes. Leave this page without saving?');
+        if (!shouldLeave) return;
+    }
     currentPage = page;
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
     const a = document.querySelector(`[data-page="${page}"]`);
@@ -704,50 +748,318 @@ function loadDashboard() {
     else if (currentUser.role === 'admin') pageContent.innerHTML = getAdminDashboard();
 }
 
+function parseTimeRangeFromSchedule(scheduleTime) {
+    if (!scheduleTime || typeof scheduleTime !== 'string') return null;
+    const rawRange = scheduleTime.trim().split(' ').slice(-1)[0];
+    if (!rawRange || !rawRange.includes('-')) return null;
+
+    const [startRaw, endRaw] = rawRange.split('-').map(t => t.trim());
+    const toMinutes = (timeStr) => {
+        const [h, m] = timeStr.split(':').map(Number);
+        if (Number.isNaN(h) || Number.isNaN(m)) return null;
+        return (h * 60) + m;
+    };
+
+    const startMinutes = toMinutes(startRaw);
+    const endMinutes = toMinutes(endRaw);
+    if (startMinutes === null || endMinutes === null) return null;
+
+    return { rawRange, startMinutes, endMinutes };
+}
+
+function getClassDayName(cls) {
+    if (!cls) return '';
+    if (cls.day) return cls.day;
+    if (!cls.schedule_time) return '';
+
+    const shortDayName = cls.schedule_time.trim().split(' ')[0].replace(',', '');
+    const map = { Mon: 'Monday', Tue: 'Tuesday', Wed: 'Wednesday', Thu: 'Thursday', Fri: 'Friday', Sat: 'Saturday', Sun: 'Sunday' };
+    return map[shortDayName] || '';
+}
+
+function getStudentManualTimetable(group = 'all') {
+    const timetable = [
+        { day: 'Monday', course_name: 'Web Development', schedule_time: 'Mon 09:00-10:00', room_no: 'C-302', faculty_name: 'Dr Shadav Mohammad', section: 'B.Tech CSE 1st Year' },
+        { day: 'Monday', course_name: 'Web Development', schedule_time: 'Mon 10:00-11:00', room_no: 'C-302', faculty_name: 'Dr Shadav Mohammad', section: 'B.Tech CSE 1st Year' },
+        { day: 'Monday', course_name: 'DSA', schedule_time: 'Mon 10:00-11:00', room_no: 'A-101', faculty_name: 'Dr Shaquinb Hassan', section: 'B.Tech CSE 1st Year' },
+        { day: 'Monday', course_name: 'Minor Project', schedule_time: 'Mon 12:00-13:00', room_no: 'Lab-1', faculty_name: 'Deepak Kaushik', section: 'B.Tech CSE 1st Year' },
+        { day: 'Monday', course_name: 'Maths', schedule_time: 'Mon 14:00-15:00', room_no: 'A-201', faculty_name: 'Dr Priya Sharma', section: 'B.Tech CSE 1st Year' },
+        { day: 'Monday', course_name: 'Maths', schedule_time: 'Mon 15:00-16:00', room_no: 'A-201', faculty_name: 'Dr Priya Sharma', section: 'B.Tech CSE 1st Year' },
+        { day: 'Tuesday', course_name: 'DSA Lab', schedule_time: 'Tue 09:00-10:00', room_no: 'Lab-2', faculty_name: 'Dr Shaquinb Hassan', section: 'B.Tech CSE 1st Year' },
+        { day: 'Tuesday', course_name: 'DSA Lab', schedule_time: 'Tue 10:00-11:00', room_no: 'Lab-2', faculty_name: 'Dr Shaquinb Hassan', section: 'B.Tech CSE 1st Year' },
+        { day: 'Tuesday', course_name: 'Web Development', schedule_time: 'Tue 12:00-13:00', room_no: 'C-303', faculty_name: 'Dr Shadav Mohammad', section: 'B.Tech CSE 1st Year' },
+        { day: 'Tuesday', course_name: 'Web Development', schedule_time: 'Tue 13:00-14:00', room_no: 'C-303', faculty_name: 'Dr Shadav Mohammad', section: 'B.Tech CSE 1st Year' },
+        { day: 'Tuesday', course_name: 'Physics', schedule_time: 'Tue 15:00-16:00', room_no: 'Sci-Lab-1', faculty_name: 'Dr Kirti Saini', section: 'B.Tech CSE 1st Year' },
+        { day: 'Wednesday', course_name: 'Minor Project', schedule_time: 'Wed 09:00-10:00', room_no: 'Lab-3', faculty_name: 'Deepak Kaushik', section: 'B.Tech CSE 1st Year' },
+        { day: 'Wednesday', course_name: 'Minor Project', schedule_time: 'Wed 10:00-11:00', room_no: 'Lab-3', faculty_name: 'Deepak Kaushik', section: 'B.Tech CSE 1st Year' },
+        { day: 'Wednesday', course_name: 'Makers Lab', schedule_time: 'Wed 12:00-13:00', room_no: 'Maker-Lab', faculty_name: 'Dr Maker Lead', section: 'B.Tech CSE 1st Year (Group-1)' },
+        { day: 'Wednesday', course_name: 'Makers Lab', schedule_time: 'Wed 13:00-14:00', room_no: 'Maker-Lab', faculty_name: 'Dr Maker Lead', section: 'B.Tech CSE 1st Year (Group-1)' },
+        { day: 'Wednesday', course_name: 'Makers Lab', schedule_time: 'Wed 14:00-15:00', room_no: 'Maker-Lab', faculty_name: 'Dr Maker Lead', section: 'B.Tech CSE 1st Year (Group-1)' },
+        { day: 'Wednesday', course_name: 'Physics Lab', schedule_time: 'Wed 12:00-13:00', room_no: 'Sci-Lab-2', faculty_name: 'Dr Kirti Saini', section: 'B.Tech CSE 1st Year (Group 1)' },
+        { day: 'Wednesday', course_name: 'Physics Lab', schedule_time: 'Wed 13:00-14:00', room_no: 'Sci-Lab-2', faculty_name: 'Dr Kirti Saini', section: 'B.Tech CSE 1st Year (Group 1)' },
+        { day: 'Thursday', course_name: 'Web Development Lab', schedule_time: 'Thu 09:00-10:00', room_no: 'Lab-4', faculty_name: 'Dr Shadav Mohammad', section: 'B.Tech CSE 1st Year' },
+        { day: 'Thursday', course_name: 'Web Development Lab', schedule_time: 'Thu 10:00-11:00', room_no: 'Lab-4', faculty_name: 'Dr Shadav Mohammad', section: 'B.Tech CSE 1st Year' },
+        { day: 'Thursday', course_name: 'Maths', schedule_time: 'Thu 12:00-13:00', room_no: 'A-201', faculty_name: 'Dr Priya Sharma', section: 'B.Tech CSE 1st Year' },
+        { day: 'Thursday', course_name: 'Physics', schedule_time: 'Thu 13:00-14:00', room_no: 'Sci-Lab-1', faculty_name: 'Dr Kirti Saini', section: 'B.Tech CSE 1st Year' },
+        { day: 'Thursday', course_name: 'Open Elective', schedule_time: 'Thu 15:00-16:00', room_no: 'A-301', faculty_name: 'Dr Elective Lead', section: 'B.Tech CSE 1st Year' },
+        { day: 'Friday', course_name: 'Physics Lab', schedule_time: 'Fri 09:00-10:00', room_no: 'Sci-Lab-1', faculty_name: 'Dr Kirti Saini', section: 'B.Tech CSE 1st Year (Group-2)' },
+        { day: 'Friday', course_name: 'Physics Lab', schedule_time: 'Fri 10:00-11:00', room_no: 'Sci-Lab-1', faculty_name: 'Dr Kirti Saini', section: 'B.Tech CSE 1st Year (Group-2)' },
+        { day: 'Friday', course_name: 'Makers Lab', schedule_time: 'Fri 09:00-10:00', room_no: 'Maker-Lab', faculty_name: 'Dr Maker Lead', section: 'B.Tech CSE 1st Year (Group 2)' },
+        { day: 'Friday', course_name: 'Makers Lab', schedule_time: 'Fri 10:00-11:00', room_no: 'Maker-Lab', faculty_name: 'Dr Maker Lead', section: 'B.Tech CSE 1st Year (Group 2)' },
+        { day: 'Friday', course_name: 'Makers Lab', schedule_time: 'Fri 11:00-12:00', room_no: 'Maker-Lab', faculty_name: 'Dr Maker Lead', section: 'B.Tech CSE 1st Year (Group 2)' },
+        { day: 'Friday', course_name: 'Open Elective', schedule_time: 'Fri 13:00-15:00', room_no: 'A-301', faculty_name: 'Dr Elective Lead', section: 'B.Tech CSE 1st Year' },
+    ];
+
+    if (group === 'group1') {
+        return timetable.filter(cls => {
+            const section = (cls.section || '').toLowerCase();
+            return section.includes('group-1') || section.includes('group 1');
+        });
+    }
+    if (group === 'group2') {
+        return timetable.filter(cls => {
+            const section = (cls.section || '').toLowerCase();
+            return section.includes('group-2') || section.includes('group 2');
+        });
+    }
+    return timetable;
+}
+
+function getTodayClassesFromTimetable() {
+    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const todayName = dayNames[new Date().getDay()];
+
+    return getStudentManualTimetable(selectedTimetableGroup)
+        .filter(cls => getClassDayName(cls) === todayName)
+        .map(cls => {
+            const parsedTime = parseTimeRangeFromSchedule(cls.schedule_time);
+            return {
+                ...cls,
+                parsedTime,
+                displayTime: parsedTime ? parsedTime.rawRange : (cls.schedule_time || 'Time TBA')
+            };
+        })
+        .sort((a, b) => {
+            const aStart = a.parsedTime ? a.parsedTime.startMinutes : Number.MAX_SAFE_INTEGER;
+            const bStart = b.parsedTime ? b.parsedTime.startMinutes : Number.MAX_SAFE_INTEGER;
+            return aStart - bStart;
+        });
+}
+
+function createFallbackTodayClasses() {
+    const subjects = ['Mathematics', 'Web Development', 'DBMS', 'DSA', 'Operating Systems', 'Minor Project'];
+    const faculty = ['Dr Priya Sharma', 'Dr Shadav Mohammad', 'Dr Rakesh Verma', 'Dr Shaquinb Hassan', 'Dr Arun Yadav', 'Deepak Kaushik'];
+    const rooms = ['A-101', 'A-201', 'B-204', 'C-302', 'Lab-2', 'Lab-4'];
+    const slots = ['09:00-10:00', '10:00-11:00', '12:00-13:00', '13:00-14:00', '14:00-15:00', '15:00-16:00'];
+
+    const uniqueCount = 3 + Math.floor(Math.random() * 3);
+    const slotPool = [...slots].sort(() => Math.random() - 0.5).slice(0, uniqueCount).sort((a, b) => a.localeCompare(b));
+
+    return slotPool.map((slot, index) => {
+        const startMinutes = parseInt(slot.split(':')[0], 10) * 60 + parseInt(slot.split(':')[1], 10);
+        const [startRaw, endRaw] = slot.split('-');
+        const endMinutes = parseInt(endRaw.split(':')[0], 10) * 60 + parseInt(endRaw.split(':')[1], 10);
+        return {
+            id: `fallback-${index + 1}`,
+            course_name: subjects[Math.floor(Math.random() * subjects.length)],
+            faculty_name: faculty[Math.floor(Math.random() * faculty.length)],
+            room_no: rooms[Math.floor(Math.random() * rooms.length)],
+            parsedTime: { rawRange: slot, startMinutes, endMinutes },
+            displayTime: slot,
+            isFallback: true,
+            randomAttendance: 68 + Math.floor(Math.random() * 31),
+            randomStatus: Math.random() > 0.35 ? 'Present' : 'Absent'
+        };
+    });
+}
+
+function getCurrentClassStatus(cls) {
+    const now = new Date();
+    const nowMinutes = (now.getHours() * 60) + now.getMinutes();
+    const parsed = cls.parsedTime;
+    if (!parsed) return 'upcoming';
+    if (nowMinutes >= parsed.startMinutes && nowMinutes < parsed.endMinutes) return 'ongoing';
+    if (nowMinutes >= parsed.endMinutes) return 'completed';
+    return 'upcoming';
+}
+
+function getPastClassOutcomeForStudent(studentId, cls, attendanceRows) {
+    const todayStr = new Date().toISOString().split('T')[0];
+    const subject = (cls.course_name || '').toLowerCase();
+    const todayMatch = attendanceRows.find(r => r.date === todayStr && (r.class_name || '').toLowerCase() === subject);
+    if (todayMatch) {
+        if (todayMatch.status === 'event') return { label: 'Excused', badge: 'event' };
+        if (todayMatch.status === 'absent') return { label: 'Absent', badge: 'absent' };
+        return { label: 'Present', badge: 'present' };
+    }
+
+    const subjectHistory = attendanceRows.filter(r => (r.class_name || '').toLowerCase() === subject);
+    if (subjectHistory.length > 0) {
+        const latest = subjectHistory[subjectHistory.length - 1];
+        if (latest.status === 'event') return { label: 'Excused', badge: 'event' };
+        if (latest.status === 'absent') return { label: 'Absent', badge: 'absent' };
+        return { label: 'Present', badge: 'present' };
+    }
+
+    if (cls.isFallback) {
+        if (cls.randomStatus === 'Absent') return { label: 'Absent', badge: 'absent' };
+        return { label: 'Present', badge: 'present' };
+    }
+
+    return { label: 'Present', badge: 'present' };
+}
+
+function getSubjectAttendancePercent(attendanceRows, subjectName) {
+    const rows = attendanceRows.filter(r => (r.class_name || '').toLowerCase() === (subjectName || '').toLowerCase());
+    if (!rows.length) return null;
+    const presentLike = rows.filter(r => ['present', 'late', 'event'].includes(r.status)).length;
+    return Math.round((presentLike / rows.length) * 100);
+}
+
 function getStudentDashboard() {
     const sId = currentUser.id;
     const att = mockData.attendanceRecords.filter(r => r.student_id === sId);
-    const pCnt = att.filter(r => r.status === 'present').length;
+    const presentLikeStatuses = ['present', 'late', 'event'];
+    const pCnt = att.filter(r => presentLikeStatuses.includes(r.status)).length;
     const tCnt = att.length;
     const pct = tCnt > 0 ? Math.round((pCnt / tCnt) * 100) : 0;
+    const targetPct = 90;
+    const missedCount = att.filter(r => r.status === 'absent').length;
     const risk = mockData.riskAssessments.find(r => r.student_id === sId);
+    const riskLevel = risk ? risk.risk_level : 'Low';
+    const riskClass = riskLevel.toLowerCase() === 'high' ? 'high' : riskLevel.toLowerCase() === 'medium' ? 'medium' : 'low';
+    const todayDateLabel = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+    const timetableToday = getTodayClassesFromTimetable();
+    const displayClasses = timetableToday;
+    const anyOngoing = displayClasses.some(cls => getCurrentClassStatus(cls) === 'ongoing');
+    const showNoClassesHint = displayClasses.length === 0;
+    const missedBySubjectMap = att.filter(r => r.status === 'absent').reduce((acc, row) => {
+        const name = row.class_name || 'Unknown Subject';
+        acc[name] = (acc[name] || 0) + 1;
+        return acc;
+    }, {});
+    const missedBySubject = Object.entries(missedBySubjectMap)
+        .sort((a, b) => b[1] - a[1])
+        .map(([subject, count]) => ({ subject, count }));
+    const missedSubtitle = missedBySubject.length > 0
+        ? missedBySubject.slice(0, 2).map(x => `${x.count}x ${x.subject}`).join(', ')
+        : 'No missed classes this cycle';
+    const today = new Date();
+    const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
+    const currentWeekStart = new Date(today.getTime() - sevenDaysMs);
+    const previousWeekStart = new Date(today.getTime() - (2 * sevenDaysMs));
+    const toTs = (d) => new Date(d).getTime();
+    const currentWeek = att.filter(r => {
+        const ts = toTs(r.date);
+        return ts >= currentWeekStart.getTime() && ts <= today.getTime();
+    });
+    const previousWeek = att.filter(r => {
+        const ts = toTs(r.date);
+        return ts >= previousWeekStart.getTime() && ts < currentWeekStart.getTime();
+    });
+    const getPct = (rows) => rows.length ? Math.round((rows.filter(r => presentLikeStatuses.includes(r.status)).length / rows.length) * 100) : 0;
+    const currentWeekPct = getPct(currentWeek);
+    const previousWeekPct = getPct(previousWeek);
+    const attendanceTrendDelta = currentWeekPct - previousWeekPct;
+    const attendanceTrendText = attendanceTrendDelta > 0
+        ? `↑ ${attendanceTrendDelta}% vs last week`
+        : attendanceTrendDelta < 0
+            ? `↓ ${Math.abs(attendanceTrendDelta)}% vs last week`
+            : 'No change vs last week';
+    const riskTrendText = attendanceTrendDelta > 0
+        ? 'Risk trend improving'
+        : attendanceTrendDelta < 0
+            ? 'Risk trend worsening'
+            : 'Risk trend stable';
+    const riskTrendClass = attendanceTrendDelta > 0 ? 'metric-good' : attendanceTrendDelta < 0 ? 'metric-bad' : '';
+
     return `
         <div class="stats-grid">
-            <div class="stat-card primary"><div class="stat-header"><div class="stat-icon primary"><i class="fas fa-chart-pie"></i></div><div class="stat-change positive"><i class="fas fa-arrow-up"></i> 5%</div></div><div class="stat-value">${pct}%</div><div class="stat-label">Overall Attendance</div></div>
-            <div class="stat-card ${risk ? risk.risk_level.toLowerCase() : 'success'}"><div class="stat-header"><div class="stat-icon ${risk ? risk.risk_level.toLowerCase() : 'success'}"><i class="fas fa-exclamation-triangle"></i></div></div><div class="stat-value">${risk ? risk.risk_level : 'Low'}</div><div class="stat-label">Risk Level</div></div>
-            <div class="stat-card success"><div class="stat-header"><div class="stat-icon success"><i class="fas fa-calendar-check"></i></div></div><div class="stat-value">${pCnt}</div><div class="stat-label">Classes Attended</div></div>
-            <div class="stat-card danger"><div class="stat-header"><div class="stat-icon danger"><i class="fas fa-user-times"></i></div></div><div class="stat-value">${tCnt - pCnt}</div><div class="stat-label">Classes Missed</div></div>
-        </div>
-        <div class="future-teaser-card" onclick="navigateToPage('future')">
-            <div class="future-teaser-left"><div class="future-teaser-icon"><i class="fas fa-chart-bar"></i></div><div><div class="future-teaser-title">Analytics</div><div class="future-teaser-sub">Streaks, subject breakdown &amp; future projections</div></div></div>
-            <div class="future-teaser-arrow"><i class="fas fa-arrow-right"></i></div>
+            <div class="stat-card primary">
+                <div class="stat-header"><div class="stat-icon primary"><i class="fas fa-chart-pie"></i></div></div>
+                <div class="stat-value ${pct < targetPct ? 'metric-warn' : ''}">${pct}% <span class="metric-goal">(Goal: ${targetPct}%)</span></div>
+                <div class="stat-label">Attendance Percentage</div>
+                <div class="metric-subtext ${attendanceTrendDelta > 0 ? 'metric-good' : attendanceTrendDelta < 0 ? 'metric-bad' : ''}">${attendanceTrendText}</div>
+            </div>
+            <div class="stat-card ${riskClass}">
+                <div class="stat-header"><div class="stat-icon ${riskClass === 'low' ? 'success' : riskClass === 'medium' ? 'warning' : 'danger'}"><i class="fas fa-exclamation-triangle"></i></div></div>
+                <div class="stat-value"><span class="status-badge ${riskClass}">${riskLevel}</span></div>
+                <div class="stat-label">Risk Level</div>
+                <div class="metric-subtext">Next check in 7 days</div>
+                <div class="metric-subtext ${riskTrendClass}">${riskTrendText}</div>
+            </div>
+            <div class="stat-card success">
+                <div class="stat-header"><div class="stat-icon success"><i class="fas fa-calendar-check"></i></div></div>
+                <div class="stat-value">${pCnt} / ${tCnt || 0}</div>
+                <div class="stat-label">Classes Attended</div>
+            </div>
+            <div class="stat-card danger">
+                <div class="stat-header"><div class="stat-icon danger"><i class="fas fa-user-times"></i></div></div>
+                <div class="stat-value metric-danger-text">${missedCount}</div>
+                <div class="stat-label">Classes Missed</div>
+                <div class="metric-subtext">${missedSubtitle}</div>
+            </div>
         </div>
         <div class="card">
-            <div class="card-header"><h3 class="card-title">Today's Classes</h3></div>
-            <div class="table-container"><table class="table"><thead><tr><th>Class</th><th>Time</th><th>Status</th><th>Remarks</th></tr></thead><tbody>
-                ${(() => {
-                    const todayStr = new Date().toISOString().split('T')[0];
-                    const dayName = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()];
-                    // Get all unique class IDs this student has records for
-                    const studentClassIds = [...new Set(att.map(r => r.class_id))];
-                    // Find classes scheduled today
-                    const todayClasses = mockData.classes.filter(cls => {
-                        if (!studentClassIds.includes(cls.id)) return false;
-                        const days = cls.schedule_time.split(' ').slice(0, -1).join(' ').replace(/,/g, '').split(' ').filter(Boolean);
-                        return days.includes(dayName);
-                    });
-                    // If none scheduled today, show 3 recent classes as a fallback
-                    const displayClasses = todayClasses.length > 0 ? todayClasses : mockData.classes.filter(c => studentClassIds.includes(c.id)).slice(0, 3);
-                    if (displayClasses.length === 0) return '<tr><td colspan="4" style="text-align:center;color:var(--gray-500)">No classes today</td></tr>';
-                    return displayClasses.map(cls => {
-                        const rec = att.find(r => r.class_id === cls.id && r.date === todayStr);
-                        const status = rec ? rec.status : 'scheduled';
-                        const remarks = rec ? (rec.remarks || '-') : '-';
-                        const time = cls.schedule_time.split(' ').slice(-1)[0];
-                        return `<tr><td><div style="font-weight:600;">${cls.course_name}</div><div style="font-size:12px;color:var(--gray-500);">${cls.section}</div></td><td>${time}</td><td><span class="status-badge ${status}">${status}</span></td><td>${remarks}</td></tr>`;
-                    }).join('');
-                })()}
-            </tbody></table></div>
+            <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-layer-group" style="color:var(--danger-color);margin-right:8px;"></i>Missing Classes Breakdown</h3>
+            </div>
+            <div class="missing-breakdown-list">
+                ${missedBySubject.length > 0 ? missedBySubject.map(item => `
+                    <div class="missing-breakdown-item">
+                        <span class="missing-breakdown-subject">${item.subject}</span>
+                        <span class="status-badge absent">${item.count} missed</span>
+                    </div>
+                `).join('') : '<p class="text-gray">No missed sessions found.</p>'}
+            </div>
+            <button class="btn btn-primary" onclick="navigateToPage('calendar')" style="margin-top:14px;">
+                <i class="fas fa-list"></i> View Detailed Breakdown
+            </button>
+        </div>
+        <div class="card today-classes-card">
+            <div class="card-header">
+                <div>
+                    <h3 class="card-title"><i class="fas fa-calendar-day" style="color:var(--primary-color);margin-right:8px;"></i>Today's Classes</h3>
+                    <p class="today-classes-meta">${todayDateLabel} • ${displayClasses.length} class${displayClasses.length > 1 ? 'es' : ''}</p>
+                </div>
+                ${anyOngoing ? '<span class="status-badge present"><i class="fas fa-bolt"></i> Ongoing</span>' : ''}
+            </div>
+            ${showNoClassesHint ? `<div class="today-empty-message"><i class="fas fa-calendar-times"></i><span>No classes today.</span></div>` : ''}
+            <div class="today-classes-grid">
+                ${displayClasses.map(cls => {
+                    const classState = getCurrentClassStatus(cls);
+                    let statusClass = 'upcoming';
+                    let statusText = 'Upcoming';
+                    if (classState === 'ongoing') {
+                        statusClass = 'event';
+                        statusText = 'Join Now';
+                    } else if (classState === 'completed') {
+                        const pastOutcome = getPastClassOutcomeForStudent(sId, cls, att);
+                        statusClass = pastOutcome.badge;
+                        statusText = pastOutcome.label;
+                    }
+                    const subjectPct = getSubjectAttendancePercent(att, cls.course_name);
+                    return `
+                        <article class="today-class-item ${classState === 'ongoing' ? 'today-class-ongoing' : ''}">
+                            <div class="today-class-top">
+                                <div class="today-subject-wrap">
+                                    <span class="today-subject-icon"><i class="fas fa-book-open"></i></span>
+                                    <div>
+                                        <div class="today-subject-name">${cls.course_name}</div>
+                                        <div class="today-subject-faculty"><i class="fas fa-user-tie"></i> ${cls.faculty_name || 'Faculty TBA'}</div>
+                                    </div>
+                                </div>
+                                <span class="status-badge ${statusClass}">${statusText}</span>
+                            </div>
+                            <div class="today-class-bottom">
+                                <span><i class="fas fa-clock"></i> ${cls.displayTime}</span>
+                                <span><i class="fas fa-door-open"></i> ${cls.room_no || 'Room TBA'}</span>
+                                <span><i class="fas fa-percentage"></i> ${subjectPct !== null ? `${subjectPct}% attendance` : 'No attendance record'}</span>
+                            </div>
+                        </article>
+                    `;
+                }).join('')}
+            </div>
         </div>`;
 }
 
@@ -1799,6 +2111,13 @@ function loadEventStudentsDetails(classId) {
 
 
 // ─── Student Timetable Page ───────────────────────────────────────────────────
+let selectedTimetableGroup = 'all';
+
+function setTimetableGroup(group) {
+    selectedTimetableGroup = group;
+    loadTimetablePage();
+}
+
 function loadTimetablePage() {
     const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
     const shortDay = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()];
@@ -1813,8 +2132,7 @@ function loadTimetablePage() {
         'Friday':    { bg: '#fff1f2', border: '#f43f5e', text: '#be123c', light: 'rgba(244,63,94,0.08)' },
     };
 
-    // Use all classes loaded from backend (already programme-filtered)
-    const allClasses = mockData.classes;
+    const allClasses = getStudentManualTimetable(selectedTimetableGroup);
 
     // Build day → classes map using the 'day' field
     const daysMap = {};
@@ -1840,17 +2158,27 @@ function loadTimetablePage() {
     const timetableRows = days.map(day => {
         const col = dayColors[day];
         const isToday = day === today;
-        const classes = daysMap[day] || [];
+        const classes = (daysMap[day] || []).slice().sort((a, b) => {
+            const aParsed = parseTimeRangeFromSchedule(a.schedule_time || '');
+            const bParsed = parseTimeRangeFromSchedule(b.schedule_time || '');
+            const aStart = aParsed ? aParsed.startMinutes : Number.MAX_SAFE_INTEGER;
+            const bStart = bParsed ? bParsed.startMinutes : Number.MAX_SAFE_INTEGER;
+            return aStart - bStart;
+        });
 
         const classCards = classes.length > 0
-            ? classes.map(cls => `
+            ? classes.map(cls => {
+                const parsed = parseTimeRangeFromSchedule(cls.schedule_time || '');
+                const timeText = parsed ? parsed.rawRange : (cls.schedule_time || 'Time TBA');
+                return `
                 <div class="ttr-class-card" style="border-top:3px solid ${col.border};">
-                    <div class="ttr-time"><i class="fas fa-clock" style="color:${col.border};font-size:10px;"></i> ${cls.schedule_time}</div>
+                    <div class="ttr-time"><i class="fas fa-clock" style="color:${col.border};font-size:10px;"></i> ${timeText}</div>
                     <div class="ttr-course">${cls.course_name}</div>
                     <div class="ttr-section">${cls.section || 'DS-1'}</div>
                     <div class="ttr-room"><i class="fas fa-door-open" style="color:${col.border};font-size:10px;"></i> ${cls.room_no || 'N/A'}</div>
                     <div class="ttr-faculty"><i class="fas fa-user-tie" style="font-size:10px;color:var(--gray-400);"></i> ${cls.faculty_name || ''}</div>
-                </div>`).join('')
+                </div>`;
+            }).join('')
             : `<div class="ttr-no-class"><i class="fas fa-coffee" style="font-size:16px;color:var(--gray-300);"></i><span>No classes</span></div>`;
 
         return `
@@ -1873,6 +2201,9 @@ function loadTimetablePage() {
                     <p style="font-size:13px;color:var(--gray-500);margin-top:2px;">${currentUser.name} &nbsp;·&nbsp; B.Tech CSE Data Science</p>
                 </div>
                 <div style="display:flex;gap:8px;">
+                    <button class="btn btn-outline btn-sm ${selectedTimetableGroup === 'all' ? 'active' : ''}" onclick="setTimetableGroup('all')">All</button>
+                    <button class="btn btn-outline btn-sm ${selectedTimetableGroup === 'group1' ? 'active' : ''}" onclick="setTimetableGroup('group1')">Group-1</button>
+                    <button class="btn btn-outline btn-sm ${selectedTimetableGroup === 'group2' ? 'active' : ''}" onclick="setTimetableGroup('group2')">Group-2</button>
                     <button class="btn btn-outline btn-sm" onclick="navigateToPage('calendar')"><i class="fas fa-calendar-alt"></i> Calendar</button>
                 </div>
             </div>
@@ -2057,41 +2388,27 @@ function loadEventsPage() {
 function loadFacultyPage() {
     if (currentUser.role !== 'student') return;
     
-    // Extract unique faculty from classes
-    const facultyMap = {};
-    mockData.classes.forEach(c => {
-        if (!facultyMap[c.faculty_id]) {
-            facultyMap[c.faculty_id] = {
-                id: c.faculty_id,
-                name: c.faculty_name,
-                subjects: []
-            };
-        }
-        if (!facultyMap[c.faculty_id].subjects.includes(c.course_name)) {
-            facultyMap[c.faculty_id].subjects.push(c.course_name);
-        }
-    });
+    const facultyDirectory = [
+        { subject: 'Maths', name: 'Arun Yadav', email: 'arun.yadav43@college.edu', phone: '+91 98765 21034' },
+        { subject: 'DSA', name: 'Shaquib Hassan', email: 'shaquib.hassan18@college.edu', phone: '+91 98112 76450' },
+        { subject: 'Web Development', name: 'Mohammad Shadav', email: 'mohammad.shadav27@college.edu', phone: '+91 99203 45817' },
+        { subject: 'Minor Project', name: 'Deepak Kaushik', email: 'deepak.kaushik91@college.edu', phone: '+91 97081 34629' },
+        { subject: 'Open Elective', name: 'Saloni', email: 'saloni.faculty56@college.edu', phone: '+91 99541 28360' },
+        { subject: 'Makers', name: 'Kaushal Kumar', email: 'kaushal.kumar72@college.edu', phone: '+91 97984 61205' },
+        { subject: 'Physics', name: 'Kirti', email: 'kirti.physics39@college.edu', phone: '+91 98970 14583' }
+    ];
 
-    const faculties = Object.values(facultyMap);
-
-    const facultyListHtml = faculties.map(f => {
-        // Generate mock email and phone based on name
-        const cleanName = f.name.replace('Dr. ', '').toLowerCase().replace(' ', '.');
-        const email = `${cleanName}@college.edu`;
-        // Generate a consistent dummy hash for phone to look somewhat real
-        const numHash = [...cleanName].reduce((acc, char) => acc + char.charCodeAt(0), 1000);
-        const phone = `+1 (555) 01${numHash.toString().substring(0,2)}-${(numHash * 13).toString().substring(0,4)}`;
-
+    const facultyListHtml = facultyDirectory.map(f => {
         return `<div style="padding:16px;border:1px solid var(--gray-100);border-radius:10px;margin-bottom:16px;background:white;transition:box-shadow 0.2s;display:flex;align-items:center;gap:16px;">
             <div style="width:60px;height:60px;border-radius:50%;background:var(--primary-color)20;color:var(--primary-color);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">
                 <i class="fas fa-chalkboard-teacher"></i>
             </div>
             <div style="flex:1;min-width:0;">
                 <div style="font-weight:700;font-size:16px;margin-bottom:4px;color:var(--gray-800);">${f.name}</div>
-                <div style="font-size:13px;color:var(--primary-color);font-weight:600;margin-bottom:6px;">${f.subjects.join(', ')}</div>
+                <div style="font-size:13px;color:var(--primary-color);font-weight:600;margin-bottom:6px;">${f.subject}</div>
                 <div style="font-size:13px;color:var(--gray-600);display:flex;flex-wrap:wrap;gap:16px;">
-                    <span style="display:flex;align-items:center;gap:6px;"><i class="fas fa-envelope"></i> ${email}</span>
-                    <span style="display:flex;align-items:center;gap:6px;"><i class="fas fa-phone"></i> ${phone}</span>
+                    <span style="display:flex;align-items:center;gap:6px;"><i class="fas fa-envelope"></i> ${f.email}</span>
+                    <span style="display:flex;align-items:center;gap:6px;"><i class="fas fa-phone"></i> ${f.phone}</span>
                 </div>
             </div>
             <button class="btn btn-outline btn-sm" onclick="showToast('info', 'Contact Faculty', 'Contact functionality is currently disabled in demo mode.')"><i class="fas fa-paper-plane"></i> Message</button>
@@ -2114,124 +2431,215 @@ function loadFacultyPage() {
 }
 
 // ─── Profile Page ─────────────────────────────────────────────────────────────
-async function loadProfilePage() {
-    // Generate UI structure
+let profileEditorState = null;
+
+function hasUnsavedProfileChanges() {
+    if (!profileEditorState || !profileEditorState.isEdit) return false;
+    return JSON.stringify(profileEditorState.data) !== JSON.stringify(profileEditorState.original);
+}
+
+function renderProfilePage() {
+    if (!profileEditorState) return;
+    const s = profileEditorState;
+    const d = s.data;
+    const readOnly = !s.isEdit;
+    const tab = s.activeTab;
+
+    const inputAttr = readOnly ? 'disabled' : '';
+    const readOnlyAttr = 'disabled';
+
+    const tabButtons = `
+        <div class="profile-tabs">
+            <button class="profile-tab-btn ${tab === 'personal' ? 'active' : ''}" onclick="switchProfileTab('personal')">Personal Information</button>
+            <button class="profile-tab-btn ${tab === 'university' ? 'active' : ''}" onclick="switchProfileTab('university')">University Details</button>
+        </div>
+    `;
+
+    const personalTab = `
+        <div class="profile-section">
+            <h4 class="profile-section-title">Personal Information</h4>
+            <div class="profile-form-grid">
+                <div class="form-group"><label>Father's Name</label><input type="text" class="input" value="${d.fatherName}" ${inputAttr} oninput="handleProfileInputChange('fatherName', this.value)"></div>
+                <div class="form-group"><label>Mother's Name</label><input type="text" class="input" value="${d.motherName}" ${inputAttr} oninput="handleProfileInputChange('motherName', this.value)"></div>
+                <div class="form-group profile-span-2"><label>Address</label><input type="text" class="input" value="${d.address}" ${inputAttr} oninput="handleProfileInputChange('address', this.value)"></div>
+                <div class="form-group"><label>Phone Number</label><input type="text" class="input" value="${d.phone}" ${inputAttr} inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,''); handleProfileInputChange('phone', this.value)"></div>
+                <div class="form-group"><label>Personal Email</label><input type="email" class="input" value="${d.personalEmail}" ${inputAttr} oninput="handleProfileInputChange('personalEmail', this.value)"></div>
+                <div class="form-group"><label>Gender</label>
+                    <select class="input" ${inputAttr} onchange="handleProfileInputChange('gender', this.value)">
+                        <option value="">Select gender</option>
+                        <option value="Male" ${d.gender === 'Male' ? 'selected' : ''}>Male</option>
+                        <option value="Female" ${d.gender === 'Female' ? 'selected' : ''}>Female</option>
+                        <option value="Other" ${d.gender === 'Other' ? 'selected' : ''}>Other</option>
+                        <option value="Prefer not to say" ${d.gender === 'Prefer not to say' ? 'selected' : ''}>Prefer not to say</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Age</label><input type="number" min="1" max="120" class="input" value="${d.age}" ${inputAttr} oninput="handleProfileInputChange('age', this.value)"></div>
+            </div>
+        </div>
+    `;
+
+    const universityTab = `
+        <div class="profile-section">
+            <h4 class="profile-section-title">University Details</h4>
+            <div class="profile-form-grid">
+                <div class="form-group"><label>Application Number</label><input type="text" class="input" value="${d.applicationNo}" ${readOnlyAttr}></div>
+                <div class="form-group"><label>Admission Number</label><input type="text" class="input" value="${d.admissionNo}" ${readOnlyAttr}></div>
+                <div class="form-group"><label>Roll Number</label><input type="text" class="input" value="${d.rollNo}" ${readOnlyAttr}></div>
+                <div class="form-group"><label>College Email</label><input type="text" class="input" value="${d.collegeEmail}" ${readOnlyAttr}></div>
+                <div class="form-group"><label>Programme Name</label><input type="text" class="input" value="${d.programme}" ${inputAttr} oninput="handleProfileInputChange('programme', this.value)"></div>
+                <div class="form-group"><label>Course Name</label><input type="text" class="input" value="${d.courseName}" ${inputAttr} oninput="handleProfileInputChange('courseName', this.value)"></div>
+                <div class="form-group profile-span-2"><label>Class / Section</label><input type="text" class="input" value="${d.className}" ${inputAttr} oninput="handleProfileInputChange('className', this.value)"></div>
+            </div>
+        </div>
+    `;
+
     pageContent.innerHTML = `
-        <div class="card" style="max-width: 800px; margin: 0 auto;">
-            <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
+        <div class="card profile-card-shell">
+            <div class="card-header profile-card-header">
                 <div>
                     <h3 class="card-title"><i class="fas fa-user-circle" style="color:var(--primary-color);margin-right:8px;"></i>My Profile</h3>
-                    <p style="font-size:13px;color:var(--gray-500);margin-top:2px;">View and manage your account details</p>
+                    <p class="profile-head-sub">Keep your personal and university details up to date.</p>
                 </div>
-                <button class="btn btn-primary" onclick="saveProfile()" id="saveProfileBtn"><i class="fas fa-save"></i> Save Changes</button>
+                ${s.isEdit
+                    ? ''
+                    : '<button class="btn btn-primary" onclick="toggleProfileEdit(true)"><i class="fas fa-pen"></i> Edit</button>'}
             </div>
-            <div style="padding:24px;" id="profileFormContainer">
-                <div style="text-align:center;padding:40px;"><i class="fas fa-circle-notch fa-spin" style="font-size:32px;color:var(--primary-color);"></i><div style="margin-top:10px;color:var(--gray-500);">Loading profile...</div></div>
+            <div class="profile-form-wrap">
+                ${tabButtons}
+                ${tab === 'personal' ? personalTab : universityTab}
+                ${s.isEdit ? `
+                    <div class="profile-actions">
+                        <button class="btn btn-outline" onclick="cancelProfileEdit()"><i class="fas fa-times"></i> Cancel</button>
+                        <button class="btn btn-primary" onclick="saveProfile()" id="saveProfileBtn"><i class="fas fa-save"></i> Save Changes</button>
+                    </div>
+                ` : ''}
             </div>
+        </div>
+    `;
+}
+
+function switchProfileTab(tab) {
+    if (!profileEditorState) return;
+    if (profileEditorState.activeTab !== tab && hasUnsavedProfileChanges()) {
+        const shouldSwitch = confirm('You have unsaved changes in this tab. Switch anyway?');
+        if (!shouldSwitch) return;
+    }
+    profileEditorState.activeTab = tab;
+    renderProfilePage();
+}
+
+function toggleProfileEdit(flag) {
+    if (!profileEditorState) return;
+    profileEditorState.isEdit = flag;
+    renderProfilePage();
+}
+
+function cancelProfileEdit() {
+    if (!profileEditorState) return;
+    profileEditorState.data = { ...profileEditorState.original };
+    profileEditorState.isEdit = false;
+    renderProfilePage();
+}
+
+function handleProfileInputChange(field, value) {
+    if (!profileEditorState) return;
+    profileEditorState.data[field] = value;
+}
+
+function validateStudentProfile(data) {
+    if (data.phone && !/^\d+$/.test(data.phone)) return 'Phone number must contain digits only.';
+    if (data.phone && (data.phone.length < 7 || data.phone.length > 15)) return 'Phone number length should be between 7 and 15 digits.';
+    if (data.personalEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.personalEmail)) return 'Enter a valid personal email address.';
+    if (data.age && (!Number.isInteger(Number(data.age)) || Number(data.age) < 1 || Number(data.age) > 120)) return 'Age must be a valid number between 1 and 120.';
+    return '';
+}
+
+async function loadProfilePage() {
+    pageContent.innerHTML = `
+        <div class="card profile-card-shell">
+            <div class="profile-loading"><i class="fas fa-circle-notch fa-spin"></i><span>Loading profile...</span></div>
         </div>
     `;
 
     try {
         let profileData = {};
         const token = localStorage.getItem('token');
-        if (token) {
-            const res = await fetch('http://localhost:5000/api/profile', {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            if (res.ok) {
-                profileData = await res.json();
-            } else {
-                profileData = currentUser;
-            }
-        } else {
-            profileData = currentUser;
-        }
+        if (token) profileData = await apiCall('/profile');
+        else profileData = currentUser || {};
 
         const p = profileData.profile || {};
-        
-        let extraFields = '';
-        if (currentUser.role === 'student') {
-            extraFields = `
-                <div class="form-group"><label>Roll Number</label><input type="text" id="profRollNo" class="input" value="${p.rollNo || ''}" placeholder="e.g. CS2021001"></div>
-                <div class="form-group"><label>Class / Section</label><input type="text" id="profClass" class="input" value="${p.className || ''}" placeholder="e.g. B.Tech CSE Core"></div>
-                <div class="form-group"><label>Programme</label><input type="text" id="profProg" class="input" value="${p.programme || ''}" placeholder="e.g. B.Tech Computer Science"></div>
-            `;
-        } else if (currentUser.role === 'faculty') {
-            extraFields = `
-                <div class="form-group"><label>Department</label><input type="text" id="profDept" class="input" value="${p.department || ''}" placeholder="e.g. Computer Science"></div>
-                <div class="form-group"><label>Designation</label><input type="text" id="profDesig" class="input" value="${p.designation || ''}" placeholder="e.g. Assistant Professor"></div>
-                <div class="form-group"><label>Teacher ID</label><input type="text" class="input" value="${currentUser.id || ''}" disabled style="background:var(--gray-100);cursor:not-allowed;"></div>
-            `;
-        }
-
-        document.getElementById('profileFormContainer').innerHTML = `
-            <div style="display:flex;gap:32px;align-items:flex-start;">
-                <div style="flex-shrink:0;text-align:center;">
-                    <div style="width:120px;height:120px;border-radius:50%;background:var(--primary-color)20;color:var(--primary-color);display:flex;align-items:center;justify-content:center;font-size:48px;margin-bottom:16px;">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div style="font-weight:700;font-size:18px;">${profileData.username || profileData.name || 'User'}</div>
-                    <div style="font-size:13px;color:var(--gray-500);text-transform:capitalize;">${profileData.role || currentUser.role}</div>
-                </div>
-                <div style="flex:1;">
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-                        <div class="form-group"><label>Username / Full Name</label><input type="text" class="input" value="${profileData.username || profileData.name || ''}" disabled style="background:var(--gray-100);cursor:not-allowed;"></div>
-                        <div class="form-group"><label>Email Address</label><input type="text" class="input" value="${profileData.email || currentUser.email || ''}" disabled style="background:var(--gray-100);cursor:not-allowed;"></div>
-                        <div class="form-group"><label>Phone Number</label><input type="text" id="profPhone" class="input" value="${p.phone || ''}" placeholder="+1 ..."></div>
-                        ${extraFields}
-                    </div>
-                    <div style="margin-top:24px; padding-top:24px; border-top:1px solid var(--gray-200); display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <div style="font-weight:700; color:var(--gray-700); font-size:14px;">Account Security</div>
-                            <p style="font-size:12px; color:var(--gray-500);">Keep your account safe and updated</p>
-                        </div>
-                        <button class="btn btn-outline" onclick="handleForgotPassword()"><i class="fas fa-key"></i> Forgot Password?</button>
-                    </div>
-                </div>
-            </div>
-        `;
+        profileEditorState = {
+            isEdit: false,
+            activeTab: 'personal',
+            data: {
+                fatherName: p.fatherName || '',
+                motherName: p.motherName || '',
+                address: p.address || '',
+                phone: p.phone || '',
+                personalEmail: p.personalEmail || '',
+                gender: p.gender || '',
+                age: p.age || '',
+                applicationNo: p.applicationNo || 'APP-2026-001',
+                admissionNo: p.admissionNo || 'ADM-2026-001',
+                rollNo: p.rollNo || '',
+                collegeEmail: profileData.email || currentUser.email || '',
+                programme: p.programme || '',
+                courseName: p.courseName || 'B.Tech',
+                className: p.className || ''
+            }
+        };
+        profileEditorState.original = { ...profileEditorState.data };
+        renderProfilePage();
     } catch (e) {
-        document.getElementById('profileFormContainer').innerHTML = `<div style="text-align:center;color:var(--danger-color);padding:20px;">Failed to load profile details. Error: ${e.message}</div>`;
+        pageContent.innerHTML = `<div class="card profile-card-shell"><div style="text-align:center;color:var(--danger-color);padding:20px;">Failed to load profile details. Error: ${e.message}</div></div>`;
     }
 }
 
 async function saveProfile() {
+    if (!profileEditorState) return;
     const btn = document.getElementById('saveProfileBtn');
-    if(btn) { btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Saving...'; btn.disabled = true; }
-    
-    // Gather values based on role
-    const payload = {};
-    const ph = document.getElementById('profPhone'); if(ph) payload.phone = ph.value;
-    const rn = document.getElementById('profRollNo'); if(rn) payload.rollNo = rn.value;
-    const cl = document.getElementById('profClass'); if(cl) payload.className = cl.value;
-    const pr = document.getElementById('profProg'); if(pr) payload.programme = pr.value;
-    const dp = document.getElementById('profDept'); if(dp) payload.department = dp.value;
-    const ds = document.getElementById('profDesig'); if(ds) payload.designation = ds.value;
+    if (btn) { btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Saving...'; btn.disabled = true; }
+
+    const data = profileEditorState.data;
+    const validationError = validateStudentProfile(data);
+    if (validationError) {
+        showToast('error', 'Validation Error', validationError);
+        if (btn) { btn.innerHTML = '<i class="fas fa-save"></i> Save Changes'; btn.disabled = false; }
+        return;
+    }
+
+    const payload = {
+        fatherName: data.fatherName,
+        motherName: data.motherName,
+        address: data.address,
+        phone: data.phone,
+        personalEmail: data.personalEmail,
+        gender: data.gender,
+        age: data.age ? Number(data.age) : '',
+        programme: data.programme,
+        courseName: data.courseName,
+        className: data.className,
+        rollNo: data.rollNo,
+        applicationNo: data.applicationNo,
+        admissionNo: data.admissionNo
+    };
 
     try {
         const token = localStorage.getItem('token');
-        if (token) {
-            const res = await fetch('http://localhost:5000/api/profile', {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify(payload)
-            });
-            if(res.ok) {
-                showToast('success', 'Profile Updated', 'Your profile details were saved successfully.');
-            } else {
-                const err = await res.json();
-                showToast('error', 'Update Failed', err.message || 'Error updating profile');
-            }
-        } else {
-            // Mock the update into currentUser for demo without explicit warning toast
-            if(!currentUser.profile) currentUser.profile = {};
+        if (token) await apiCall('/profile', 'PUT', payload);
+        else {
+            if (!currentUser.profile) currentUser.profile = {};
             Object.assign(currentUser.profile, payload);
-            showToast('success', 'Profile Updated', 'Your profile details were saved successfully.');
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
         }
+        profileEditorState.original = { ...profileEditorState.data };
+        profileEditorState.isEdit = false;
+        renderProfilePage();
+        showToast('success', 'Profile Updated', 'Your profile details were saved successfully.');
     } catch (e) {
         showToast('error', 'Update Failed', e.message);
     } finally {
-        if(btn) { btn.innerHTML = '<i class="fas fa-save"></i> Save Changes'; btn.disabled = false; }
+        if (btn) { btn.innerHTML = '<i class="fas fa-save"></i> Save Changes'; btn.disabled = false; }
     }
 }
 
